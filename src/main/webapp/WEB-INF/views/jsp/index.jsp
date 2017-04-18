@@ -9,8 +9,8 @@
 	<html>
 	<head>
 		<title>FreeAgents.eu :: online platform for freelancers</title>
-		<link rel="stylesheet" href="post-job.css"/>
-		<link rel="stylesheet" type="text/css" href="signup.css">
+		<link rel="stylesheet" href="css/post-job.css"/>
+		<link rel="stylesheet" type="text/css" href="css/signup.css">
 		<link href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700" rel="stylesheet">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
@@ -29,11 +29,11 @@
 					<p class="flowe-signup-button"><a href="profile">${sessionScope['name']}</a></p>
 					</c:if>
 					<c:if test="${logged eq false}">
-					<a href="LogIn.html">Post Job</a>	
-					<a href="LogIn.html">Browse All Jobs</a>
-					<a href="LogIn.html">Log In</a>
+					<a href="login">Post Job</a>	
+					<a href="login">Browse All Jobs</a>
+					<a href="login">Log In</a>
 					<div class="flowe-blue-button">
-					<p class="flowe-signup-button"><a href="SignUp.html">Sign Up</a></p>
+					<p class="flowe-signup-button"><a href="signup">Sign Up</a></p>
 					</c:if>
 					
 					</div>

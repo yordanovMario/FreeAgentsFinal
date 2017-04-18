@@ -46,6 +46,10 @@ public class User {
 		
 	}
 	
+	public User(){
+		
+	}
+	
 	public void setUsername(String username) {
 		if(!username.isEmpty()){
 			this.username = username;
