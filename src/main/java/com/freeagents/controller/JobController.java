@@ -20,10 +20,10 @@ import com.freeagents.model.Job;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.JobDAO;
 import com.freeagents.modelDAO.UserDAO;
-import com.util.CompByBudgetAsc;
-import com.util.CompByBudgetDesc;
-import com.util.CompByLately;
-import com.util.CompBySponsored;
+import com.freeagents.util.CompByBudgetAsc;
+import com.freeagents.util.CompByBudgetDesc;
+import com.freeagents.util.CompByLately;
+import com.freeagents.util.CompBySponsored;
 
 @Controller
 public class JobController {
