@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MyController {
 	
-	@RequestMapping(value="/index", method=RequestMethod.GET)
+	@RequestMapping(value="/index1", method=RequestMethod.GET)
 	public String sayHi(Model viewModel) {
 		// talk with model
 		

@@ -1,6 +1,6 @@
 /target
 /.mvn
-/.settins
+/.settings
 .classpath
 .DS_Store
 .project

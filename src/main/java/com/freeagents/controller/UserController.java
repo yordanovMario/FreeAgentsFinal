@@ -15,11 +15,12 @@ import com.freeagents.modelDAO.UserDAO;
 @Controller
 public class UserController {
 
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(Model model, HttpSession session){
-		boolean logged = (Boolean) session.getAttribute("logged");
+		//boolean logged = (Boolean) session.getAttribute("logged");
 		
-		if (session.getAttribute("logged") != null && logged){
+		//if (session.getAttribute("logged") != null && logged){
+		if (session.getAttribute("logged") != null){
 			User user = UserDAO.getProfile((User) session.getAttribute("username"));
 			model.addAttribute("user", user);
 		}
