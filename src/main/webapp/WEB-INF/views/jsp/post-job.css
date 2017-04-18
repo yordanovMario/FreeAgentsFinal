@@ -1,0 +1,121 @@
+h1 {
+	color: #fff;
+	font-family: impact;
+}
+
+#post-job h2{
+	color: #3e4651;
+	font-size: 35px;
+	margin-left: 33%;
+}
+
+#post-job #search-offers  {
+	margin-left: 23%;
+}
+
+.post-job {
+	margin-left: 33%;
+}
+
+.search-job {
+	margin-left: 23%;
+}
+
+#post-job input {
+	display: block;
+	width: 500px;
+	height: 40px;
+	padding: 10px;
+	font-size: 16px;
+	color: #fff;
+	background: rgba(0,0,0,0.3);
+	outline: none;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-radius: 5px;
+	box-shadow: inset 0px -5px 45px rgba(100,100,100,0.2),0px 1px 1px rgba(255,255,255,0.2);
+	margin-bottom: 10px;
+}
+
+#post-job textarea,
+#signup textarea {
+	width: 500px;
+	padding: 10px;
+	font-size: 16px;
+	color: #3e4651;
+	font-family: 'Montserrat', sans-serif;
+	background: rgba(0,0,0,0.3);
+	outline: none;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-radius: 5px;
+	box-shadow: inset 0px -5px 45px rgba(100,100,100,0.2),0px 1px 1px rgba(255,255,255,0.2);
+	margin-bottom: 10px;
+
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #fff;
+}
+
+#signup textarea {
+	width: 320px;
+	height: 100px;
+}
+
+.categories {
+	/*text-align-last:center;*/
+	display: block;
+	width: 500px;
+	padding: 10px;
+	font-size: 16px;
+	color: #3e4651;
+	background: rgba(0,0,0,0.3);
+	outline: none;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-radius: 5px;
+	box-shadow: inset 0px -5px 45px rgba(100,100,100,0.2),0px 1px 1px rgba(255,255,255,0.2);
+	margin-bottom: 10px;
+}
+
+.search-job .categories {
+	display: inline;
+	width: 350px;
+}
+
+/*.categories option {
+	text-align: center;
+	color: #000;
+}*/
+
+#post-job input[name=title] {
+	color: #3e4651;
+	width: 500px;
+}
+
+#post-job #post-job-btn {
+	background: #FFA500;
+    padding: 10px;
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20px;
+    margin: 2% 17%;
+}
+
+.post-job-account p {
+	font-size: 18px;
+}
+
+.post-job-account {
+	color: #3e4651;
+	margin-left: 33%;
+}
+
+.post-job-account a {
+	color: #3e4651;
+}
+
+.post-job-account a:hover {
+	color: #FFA500;
+}
