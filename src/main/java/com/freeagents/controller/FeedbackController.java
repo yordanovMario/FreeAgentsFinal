@@ -66,7 +66,8 @@ public class FeedbackController {
 			return "myfeedbacks";
 		}
 		else{
-			return "login";
+			return "redirect:LogIn.html";
+			//return "login";
 		}
 	}
 		

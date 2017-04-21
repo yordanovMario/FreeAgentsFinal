@@ -30,7 +30,8 @@ public class MessageController {
 			return "mymessages";
 		}
 		else{
-			return "login";
+			return "redirect:LogIn.html";
+			//return "login";
 		}
 		
 	}
@@ -72,7 +73,8 @@ public class MessageController {
 			}
 		}
 		else{
-			return "login";
+			return "redirect:LogIn.html";
+			//return "login";
 		}
 		
 	}

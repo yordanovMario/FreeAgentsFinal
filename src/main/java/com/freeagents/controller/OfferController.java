@@ -35,7 +35,8 @@ public class OfferController {
 			return "viewoffers";
 		}
 		else{
-			return "login";
+			return "redirect:LogIn.html";
+			//return "login";
 		}
 	}
 	
@@ -65,7 +66,8 @@ public class OfferController {
 			}
 		}
 		else{
-			return "login";
+			return "redirect:LogIn.html";
+			//return "login";
 		}
 	}
 	
