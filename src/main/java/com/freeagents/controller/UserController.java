@@ -27,16 +27,11 @@ public class UserController {
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(Model model, HttpServletRequest request, HttpSession session){
 		boolean logged;
-		if(session.getAttribute("logged") != null){
+		if(session.getAttribute("logged") != null && session.getAttribute("user") != null){
 			logged = (Boolean) session.getAttribute("logged");
 			if (session.getAttribute("logged") != null && logged){
 				User user = UserDAO.getProfile((User) session.getAttribute("username"));
-	//			HashMap<Integer, String> levels = UserDAO.getLevels();
-	//			HashMap<Integer, String> countries = UserDAO.getCountries();
 				request.setAttribute("user", user);
-	//			request.setAttribute("countries", countries);
-	//			request.setAttribute("levels", levels);
-	//			session.setAttribute("username", user);
 			}
 		}
 		return "index";
@@ -44,7 +39,7 @@ public class UserController {
 
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public String profile(Model model, HttpServletRequest request, HttpSession session){
-		if(session.getAttribute("logged") != null){
+		if(session.getAttribute("logged") != null && session.getAttribute("user") != null){
 			if ((Boolean) session.getAttribute("logged")){
 				User user = UserDAO.getProfile((User)session.getAttribute("user"));
 				HashMap<Integer, String> levels = UserDAO.getLevels();
@@ -78,7 +73,6 @@ public class UserController {
 		if(UserDAO.getInstance().validLogin(user, pass)){
 			User u = UserDAO.getUser(user);
 			session.setAttribute("user", u);
-	        session.setAttribute("name", u.getFirstName());
 	        session.setAttribute("logged", true);
 	        return "index";
 		}		
@@ -92,7 +86,7 @@ public class UserController {
 	@RequestMapping(value="/viewprofile",method = RequestMethod.GET)
 	public String viewProfile(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			long id = Long.parseLong(request.getParameter("id"));
 			User temp = UserDAO.getUserID(id);
 			User user = UserDAO.getProfile(temp);
@@ -102,15 +96,15 @@ public class UserController {
 			return "viewprofile";
 		}
 		else{
-			return "redirect:LogIn.html";
-			//return "login"; 
+			return "login";
+			
 		}
 	}
 
 	@RequestMapping(value="/editdata",method = RequestMethod.POST)
 	public String editProfile(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			String firstname = request.getParameter("firstname");
 			String lastname = request.getParameter("lastname");
@@ -140,8 +134,8 @@ public class UserController {
 			return "profile";
 		}
 		else{
-			return "redirect:LogIn.html";
-			//return "login";
+			return "login";
+			
 		}
 	}
 	
@@ -213,7 +207,6 @@ public class UserController {
 					);
 		}
 		return page;
-		//rq.forward(req, resp);
 	}
 
 }

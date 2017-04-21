@@ -1,8 +1,11 @@
 package com.freeagents.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -18,17 +21,21 @@ import com.freeagents.modelDAO.UserDAO;
 @Controller
 public class FeedbackController {
 	
-	@RequestMapping(value="/sendfeedback",method = RequestMethod.POST)
-	public String sendfeedback(Model model, HttpServletRequest req) {
-		HttpSession session = req.getSession(false);
+	@RequestMapping(value="/sendfeedback", method=RequestMethod.GET)
+	public String login(HttpSession session, HttpServletRequest req, HttpServletResponse resp) {
+		session.removeAttribute("notification");
+		req.setAttribute("id", req.getParameter("id"));
+		return "sendfeedback";
+	}
 	
+	@RequestMapping(value="/sendfeedback",method = RequestMethod.POST)
+	public String sendfeedback(Model model, HttpServletRequest req, HttpSession session) {
 		boolean valid = true;
-		
 		String content = req.getParameter("content");
 		int rating = Integer.parseInt(req.getParameter("rating"));
 		String date = req.getParameter("date");
 		
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			if(req.getParameter("content") != null && req.getParameter("rating") != null){
 				long id = Long.parseLong(req.getParameter("id"));
 				User receiver = UserDAO.getUserID(id);
@@ -55,9 +62,8 @@ public class FeedbackController {
 	}
 	
 	@RequestMapping(value="/myfeedbacks",method = RequestMethod.GET)
-	public String myfeedbacks(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+	public String myfeedbacks(Model model, HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			FeedbackDAO.getInstance();
 			ArrayList<Feedback> received = FeedbackDAO.getReceived(u.getId());
@@ -66,8 +72,7 @@ public class FeedbackController {
 			return "myfeedbacks";
 		}
 		else{
-			return "redirect:LogIn.html";
-			//return "login";
+			return "login";
 		}
 	}
 		

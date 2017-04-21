@@ -18,12 +18,12 @@
 				<label for="portfolio">Portfolio</label>
 				<p>${userprofile.portfolio}</p>
 		</div>
-		<form method="POST" action="sendmessage">
+		<form method="GET" action="sendmessage">
 			<input type="hidden" value="${userprofile.id}" name="id">
 			<input type="submit" id="post-job-btn" value="Send Message" />
 		</form>
 		
-		<form method="POST" action="sendfeedback">
+		<form method="GET" action="sendfeedback">
 			<input type="hidden" value="${userprofile.id}" name="id">
 			<input type="submit" id="post-job-btn" value="Send Feedback" />
 		</form>

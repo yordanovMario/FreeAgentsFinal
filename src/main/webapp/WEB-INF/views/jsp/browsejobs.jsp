@@ -17,9 +17,18 @@
 					</select>
 					<select name="sort" class="categories">
 					  <option value="">Order by</option>
+					  <c:if test="${sortID == 2}">
+					  <option value="2" selected="selected">Price Ascending</option>
+					  </c:if>
+					  <c:if test="${sortID != 2}">
 					  <option value="2">Price Ascending</option>
+					  </c:if>
+					  <c:if test="${sortID == 3}">
+					  <option value="3" selected="selected">Price Descending</option>
+					  </c:if>
+					  <c:if test="${sortID != 3}">
 					  <option value="3">Price Descending</option>
-					  
+					  </c:if>
 					</select>
 					
 					<input type="submit" id="post-job-btn" value="Show Results" />

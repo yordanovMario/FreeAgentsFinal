@@ -25,7 +25,7 @@
 					<a href="browsejobs">Browse All Jobs</a>
 					<a href="logout">Log Out</a>
 					<div class="flowe-blue-button">
-					<p class="flowe-signup-button"><a href="profile">${sessionScope['name']}</a></p>
+					<p class="flowe-signup-button"><a href="profile">${sessionScope.user.firstName}</a></p>
 					</c:if>
 					<c:if test="${logged eq false}">
 					<a href="login">Post Job</a>	

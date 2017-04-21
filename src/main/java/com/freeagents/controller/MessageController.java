@@ -30,23 +30,26 @@ public class MessageController {
 			return "mymessages";
 		}
 		else{
-			return "redirect:LogIn.html";
-			//return "login";
+			return "login";
 		}
 		
 	}
 	
-	@RequestMapping(value="/sendmessage",method = RequestMethod.POST)
-	public String sendmessage(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
+	@RequestMapping(value="/sendmessage", method=RequestMethod.GET)
+	public String login(HttpSession session, HttpServletRequest req) {
+		session.removeAttribute("notification");
+		req.setAttribute("id", req.getParameter("id"));
+		return "sendmessage";
+	}
 	
+	@RequestMapping(value="/sendmessage",method = RequestMethod.POST)
+	public String sendmessage(Model model, HttpServletRequest request, HttpSession session) {
 		boolean valid = true;
-		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String date = request.getParameter("date");
 		
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			if(request.getParameter("title") != null && request.getParameter("content") != null){
 				long id = Long.parseLong(request.getParameter("id"));
 				User receiver = UserDAO.getUserID(id);
@@ -58,23 +61,22 @@ public class MessageController {
 					Message message = new Message(sender, receiver, title, content, date);
 					MessageDAO.getInstance();
 					MessageDAO.sendMessage(message);
-					request.setAttribute("notification", "Message successfuly sent!");
+					session.setAttribute("notification", "Message successfuly sent!");
 					return "index";
 				}
 				else{
+					session.setAttribute("notification", "Message was not sent!");
 					return "index";
 				}
 			}
 			else{
-				long id = Long.parseLong(request.getParameter("id"));
-				System.out.println(id);
-				request.setAttribute("id", id);
+				session.setAttribute("notification", "Message was not sent!");
+				request.setAttribute("id", request.getParameter("id"));
 				return "sendmessage";
 			}
 		}
 		else{
-			return "redirect:LogIn.html";
-			//return "login";
+			return "login";
 		}
 		
 	}

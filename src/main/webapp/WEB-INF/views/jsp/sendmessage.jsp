@@ -6,7 +6,7 @@
 				<form method="POST" action="sendmessage">
 					<input type="text" id="job-title" name="title" placeholder="Enter title here..." />
 					<textarea rows="4" cols="50" name="content" placeholder="Enter content here..."></textarea>
-					<input type="hidden" value="${id}" name="id">"
+					<input type="hidden" value="${id}" name="id">
 					<input type="submit" id="post-job-btn" value="Send Message" />
 				</form>
 			</div>

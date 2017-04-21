@@ -29,9 +29,8 @@ import com.freeagents.util.CompBySponsored;
 public class JobController {
 	
 	@RequestMapping(value="/myjobs",method = RequestMethod.GET)
-	public String myjobs(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+	public String myjobs(Model model, HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			ArrayList<Job> jobs = JobDAO.getInstance().getMyJobs(u.getId());
 			request.setAttribute("user", u);
@@ -45,21 +44,17 @@ public class JobController {
 	}
 	
 	@RequestMapping(value="/postjob",method = RequestMethod.GET)
-	public String postjob(Model model, HttpServletRequest request, HttpServletResponse response){
-		HttpSession session = request.getSession(false);
-		boolean logged = (Boolean) request.getSession().getAttribute("logged");
-		if (session.getAttribute("logged") != null && logged){
+	public String postjob(Model model, HttpServletRequest request, HttpSession session){
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null){
 			HashMap<Integer, String> categories = UserDAO.getCategories();
 			request.setAttribute("categories", categories);
 			return "postjob";
 		}
-		return "redirect:LogIn.html";
+		return "login";
 	}
 	
 	@RequestMapping(value="/postjob",method = RequestMethod.POST)
-	public String postjob(Model model, HttpServletRequest req){
-		HttpSession session = req.getSession(false);
-				
+	public String postjob(HttpServletRequest req, HttpSession session){
 		boolean valid = true;
 		String title = req.getParameter("title");
 		String desc = req.getParameter("description");
@@ -85,7 +80,7 @@ public class JobController {
 				}
 			}
 		}
-		return(page);
+		return page;
 	}
 	
 	@RequestMapping(value="/browsejobs",method = RequestMethod.GET)
@@ -98,6 +93,7 @@ public class JobController {
 		}
 		else{
 			sorter = Integer.parseInt(request.getParameter("sort"));
+			request.setAttribute("sortID", Integer.parseInt(request.getParameter("sort")));
 		}
 		if(request.getParameter("category") == null || request.getParameter("category") == ""){
 			category=0;
@@ -124,16 +120,15 @@ public class JobController {
 		}
 		TreeSet<Job> jobs = JobDAO.getInstance().getAllJobs(comp, category);
 		HttpSession session = request.getSession(false);
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 				User u = (User) session.getAttribute("user");
 				request.setAttribute("user", u);
 				request.setAttribute("jobs", jobs);
 				HashMap<Integer, String> categories = UserDAO.getCategories();
 				request.setAttribute("categories", categories);
-				//request.setAttribute("sortID", Integer.parseInt(request.getParameter("sort")));
 				return "browsejobs";
 		}
-		return "redirect:LogIn.html";
+		return "login";
 	}
 	
 }
