@@ -25,72 +25,67 @@ import com.freeagents.modelDAO.UserDAO;
 public class UserController {
 
 	@RequestMapping(value="/index", method=RequestMethod.GET)
-	public String index(Model model, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		boolean logged = (Boolean) session.getAttribute("logged");
-		
-		if (session.getAttribute("logged") != null && logged){
-			User user = UserDAO.getProfile((User) session.getAttribute("username"));
-//			HashMap<Integer, String> levels = UserDAO.getLevels();
-//			HashMap<Integer, String> countries = UserDAO.getCountries();
-			request.setAttribute("user", user);
-//			request.setAttribute("countries", countries);
-//			request.setAttribute("levels", levels);
-//			session.setAttribute("username", user);
+	public String index(Model model, HttpServletRequest request, HttpSession session){
+		boolean logged;
+		if(session.getAttribute("logged") != null){
+			logged = (Boolean) session.getAttribute("logged");
+			if (session.getAttribute("logged") != null && logged){
+				User user = UserDAO.getProfile((User) session.getAttribute("username"));
+	//			HashMap<Integer, String> levels = UserDAO.getLevels();
+	//			HashMap<Integer, String> countries = UserDAO.getCountries();
+				request.setAttribute("user", user);
+	//			request.setAttribute("countries", countries);
+	//			request.setAttribute("levels", levels);
+	//			session.setAttribute("username", user);
+			}
 		}
 		return "index";
 	}
 
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
-	public String profile(Model model, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		boolean logged = (Boolean) session.getAttribute("logged");
-		if (session.getAttribute("logged") != null && logged){
-			User user = UserDAO.getProfile((User)session.getAttribute("user"));
-			HashMap<Integer, String> levels = UserDAO.getLevels();
-			HashMap<Integer, String> countries = UserDAO.getCountries();
-			request.setAttribute("user", user);
-			request.setAttribute("countries", countries);
-			request.setAttribute("levels", levels);
-			session.setAttribute("user", user);
-			return "profile";
-		}
-		else{
+	public String profile(Model model, HttpServletRequest request, HttpSession session){
+		if(session.getAttribute("logged") != null){
+			if ((Boolean) session.getAttribute("logged")){
+				User user = UserDAO.getProfile((User)session.getAttribute("user"));
+				HashMap<Integer, String> levels = UserDAO.getLevels();
+				HashMap<Integer, String> countries = UserDAO.getCountries();
+				request.setAttribute("user", user);
+				request.setAttribute("countries", countries);
+				request.setAttribute("levels", levels);
+				session.setAttribute("user", user);
+				return "profile";
+			}
 			return "index";
 		}
-	
+		return "index";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public ModelAndView loginPage(HttpSession session) {
+	public String login(HttpSession session) {
 		session.removeAttribute("notification");
-		if(session.getAttribute("logged") != null && (Boolean) session.getAttribute("logged")){
-			return new ModelAndView("index", "Login", new User());
-		}
-		return new ModelAndView("login", "Login", new User());
+		return "login";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(@ModelAttribute("Login") User user, HttpSession session) {
+	public String login(HttpSession session, HttpServletRequest req) {
 		
 		if(session.isNew()){
 			session.invalidate();
-			return "redirect:LogIn.html";
+			return "login";
 		}
-		
-		String email = user.getEmail();
-		String password = user.getPassword();
-		if(UserDAO.getInstance().validLogin(email, password)){
-			session.setAttribute("logged", true);
-			session.setAttribute("user", user);
-			session.setMaxInactiveInterval(60);
-			return "index";
-		}
+		String user = req.getParameter("username");
+		String pass = req.getParameter("password");
+		if(UserDAO.getInstance().validLogin(user, pass)){
+			User u = UserDAO.getUser(user);
+			session.setAttribute("user", u);
+	        session.setAttribute("name", u.getFirstName());
+	        session.setAttribute("logged", true);
+	        return "index";
+		}		
 		else{
 			session.setAttribute("logged", false);
-			session.setAttribute("notification", "The username or password you entered is wrong. Please try again.");
-			return "redirect:LogIn.html";
-			//return "login";
+			session.setAttribute("notification", "Wrong username or password. Try again!");
+			return "login";
 		}
 	}
 	
@@ -161,10 +156,16 @@ public class UserController {
 		return "index";
 	}
 	
+	@RequestMapping(value="/signup", method=RequestMethod.GET)
+	public String signup(HttpSession session) {
+		session.removeAttribute("notification");
+		return "signup";
+	}
+	
 	@RequestMapping(value="/signup",method = RequestMethod.POST)
-	public String signup(Model model, HttpServletRequest request) {
+	public String signup(Model model, HttpServletRequest request, HttpSession session) {
 		boolean valid = true;
-		String page = "redirect:SignUpFailed.html";
+		String page = "signup";
 		String fname = request.getParameter("fname");
 		String lname = request.getParameter("lname");
 		String email = request.getParameter("email");
@@ -179,15 +180,18 @@ public class UserController {
 		boolean second = true;
 		boolean third = true;
 		if(!pass.equals(passconf)){
-			page = "redirect:SignUpPasswords.html";
+			session.setAttribute("notification", "Passwords don't match! Please try again.");
 			second = false;
+			return page;
 		}
 		if(UserDAO.getInstance().checkUser(user, email)){
-			page = "redirect:SignUpDuplicates.html";
+			session.setAttribute("notification", "Either username or email address is already taken. Please try again.");
 			third = false;
+			return page;
 		}
 		if(valid && second && third){
-			page = "redirect:LogInSuccess.html";
+			page = "login";
+			session.setAttribute("notification", "Registration successfull. Please log in to continue:");
 			try {
 				User u = new User(user, pass, email, fname, lname);
 				System.out.println(u);

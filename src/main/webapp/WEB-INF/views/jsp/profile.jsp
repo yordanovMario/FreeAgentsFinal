@@ -1,30 +1,5 @@
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-	<html>
-	<head>
-		<title>${user.getFirstName()}'s profile in FreeAgents.eu</title>
-	 	<link rel="stylesheet" href="post-job.css"/>
-	 	<link rel="stylesheet" href="css.css"/>
-		<link rel="stylesheet" type="text/css" href="signup.css">
-		<link href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700" rel="stylesheet">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	</head>
-	<body>
-		<!-- header -->
-		<header>
-			<div class="flowe-header">
-				<a href="index.jsp"><div class="flowe-logo"></div></a>
-				<div class="flowe-header-menu"></div>
-				<div class="header-menu">
-					<a href="postjob">Post Job</a>	
-					<a href="browsejobs">Browse Job Offers</a>
-					<a href="logout">Log Out</a>
-					<div class="flowe-blue-button">
-						<p class="flowe-signup-button">${user.getFirstName()}</p>
-					</div>
-				</div>
-			</div>
-		</header>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="header.jsp" />
 		<section>
 		<div class="main-description">
 		<div class="main-header">
