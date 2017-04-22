@@ -179,4 +179,15 @@ public class JobDAO {
 		getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
 	}
 	
+//	public synchronized void jobsIWork(long id) throws SQLException{
+//		String query = "SELECT job_id FROM jobs WHERE user_worker_id = ?";
+//		
+//		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
+//		st.setLong(1, id);
+//		ResultSet res = st.executeQuery();
+//		
+//		getJob(id)
+//		
+//	}
+	
 }

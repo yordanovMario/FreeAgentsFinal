@@ -16,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.freeagents.model.Feedback;
 import com.freeagents.model.Job;
 import com.freeagents.model.User;
+import com.freeagents.modelDAO.FeedbackDAO;
 import com.freeagents.modelDAO.JobDAO;
 import com.freeagents.modelDAO.OfferDAO;
 import com.freeagents.modelDAO.UserDAO;
@@ -147,5 +149,20 @@ public class JobController {
 		}
 		return "login";
 	}
+	
+//	@RequestMapping(value="/jobsIwork",method = RequestMethod.GET)
+//	public String jobsIwork(Model model, HttpServletRequest request, HttpSession session) {
+//		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+//			User u = (User) session.getAttribute("user");
+//			JobDAO.getInstance();
+//			ArrayList<Job> jobsIwork = JobDAO.jobsIWork(u.getId());
+//			request.setAttribute("user", u);
+//			request.setAttribute("jobsIwork", jobsIwork);
+//			return "jobsIwork";
+//		}
+//		else{
+//			return "login";
+//		}
+//	}
 	
 }

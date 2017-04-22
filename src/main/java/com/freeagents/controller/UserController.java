@@ -200,5 +200,10 @@ public class UserController {
 		}
 		return page;
 	}
+	
+	@RequestMapping(value="/contact", method=RequestMethod.GET)
+	public String contact(Model model){
+		return "contact";
+	}
 
 }
