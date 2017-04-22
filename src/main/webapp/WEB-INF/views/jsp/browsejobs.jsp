@@ -15,6 +15,32 @@
 							</c:if>
 						</c:forEach>
 					</select>
+					<select name="experience" class="categories">
+					  <option value="">Required Experience</option>
+					  <c:if test="${experience == 1}">
+					  <option value="1" selected="selected">Begginer</option>
+					  </c:if>
+					  
+					  <c:if test="${experience != 1}">
+					  <option value="1">Begginer</option>
+					  </c:if>
+					  
+					  <c:if test="${experience == 2}">
+					  <option value="2" selected="selected">Intermediate</option>
+					  </c:if>
+					  
+					  <c:if test="${experience != 2}">
+					  <option value="2">Intermediate</option>
+					  </c:if>
+					  
+					  <c:if test="${experience == 3}">
+					  <option value="3" selected="selected">Expert</option>
+					  </c:if>
+					  
+					  <c:if test="${experience != 3}">
+					  <option value="3">Expert</option>
+					  </c:if>
+					</select>
 					<select name="sort" class="categories">
 					  <option value="">Order by</option>
 					  <c:if test="${sortID == 2}">
@@ -45,7 +71,9 @@
 					<input type="submit" id="post-job-btn" value="Show Results" />
 				</form>
 			</div>
-			
+			<c:if test="${empty jobs}">
+				<h3>There are no jobs with this criteria</h3>
+			</c:if>
 			<c:forEach var="job" items="${jobs}">
 				<div class="search-results">
 					<div class="result-title">
@@ -59,6 +87,22 @@
 					<div class="result-description">
 						<p>Description</p>
 						<p>${job.description}</p>
+					</div>
+					<div class="result-description">
+						<p>Category</p>
+						<p>${categories.get(job.category)}</p>
+					</div>
+					<div class="result-description">
+						<p>Required Experience</p>
+						<c:if test="${job.requiredExp == 1}">
+						<p>Beginner</p>
+						</c:if>
+						<c:if test="${job.requiredExp == 2}">
+						<p>Intermediate</p>
+						</c:if>
+						<c:if test="${job.requiredExp == 3}">
+						<p>Expert</p>
+						</c:if>
 					</div>
 					<div class="result-title">
 						<p>From</p>

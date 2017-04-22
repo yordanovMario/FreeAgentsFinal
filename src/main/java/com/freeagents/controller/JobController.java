@@ -95,6 +95,7 @@ public class JobController {
 		
 		int sorter;
 		int category;
+		int experience;
 		if(request.getParameter("sort") == null || request.getParameter("sort") == ""){
 			sorter=2;
 		}
@@ -102,13 +103,23 @@ public class JobController {
 			sorter = Integer.parseInt(request.getParameter("sort"));
 			request.setAttribute("sortID", Integer.parseInt(request.getParameter("sort")));
 		}
+		
 		if(request.getParameter("category") == null || request.getParameter("category") == ""){
 			category=0;
 		}
 		else{
 			category = Integer.parseInt(request.getParameter("category"));
 			request.setAttribute("categoryID", Integer.parseInt(request.getParameter("category")));
-		} 
+		}
+		
+		if(request.getParameter("experience") == null || request.getParameter("expereience") == ""){
+			experience=0;
+		}
+		else{
+			experience = Integer.parseInt(request.getParameter("experience"));
+			request.setAttribute("experience", Integer.parseInt(request.getParameter("experience")));
+		}
+		
 		Comparator<Job> comp;
 		switch (sorter) {
 		case 1:
@@ -125,7 +136,7 @@ public class JobController {
 		default:
 			comp = new CompByBudgetDesc();
 		}
-		TreeSet<Job> jobs = JobDAO.getInstance().getAllJobs(comp, category);
+		TreeSet<Job> jobs = JobDAO.getInstance().getAllJobs(comp, category, experience);
 		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			request.setAttribute("user", u);

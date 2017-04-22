@@ -40,7 +40,7 @@ public class JobDAO {
 	
 	private void reloadCache() throws SQLException{
 		if(jobsUser.isEmpty()){
-			String query = "SELECT j.job_id, j.title, j.description, j.budget, j.category_id, j.user_worker_id, j.status, j.accepted_offer_id, j.date, j.expire, j.visibility, u.username FROM jobs j JOIN users u ON j.user_employer_id = u.user_id";
+			String query = "SELECT j.job_id, j.title, j.description, j.budget, j.category_id, j.user_worker_id, j.status, j.accepted_offer_id, j.date, j.expire, j.visibility, j.required_exp, u.username FROM jobs j JOIN users u ON j.user_employer_id = u.user_id";
 			java.sql.PreparedStatement st = DBManager.getInstance().getConnection().clientPrepareStatement(query);
 			ResultSet res = st.executeQuery();
 			User temp;
@@ -49,7 +49,7 @@ public class JobDAO {
 				temp = UserDAO.getUser(res.getString("username"));
 				job = new Job(temp, res.getString("title"), res.getString("description"), 
 						Integer.parseInt(res.getString("budget")), Integer.parseInt(res.getString("category_id")), 
-						3, false, (res.getString("expire") == null ? 7 : Integer.parseInt(res.getString("expire"))), 
+						res.getInt("required_exp"), false, (res.getString("expire") == null ? 7 : Integer.parseInt(res.getString("expire"))), 
 						res.getString("date"));
 				job.setId(Long.parseLong(res.getString("job_id")));
 				long userID = temp.getId();
@@ -87,7 +87,7 @@ public class JobDAO {
 	}
 	
 	public synchronized void postJob(Job job) throws SQLException{
-		String query = "INSERT INTO jobs (title, description, budget, category_id, status, user_employer_id, date, expire, visibility) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO jobs (title, description, budget, category_id, status, user_employer_id, date, expire, visibility, required_exp) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
 		st.setString(1, job.getTitle());
 		st.setString(2, job.getDescription());
@@ -98,6 +98,7 @@ public class JobDAO {
 		st.setString(7, job.getDate());
 		st.setInt(8, job.getExpire());
 		st.setInt(9, job.isVisible() ? 1 : 0);
+		st.setInt(10, job.getRequiredExp());
 		st.execute();
 		ResultSet res = st.getGeneratedKeys();
 		res.next();
@@ -114,18 +115,35 @@ public class JobDAO {
 		}
 	}
 	
-	public TreeSet<Job> getAllJobs(Comparator<Job> comp, int category){
+	public TreeSet<Job> getAllJobs(Comparator<Job> comp, int category, int experience){
 		TreeSet<Job> temp = new TreeSet<Job>(comp);
-		if(category == 0){
+		if(category == 0 && experience == 0){
 			 for(Job j : jobs.values()){
 				 if(j.isVisible()){
 					 temp.add(j);
 				 }
 			 }
+			 return temp;
 		}
-		else{
+		if(category != 0 && experience == 0){
 			for (Job j : jobs.values()) {
 				if(j.getCategory() == category && j.isVisible()){
+					temp.add(j);
+				}
+			}
+			return temp;
+		}
+		if(category == 0 && experience != 0){
+			for (Job j : jobs.values()) {
+				if(j.getRequiredExp() == experience && j.isVisible()){
+					temp.add(j);
+				}
+			}
+			return temp;
+		}
+		if(category != 0 && experience != 0){
+			for (Job j : jobs.values()) {
+				if(j.getRequiredExp() == experience && j.isVisible() && j.getCategory() == category){
 					temp.add(j);
 				}
 			}

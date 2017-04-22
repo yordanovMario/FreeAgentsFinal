@@ -42,8 +42,8 @@
 						<c:if test="${job.status eq 3}">
 						<div class="result-description">
 							<p>Offer accepted from</p>
-							<a href="viewprofile?id=${job.employer.id}">${job.employer.firstName} ${job.employer.lastName}</a>
-							<a href="sendmessage?id=${job.employer.id}">Send message</a>
+							<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
+							<a href="sendmessage?id=${job.worker.id}">Contact</a>
 						</div>
 							<form method="GET" action="viewjob">
 								<input type="hidden" value="${job.id}"name="id">

@@ -36,8 +36,9 @@ public class MessageController {
 	
 	@RequestMapping(value="/sendmessage", method=RequestMethod.GET)
 	public String login(HttpSession session, HttpServletRequest req) {
-		session.removeAttribute("notification");
-		req.setAttribute("id", req.getParameter("id"));
+		long id = Long.parseLong(req.getParameter("id"));
+		req.setAttribute("id", id);
+		req.setAttribute("receiver", UserDAO.getUserID(id));
 		return "sendmessage";
 	}
 	

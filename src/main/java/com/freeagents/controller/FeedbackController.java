@@ -24,12 +24,14 @@ public class FeedbackController {
 	@RequestMapping(value="/sendfeedback", method=RequestMethod.GET)
 	public String login(HttpSession session, HttpServletRequest req, HttpServletResponse resp) {
 		session.removeAttribute("notification");
-		req.setAttribute("id", req.getParameter("id"));
+		long id = Long.parseLong(req.getParameter("id"));
+		req.setAttribute("id", id);
+		req.setAttribute("receiver", UserDAO.getUserID(id));
 		return "sendfeedback";
 	}
 	
 	@RequestMapping(value="/sendfeedback",method = RequestMethod.POST)
-	public String sendfeedback(Model model, HttpServletRequest req, HttpSession session) {
+	public String sendfeedback(HttpServletRequest req, HttpSession session) {
 		boolean valid = true;
 		String content = req.getParameter("content");
 		int rating = Integer.parseInt(req.getParameter("rating"));
