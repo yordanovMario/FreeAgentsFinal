@@ -9,30 +9,35 @@
 		<div id="post-job">
 			<h2 id="search-offers">Jobs I'm working</h2>
 			<div class="post-job search-job">
-				<c:forEach var="job" items="${jobsIwork}">
-					<div class="search-results">
-						<div class="result-title">
-							<p>Title</p>
-							<p>${job.title}</p>
+				<c:if test="${not empty jobsIwork}">
+					<c:forEach var="job" items="${jobsIwork}">
+						<div class="search-results">
+							<div class="result-title">
+								<p>Title</p>
+								<p>${job.title}</p>
+							</div>
+							<div class="result-budjet">
+								<p>Budjet</p>
+								<p>${job.budget}</p>
+							</div>
+							<div class="result-description">
+								<p>Description</p>
+								<p>${job.description}</p>
+							</div>
+							<div class="result-description">
+								<p>Status</p>
+								<p>${statuses.get(job.status)}</p>
+							</div>
+							<div class="result-description">
+								<p>Date posted</p>
+								<p>${job.date}</p>
+							</div>
 						</div>
-						<div class="result-budjet">
-							<p>Budjet</p>
-							<p>${job.budget}</p>
-						</div>
-						<div class="result-description">
-							<p>Description</p>
-							<p>${job.description}</p>
-						</div>
-						<div class="result-description">
-							<p>Status</p>
-							<p>${statuses.get(job.status)}</p>
-						</div>
-						<div class="result-description">
-							<p>Date posted</p>
-							<p>${job.date}</p>
-						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty jobsIwork}">
+					<h2>There are no jobs that you're working at the moment!</h2>
+				</c:if>
 				</div>
 			<div class="post-job-account">
 			</div>
