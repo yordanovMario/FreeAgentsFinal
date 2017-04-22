@@ -46,7 +46,6 @@ public class OfferDAO {
 				offer.setDate(res.getString("date"));
 				offersID.put(offer.getId(), offer);
 				if(!offers.containsKey(jobID)){
-					JobDAO.getInstance().getJob(offer.getJob()).setStatus(2);
 					offers.put(jobID, new ArrayList<Offer>());
 				}
 				offers.get(jobID).add(offer);

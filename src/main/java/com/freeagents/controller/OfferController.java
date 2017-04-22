@@ -71,6 +71,7 @@ public class OfferController {
 			long jobID = Long.parseLong(request.getParameter("jobID"));
 			try {
 				JobDAO.getInstance().acceptOffer(jobID, id);
+				request.setAttribute("id", jobID);
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				request.setAttribute("notification", "An error occured during accepting your offer.");

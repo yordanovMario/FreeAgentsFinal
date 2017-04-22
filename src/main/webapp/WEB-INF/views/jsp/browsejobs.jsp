@@ -64,6 +64,10 @@
 						<p>From</p>
 						<p><a href="viewprofile?id=${job.employer.id}">${job.employer.firstName} ${job.employer.lastName}</a></p>
 					</div>
+					<div class="result-title">
+						<p>Date posted</p>
+						<p>${job.date}</p>
+					</div>
 					<form method="POST" action="postoffer">
 						<input type="hidden" value="${job.id}"name="id">
 						<input type="submit" id="post-job-btn" value="Send Offer" />

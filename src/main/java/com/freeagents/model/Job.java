@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import com.freeagents.modelDAO.UserDAO;
+
 public class Job {
 	
 	private long id;
@@ -158,6 +160,7 @@ public class Job {
 	}
 		
 	public void acceptOffer(Offer offer){
+		this.worker = UserDAO.getUserID(offer.getSender());
 		this.acceptedOffer = offer;
 		this.visible = false;
 		this.status = 3;

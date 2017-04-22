@@ -65,6 +65,7 @@ public class JobDAO {
 				if(res.getString("visibility") != null && Integer.parseInt(res.getString("visibility")) == 0){
 					job.setVisible(false);
 				}
+				job.setStatus(res.getInt("status"));
 				jobs.put(job.getId(), job);
 				if(jobsUser.containsKey(userID)){
 					jobsUser.get(userID).add(job);
@@ -142,6 +143,10 @@ public class JobDAO {
 	
 	public Job getJob(long id){
 		return jobs.get(id);
+	}
+	
+	public void firstOffer(long id){
+		jobs.get(id).setStatus(2);
 	}
 	
 	public synchronized void acceptOffer(long jobID, long offerID) throws SQLException{

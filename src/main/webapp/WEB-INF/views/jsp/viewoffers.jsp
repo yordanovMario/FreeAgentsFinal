@@ -29,6 +29,7 @@
 							</div>
 							<form method="POST" action="acceptoffer">
 								<input type="hidden" value="${offer.id}" name="id"/>
+								<input type="hidden" value="${jobID}" name="jobID"/>
 								<input type="submit" id="post-job-btn\" value="Accept offer"/>
 							</form>
 						</div>
