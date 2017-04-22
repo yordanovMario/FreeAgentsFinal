@@ -112,7 +112,7 @@ public class JobController {
 			request.setAttribute("categoryID", Integer.parseInt(request.getParameter("category")));
 		}
 		
-		if(request.getParameter("experience") == null || request.getParameter("expereience") == ""){
+		if(request.getParameter("experience") == null || request.getParameter("experience") == ""){
 			experience=0;
 		}
 		else{
