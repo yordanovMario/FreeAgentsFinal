@@ -168,10 +168,13 @@ public class JobDAO {
 	}
 	
 	public synchronized void acceptOffer(long jobID, long offerID) throws SQLException{
-		String query = "UPDATE jobs SET accepted_offer_id = ? WHERE job_id = ?";
+		String query = "UPDATE jobs SET accepted_offer_id = ?, status = ?, user_worker_id = ? WHERE job_id = ?";
+		
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
 		st.setLong(1, offerID);
-		st.setLong(2, jobID);
+		st.setLong(2, 3);
+		st.setLong(3, OfferDAO.getInstance().getOffer(offerID).getSender());
+		st.setLong(4, jobID);
 		st.execute();
 		getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
 	}
