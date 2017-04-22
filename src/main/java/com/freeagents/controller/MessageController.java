@@ -19,9 +19,8 @@ import com.freeagents.modelDAO.UserDAO;
 public class MessageController {
 	
 	@RequestMapping(value="/mymessages",method = RequestMethod.GET)
-	public String myMessages(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+	public String myMessages(Model model, HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			MessageDAO.getInstance();
 			ArrayList<Message> received = MessageDAO.getReceived(u.getId());
@@ -65,7 +64,7 @@ public class MessageController {
 					return "index";
 				}
 				else{
-					session.setAttribute("notification", "Message was not sent!");
+					session.setAttribute("notification", "There was a problem. Your message was not sent!");
 					return "index";
 				}
 			}

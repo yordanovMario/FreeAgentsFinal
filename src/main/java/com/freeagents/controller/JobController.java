@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.freeagents.model.Job;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.JobDAO;
+import com.freeagents.modelDAO.OfferDAO;
 import com.freeagents.modelDAO.UserDAO;
 import com.freeagents.util.CompByBudgetAsc;
 import com.freeagents.util.CompByBudgetDesc;
@@ -33,8 +34,14 @@ public class JobController {
 		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			ArrayList<Job> jobs = JobDAO.getInstance().getMyJobs(u.getId());
+			HashMap<Long, Boolean> offers = new HashMap<Long, Boolean>();
+			for(Job j : jobs){
+				offers.put(j.getId(), OfferDAO.getInstance().hasOffers(j.getId()));
+			}
 			request.setAttribute("user", u);
 			request.setAttribute("jobs", jobs);
+			request.setAttribute("offers", offers);
+			request.setAttribute("statuses", JobDAO.getStatuses());
 			return "myjobs";
 		}
 		else{
@@ -70,12 +77,12 @@ public class JobController {
 				valid = false;
 			}
 			if(valid){
-				System.out.println(user+" in postjobservlet");
 				Job job = new Job(user, title, desc, Integer.parseInt(budget), Integer.parseInt(category), Integer.parseInt(reqExp), isSponsored, Integer.parseInt(expire), null);
 				try {
 					JobDAO.getInstance().postJob(job);
 				} catch (SQLException e) {
 					System.out.println("Job posting error - " + e.getMessage());
+					req.setAttribute("notification", "There was an error with your job. Please try again.");
 					page = "postjob";
 				}
 			}
@@ -84,7 +91,7 @@ public class JobController {
 	}
 	
 	@RequestMapping(value="/browsejobs",method = RequestMethod.GET)
-	public String browsejobs(Model model, HttpServletRequest request, HttpServletResponse response){
+	public String browsejobs(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session){
 		
 		int sorter;
 		int category;
@@ -119,14 +126,13 @@ public class JobController {
 			comp = new CompByBudgetDesc();
 		}
 		TreeSet<Job> jobs = JobDAO.getInstance().getAllJobs(comp, category);
-		HttpSession session = request.getSession(false);
 		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
-				User u = (User) session.getAttribute("user");
-				request.setAttribute("user", u);
-				request.setAttribute("jobs", jobs);
-				HashMap<Integer, String> categories = UserDAO.getCategories();
-				request.setAttribute("categories", categories);
-				return "browsejobs";
+			User u = (User) session.getAttribute("user");
+			request.setAttribute("user", u);
+			request.setAttribute("jobs", jobs);
+			HashMap<Integer, String> categories = UserDAO.getCategories();
+			request.setAttribute("categories", categories);
+			return "browsejobs";
 		}
 		return "login";
 	}

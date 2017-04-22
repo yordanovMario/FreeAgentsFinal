@@ -22,10 +22,33 @@
 							<p>Description</p>
 							<p>${job.description}</p>
 						</div>
-						<form method="GET" action="viewoffers">
-							<input type="hidden" value="${job.id}"name="id">
-							<input type="submit" id="post-job-btn" value="View offers" />
-						</form>
+						<div class="result-description">
+							<p>Status</p>
+							<p>${statuses.get(job.status)}</p>
+						</div>
+						<div class="result-description">
+							<p>Date posted</p>
+							<p>${job.date}</p>
+						</div>
+						<c:if test="${job.status eq 2}">
+							<form method="GET" action="viewoffers">
+								<input type="hidden" value="${job.id}"name="id">
+								<input type="submit" id="post-job-btn" value="View offers" />
+							</form>
+						</c:if>
+						<c:if test="${job.status eq 1}">
+							<p>There are no offers yet for this job</p>
+						</c:if>
+						<c:if test="${job.status eq 3}">
+						<div class="result-description">
+							<p>Offer accepted from</p>
+							<p>${job.worker.firstName} ${job.worker.lastName}</p>
+						</div>
+							<form method="GET" action="viewjob">
+								<input type="hidden" value="${job.id}"name="id">
+								<input type="submit" id="post-job-btn" value="View job details" />
+							</form>
+						</c:if>
 					</div>
 				</c:forEach>
 				</div>

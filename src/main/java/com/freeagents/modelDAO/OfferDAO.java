@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Offer;
@@ -41,16 +42,14 @@ public class OfferDAO {
 			while(res.next()){
 				offer = new Offer(res.getLong("sender_id"), res.getLong("job_id"), res.getString("content"), Integer.parseInt(res.getString("price")), false);
 				long jobID = Long.parseLong(res.getString("job_id"));
-				offer.setId(jobID);
+				offer.setId(Long.parseLong(res.getString("offer_id")));
 				offer.setDate(res.getString("date"));
 				offersID.put(offer.getId(), offer);
-				if(offers.containsKey(jobID)){
-					offers.get(jobID).add(offer);
-				}
-				else{
+				if(!offers.containsKey(jobID)){
+					JobDAO.getInstance().getJob(offer.getJob()).setStatus(2);
 					offers.put(jobID, new ArrayList<Offer>());
-					offers.get(jobID).add(offer);
 				}
+				offers.get(jobID).add(offer);
 			}
 		}
 	}
@@ -69,13 +68,13 @@ public class OfferDAO {
 		res.next();
 		long id = res.getLong(1);
 		offer.setId(id);
-		if(offers.containsKey(offer.getJob())){
-			offers.get(offer.getJob()).add(offer);
+		long jobID = offer.getJob();
+		offersID.put(offer.getId(), offer);
+		if(!offers.containsKey(jobID)){
+			JobDAO.getInstance().getJob(offer.getJob()).setStatus(2);
+			offers.put(jobID, new ArrayList<Offer>());
 		}
-		else{
-			offers.put(offer.getJob(), new ArrayList<Offer>());
-			offers.get(offer.getJob()).add(offer);
-		}
+		offers.get(jobID).add(offer);
 	}
 	
 	public ArrayList<Offer> getJobOffers(long id){
@@ -84,5 +83,9 @@ public class OfferDAO {
 	
 	public Offer getOffer(long id){
 		return offersID.get(id);
+	}
+	
+	public boolean hasOffers(long id){
+		return offersID.containsKey(id);
 	}
 }

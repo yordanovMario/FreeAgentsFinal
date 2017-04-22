@@ -2,21 +2,13 @@ package com.freeagents.controller;
 
 import java.sql.SQLException;
 import java.util.HashMap;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.UserDAO;
 
@@ -50,9 +42,9 @@ public class UserController {
 				session.setAttribute("user", user);
 				return "profile";
 			}
-			return "index";
+			return "login";
 		}
-		return "index";
+		return "login";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)

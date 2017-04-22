@@ -17,7 +17,6 @@ public class Job {
 	private ArrayList<File> files;
 	private int requiredExp;
 	private int status;
-	private ArrayList<Offer> offers;
 	private Offer acceptedOffer;
 	private boolean sponsored;
 	private String date;
@@ -44,7 +43,6 @@ public class Job {
 		this.requiredExp = requiredExp;
 		this.status = 1;
 		this.expire = expire;
-		this.offers = new ArrayList<Offer>();
 		LocalDateTime dateTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		if(date == null){
@@ -85,14 +83,6 @@ public class Job {
 
 	public void setStatus(int status) {
 		this.status = status;
-	}
-
-	public ArrayList<Offer> getOffers() {
-		return offers;
-	}
-
-	public void setOffers(ArrayList<Offer> offers) {
-		this.offers = offers;
 	}
 
 	public Offer getAcceptedOffer() {
@@ -167,21 +157,13 @@ public class Job {
 		return budget;
 	}
 		
-	public void printOffers(){
-		System.out.println("Offers for Job *" + this.title + "* :");
-		for (int i = 0; i < offers.size(); i++) {
-			System.out.println(offers.get(i));
-		}
-	}
-	
 	public void acceptOffer(Offer offer){
-		if(offers.contains(offer)){
-			this.acceptedOffer = offer;
-		}
+		this.acceptedOffer = offer;
+		this.visible = false;
 		this.status = 3;
 	}
 	
-	public void inProgress(){
+	public void receiveDeposit(){
 		this.status = 4;
 	}
 	

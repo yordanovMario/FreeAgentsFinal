@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeSet;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Job;
+import com.freeagents.model.Offer;
 import com.freeagents.model.User;
 
 public class JobDAO {
@@ -19,7 +19,7 @@ public class JobDAO {
 	//hashmap with all userID and arraylist with the jobs they posted;
 	private static HashMap<Long, ArrayList<Job>> jobsUser = new HashMap<Long, ArrayList<Job>>();
 	
-	private static HashSet<Job> jobs = new HashSet<Job>();
+	private static HashMap<Long, Job> jobs = new HashMap<Long, Job>();
 	
 	private static HashMap<Integer, String> statuses = new HashMap<Integer, String>();
 	
@@ -65,7 +65,7 @@ public class JobDAO {
 				if(res.getString("visibility") != null && Integer.parseInt(res.getString("visibility")) == 0){
 					job.setVisible(false);
 				}
-				jobs.add(job);
+				jobs.put(job.getId(), job);
 				if(jobsUser.containsKey(userID)){
 					jobsUser.get(userID).add(job);
 				}
@@ -97,14 +97,13 @@ public class JobDAO {
 		st.setString(7, job.getDate());
 		st.setInt(8, job.getExpire());
 		st.setInt(9, job.isVisible() ? 1 : 0);
-		//st.setInt(7, 2);
 		st.execute();
 		ResultSet res = st.getGeneratedKeys();
 		res.next();
 		long id = res.getLong(1);
 		long employerID = job.getEmployer().getId();
 		job.setId(id);
-		jobs.add(job);
+		jobs.put(job.getId(), job);
 		if(jobsUser.containsKey(employerID)){
 			jobsUser.get(employerID).add(job);
 		}
@@ -117,13 +116,15 @@ public class JobDAO {
 	public TreeSet<Job> getAllJobs(Comparator<Job> comp, int category){
 		TreeSet<Job> temp = new TreeSet<Job>(comp);
 		if(category == 0){
-			for (Job j : jobs) {
-				temp.add(j);
-			}
+			 for(Job j : jobs.values()){
+				 if(j.isVisible()){
+					 temp.add(j);
+				 }
+			 }
 		}
 		else{
-			for (Job j : jobs) {
-				if(j.getCategory() == category){
+			for (Job j : jobs.values()) {
+				if(j.getCategory() == category && j.isVisible()){
 					temp.add(j);
 				}
 			}
@@ -137,6 +138,19 @@ public class JobDAO {
 	
 	public static HashMap<Integer, String> getStatuses() {
 		return statuses;
+	}
+	
+	public Job getJob(long id){
+		return jobs.get(id);
+	}
+	
+	public synchronized void acceptOffer(long jobID, long offerID) throws SQLException{
+		String query = "UPDATE jobs SET accepted_offer_id = ? WHERE job_id = ?";
+		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
+		st.setLong(1, offerID);
+		st.setLong(2, jobID);
+		st.execute();
+		getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
 	}
 	
 }

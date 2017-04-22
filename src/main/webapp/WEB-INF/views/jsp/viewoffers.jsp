@@ -23,7 +23,11 @@
 								<p>From</p>
 								<p><a href="viewprofile?id=${offer.senderUser.id}">${offer.senderUser.firstName} ${offer.senderUser.lastName}</a></p>
 							</div>
-							<form method="GET" action="acceptoffer">
+							<div class="result-date">
+								<p>Date sent</p>
+								<p>${offer.date}</p>
+							</div>
+							<form method="POST" action="acceptoffer">
 								<input type="hidden" value="${offer.id}" name="id"/>
 								<input type="submit" id="post-job-btn\" value="Accept offer"/>
 							</form>

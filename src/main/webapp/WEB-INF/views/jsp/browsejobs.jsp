@@ -20,14 +20,25 @@
 					  <c:if test="${sortID == 2}">
 					  <option value="2" selected="selected">Price Ascending</option>
 					  </c:if>
+					  
 					  <c:if test="${sortID != 2}">
 					  <option value="2">Price Ascending</option>
 					  </c:if>
+					  
 					  <c:if test="${sortID == 3}">
 					  <option value="3" selected="selected">Price Descending</option>
 					  </c:if>
+					  
 					  <c:if test="${sortID != 3}">
 					  <option value="3">Price Descending</option>
+					  </c:if>
+					  
+					  <c:if test="${sortID == 1}">
+					  <option value="1" selected="selected">Newly posted</option>
+					  </c:if>
+					  
+					  <c:if test="${sortID != 1}">
+					  <option value="1">Newly posted</option>
 					  </c:if>
 					</select>
 					
