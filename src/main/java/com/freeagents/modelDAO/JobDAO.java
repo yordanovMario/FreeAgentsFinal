@@ -23,6 +23,8 @@ public class JobDAO {
 	
 	private static HashMap<Integer, String> statuses = new HashMap<Integer, String>();
 	
+	private static ArrayList<Job> jobsIWork = new ArrayList<Job>();
+	
 	private JobDAO(){
 		try {
 			reloadCache();
@@ -155,11 +157,21 @@ public class JobDAO {
 		return jobsUser.get(id);
 	}
 	
+	public static ArrayList<Job> getJobsIWork(long id) {
+		try {
+			jobsIWork(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jobsIWork;
+	}
+	
 	public static HashMap<Integer, String> getStatuses() {
 		return statuses;
 	}
 	
-	public Job getJob(long id){
+	public static Job getJob(long id){
 		return jobs.get(id);
 	}
 	
@@ -179,15 +191,16 @@ public class JobDAO {
 		getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
 	}
 	
-//	public synchronized void jobsIWork(long id) throws SQLException{
-//		String query = "SELECT job_id FROM jobs WHERE user_worker_id = ?";
-//		
-//		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
-//		st.setLong(1, id);
-//		ResultSet res = st.executeQuery();
-//		
-//		getJob(id)
-//		
-//	}
+	public synchronized static void jobsIWork(long id) throws SQLException{
+		String query = "SELECT job_id FROM jobs WHERE user_worker_id = ?";
+		
+		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
+		st.setLong(1, id);
+		ResultSet res = st.executeQuery();
+		while(res.next()){
+			jobsIWork.add(getJob(res.getLong("job_id")));
+		}
+		
+	}
 	
 }

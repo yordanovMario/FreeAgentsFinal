@@ -150,19 +150,18 @@ public class JobController {
 		return "login";
 	}
 	
-//	@RequestMapping(value="/jobsIwork",method = RequestMethod.GET)
-//	public String jobsIwork(Model model, HttpServletRequest request, HttpSession session) {
-//		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
-//			User u = (User) session.getAttribute("user");
-//			JobDAO.getInstance();
-//			ArrayList<Job> jobsIwork = JobDAO.jobsIWork(u.getId());
-//			request.setAttribute("user", u);
-//			request.setAttribute("jobsIwork", jobsIwork);
-//			return "jobsIwork";
-//		}
-//		else{
-//			return "login";
-//		}
-//	}
+	@RequestMapping(value="/jobsIwork",method = RequestMethod.GET)
+	public String jobsIwork(Model model, HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
+			JobDAO.getInstance();
+			request.setAttribute("jobsIwork", JobDAO.getJobsIWork(u.getId()));
+			request.setAttribute("user", u);
+			return "jobsIwork";
+		}
+		else{
+			return "login";
+		}
+	}
 	
 }

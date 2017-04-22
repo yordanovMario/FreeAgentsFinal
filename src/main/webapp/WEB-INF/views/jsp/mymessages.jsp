@@ -4,6 +4,7 @@
 				<p><a href="mymessages">My Messages</a></p>
 				<p><a href="myjobs">My Jobs</a></p>
 				<p><a href="myfeedbacks">My Feedbacks</a></p>
+				<p><a href="jobsIwork">Jobs I'm working</a></p>
  			</div>	
 		<div id="post-job">
 			<h2 id="search-offers">My Messages</h2>
