@@ -47,25 +47,16 @@ public class Job {
 		this.expire = expire;
 		LocalDateTime dateTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-		this.date = dateTime.format(formatter);
+		if(date == null){
+			this.date = dateTime.format(formatter);
+		}
+		else{
+			this.date = date;
+		}
 		this.visible = true;
 	}
-	
-	public Job(long id, User employer, User worker, String title, String description, int budget, int category, int requiredExp, boolean sponsored, int expire, String date, int status, int visibility, Offer acceptedOffer){
-		this.id = id;
-		this.employer = employer;
-		this.title = title;
-		this.description = description;
-		this.budget = budget;
-		this.category = category;
-		this.requiredExp = requiredExp;
-		this.sponsored = sponsored;
-		this.expire = expire;
-		this.date = date;
-		this.status = status;
-		this.visible = (visibility == 0 ? false : true);
-		this.worker = (worker != null ? worker : null);
-		this.acceptedOffer = (acceptedOffer != null ? acceptedOffer : null);
+	public User getWorker() {
+		return worker;
 	}
 
 	public void setWorker(User worker) {
@@ -201,9 +192,6 @@ public class Job {
 
 	public void openDispute(){
 		this.status = 6;
-	}
-	public User getWorker() {
-		return worker;
 	}
 	
 	

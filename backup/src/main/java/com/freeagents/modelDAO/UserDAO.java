@@ -62,16 +62,17 @@ public class UserDAO {
 	
 	private void reloadCache() throws SQLException{
 		if(usersUsername.isEmpty()){
-			String query = "SELECT user_id, username, password, email, first_name, last_name, level_id FROM users;";
+			String query = "SELECT user_id, username, password, email, first_name, last_name FROM users;";
 			java.sql.PreparedStatement st = DBManager.getInstance().getConnection().clientPrepareStatement(query);
 			ResultSet res = st.executeQuery();
 			User temp;
 			while(res.next()){
-				temp = new User(res.getLong("user_id"), res.getString("username"), res.getString("password"),
-						res.getString("email"),	res.getString("first_name"), res.getString("last_name"), res.getInt("level_id"));
+				temp = new User(res.getString("username"), res.getString("password"),
+						res.getString("email"),	res.getString("first_name"), res.getString("last_name"));
+				temp.setId(res.getLong("user_id"));
 				usersUsername.put(temp.getUsername(), temp);
 				usersEmail.put(temp.getEmail(), temp);
-				usersID.put(temp.getId(), temp);
+				usersID.put(res.getLong("user_id"), temp);
 			}
 		}
 		if(categories.isEmpty()){
@@ -102,7 +103,7 @@ public class UserDAO {
 
 	public synchronized void registerUser(User user) throws SQLException{
 		//String query = "INSERT INTO users (first_name, last_name, username, email, password, level_id) values (?, ?, ?, ?, ?, ?)";
-		String query = "INSERT INTO users (first_name, last_name, username, email, password, level) values (?, ?, ?, ?, md5(?), ?)";
+		String query = "INSERT INTO users (first_name, last_name, username, email, password) values (?, ?, ?, ?, md5(?))";
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
 		
 		st.setString(1, user.getFirstName());
@@ -110,7 +111,7 @@ public class UserDAO {
 		st.setString(3, user.getUsername());
 		st.setString(4, user.getEmail());
 		st.setString(5, user.getPassword());
-		st.setInt(6, 1);
+		//st.setInt(6, 1);
 		st.execute();
 		ResultSet res = st.getGeneratedKeys();
 		res.next();

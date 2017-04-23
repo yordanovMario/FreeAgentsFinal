@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Job;
+import com.freeagents.model.Offer;
 import com.freeagents.model.User;
 
 public class JobDAO {
@@ -39,18 +40,32 @@ public class JobDAO {
 	
 	private void reloadCache() throws SQLException{
 		if(jobsUser.isEmpty()){
-			String query = "SELECT job_id, title, description, budget, category_id, user_employer_id, user_worker_id, status, accepted_offer_id, date, expire, visibility, required_exp FROM jobs";
+			String query = "SELECT j.job_id, j.title, j.description, j.budget, j.category_id, j.user_worker_id, j.status, j.accepted_offer_id, j.date, j.expire, j.visibility, j.required_exp, u.username FROM jobs j JOIN users u ON j.user_employer_id = u.user_id";
 			java.sql.PreparedStatement st = DBManager.getInstance().getConnection().clientPrepareStatement(query);
 			ResultSet res = st.executeQuery();
-			User user;
+			User temp;
 			Job job;
 			while(res.next()){
-				user = UserDAO.getUserID(res.getLong("user_employer_id"));
-				job = new Job(res.getLong("job_id"), user, UserDAO.getUserID(res.getLong("user_worker_id")), res.getString("title"), 
-						res.getString("description"), res.getInt("budget"), res.getInt("category_id"), res.getInt("required_exp"), false, 
-						(res.getInt("expire") > 0 ? 7 : res.getInt("expire")), res.getString("date"), res.getInt("status"), res.getInt("visibility"), 
-						OfferDAO.getInstance().getOffer(res.getLong("accepted_offer_id")));
-				long userID = user.getId();
+				temp = UserDAO.getUser(res.getString("username"));
+				job = new Job(temp, res.getString("title"), res.getString("description"), 
+						Integer.parseInt(res.getString("budget")), Integer.parseInt(res.getString("category_id")), 
+						res.getInt("required_exp"), false, (res.getString("expire") == null ? 7 : Integer.parseInt(res.getString("expire"))), 
+						res.getString("date"));
+				job.setId(Long.parseLong(res.getString("job_id")));
+				long userID = temp.getId();
+				if(res.getString("user_worker_id") != null){
+					job.setWorker(UserDAO.getUserID(Long.parseLong(res.getString("user_worker_id"))));
+				}
+				if(res.getString("accepted_offer_id") != null){
+					job.setAcceptedOffer(OfferDAO.getInstance().getOffer(Long.parseLong(res.getString("accepted_offer_id"))));
+				}
+				if(res.getString("date") != null){
+					job.setDate(res.getString("date"));
+				}
+				if(res.getString("visibility") != null && Integer.parseInt(res.getString("visibility")) == 0){
+					job.setVisible(false);
+				}
+				job.setStatus(res.getInt("status"));
 				jobs.put(job.getId(), job);
 				if(jobsUser.containsKey(userID)){
 					jobsUser.get(userID).add(job);
@@ -140,25 +155,11 @@ public class JobDAO {
 		return jobsUser.get(id);
 	}
 	
-	public ArrayList<Job> getJobsIWork(long id){
-		ArrayList<Job> working = new ArrayList<Job>();
-		for(Job j : jobs.values()){
-			System.out.println(j);
-			if(j.getWorker() != null){
-				if(j.getWorker().getId() == id){
-					System.out.println(j);
-					working.add(j);
-				}
-			}
-		}
-		return working;
-	}
-	
 	public static HashMap<Integer, String> getStatuses() {
 		return statuses;
 	}
 	
-	public static Job getJob(long id){
+	public Job getJob(long id){
 		return jobs.get(id);
 	}
 	
@@ -167,34 +168,15 @@ public class JobDAO {
 	}
 	
 	public synchronized void acceptOffer(long jobID, long offerID) throws SQLException{
-		String query = "UPDATE jobs SET accepted_offer_id = ?, status = ?, user_worker_id = ?, visibility = ? WHERE job_id = ?";
+		String query = "UPDATE jobs SET accepted_offer_id = ?, status = ?, user_worker_id = ? WHERE job_id = ?";
 		
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
 		st.setLong(1, offerID);
 		st.setLong(2, 3);
 		st.setLong(3, OfferDAO.getInstance().getOffer(offerID).getSender());
-		st.setInt(4, 0);
-		st.setLong(5, jobID);
+		st.setLong(4, jobID);
 		st.execute();
 		getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
 	}
 	
-//	private synchronized ArrayList<Job> jobsIWork(long id) throws SQLException{
-//		ArrayList<Job> jobsIWork = new ArrayList<Job>();
-//		String query = "SELECT job_id FROM jobs WHERE user_worker_id = ?";
-//		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
-//		st.setLong(1, id);
-//		ResultSet res = st.executeQuery();
-//		while(res.next()){
-//			jobsIWork.add(getJob(res.getLong("job_id")));
-//		}
-//		for(Job j : jobs.values()){
-//			System.out.println(j);
-//			if(j.getWorker().getId() == id){
-//				System.out.println(j);
-//				jobsIWork.add(j);
-//			}
-//		}
-//		return jobsIWork;
-//	}
 }

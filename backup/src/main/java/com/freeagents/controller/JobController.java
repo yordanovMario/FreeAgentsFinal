@@ -148,18 +148,4 @@ public class JobController {
 		return "login";
 	}
 	
-	@RequestMapping(value="/jobsIwork",method = RequestMethod.GET)
-	public String jobsIwork(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
-			User u = (User) session.getAttribute("user");
-			request.setAttribute("jobsIwork", JobDAO.getInstance().getJobsIWork(u.getId()));
-			request.setAttribute("statuses", JobDAO.getStatuses());
-			request.setAttribute("user", u);
-			return "jobsIwork";
-		}
-		else{
-			return "login";
-		}
-	}
-	
 }

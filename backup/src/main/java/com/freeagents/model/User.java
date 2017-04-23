@@ -28,6 +28,10 @@ public class User {
 	private String portfolio;
 	private File avatar;
 	private ArrayList<String> skills;
+	
+	private ArrayList<Job> posted;
+	private ArrayList<Job> worked;
+	
 	private double rating;
 
 	public User(String username, String password, String email, String firstName, String lastName) {
@@ -38,17 +42,12 @@ public class User {
 		setFirstName(firstName);
 		setLastName(lastName);
 		this.level = 1;
+		this.posted = new ArrayList<Job>();
 		
 	}
 	
-	public User(long id, String username, String password, String email, String firstName, String lastName, int level){
-		setId(id);
-		setUsername(username);
-		setPassword(password);
-		setEmail(email);
-		setFirstName(firstName);
-		setLastName(lastName);
-		setLevel(level);
+	public User(){
+		
 	}
 	
 	public void setUsername(String username) {
