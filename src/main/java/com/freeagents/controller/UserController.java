@@ -1,21 +1,38 @@
 package com.freeagents.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.HashMap;
+
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.tomcat.jni.File;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.UserDAO;
 
-
+@SessionAttributes("filename")
+@MultipartConfig
 @Controller
 public class UserController {
-
+	
+	private String image;
+	private static final String FILE_LOCATION = "C:\\Users\\User\\Desktop\\uploadedpics\\";
+	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(Model model, HttpServletRequest request, HttpSession session){
 		boolean logged;
@@ -204,6 +221,25 @@ public class UserController {
 	@RequestMapping(value="/contact", method=RequestMethod.GET)
 	public String contact(Model model){
 		return "contact";
+	}
+	
+	
+	@RequestMapping(value="/uploadpic",method = RequestMethod.POST)
+	public String uploadPicture(@RequestParam("failche") MultipartFile multiPartFile, Model model, HttpSession session) throws IOException {
+		User user = (User) session.getAttribute("user");
+		long id = user.getId();
+		java.io.File fileOnDisk = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
+		Files.copy(multiPartFile.getInputStream(), fileOnDisk.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		image = fileOnDisk.getAbsolutePath();
+		model.addAttribute("fileName", image);
+		return "profile";
+	}
+	
+	@RequestMapping(value="image/{fileName}", method=RequestMethod.GET)
+	@ResponseBody
+	public void viewPicture(@PathVariable("fileName") String fileName, HttpServletResponse resp, Model model) throws IOException{
+		java.io.File file = new java.io.File(image);
+		Files.copy(file.toPath(), resp.getOutputStream());
 	}
 
 }
