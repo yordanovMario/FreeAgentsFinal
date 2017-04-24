@@ -13,13 +13,14 @@ import org.apache.commons.codec.binary.Hex;
 
 import com.freeagents.model.User;
 import com.freeagents.model.DBManager;
+import com.freeagents.model.Job;
 
 
 public class UserDAO {
 
 	private static UserDAO instance;
-	private static HashMap<String, User> usersUsername = new HashMap<String, User>();
-	private static HashMap<String, User> usersEmail = new HashMap<String, User>();
+//	private static HashMap<String, User> usersUsername = new HashMap<String, User>();
+//	private static HashMap<String, User> usersEmail = new HashMap<String, User>();
 	private static HashMap<Long, User> usersID = new HashMap<Long, User>();
 	
 	private static HashMap<Integer, String> categories = new HashMap<Integer, String>();
@@ -56,12 +57,8 @@ public class UserDAO {
 		return levels;
 	}
 	
-	public static HashMap<String, User> getUsers() {
-		return usersUsername;
-	}
-	
 	private void reloadCache() throws SQLException{
-		if(usersUsername.isEmpty()){
+		if(usersID.isEmpty()){
 			String query = "SELECT user_id, username, password, email, first_name, last_name, level_id FROM users;";
 			java.sql.PreparedStatement st = DBManager.getInstance().getConnection().clientPrepareStatement(query);
 			ResultSet res = st.executeQuery();
@@ -69,8 +66,6 @@ public class UserDAO {
 			while(res.next()){
 				temp = new User(res.getLong("user_id"), res.getString("username"), res.getString("password"),
 						res.getString("email"),	res.getString("first_name"), res.getString("last_name"), res.getInt("level_id"));
-				usersUsername.put(temp.getUsername(), temp);
-				usersEmail.put(temp.getEmail(), temp);
 				usersID.put(temp.getId(), temp);
 			}
 		}
@@ -101,7 +96,6 @@ public class UserDAO {
 	}
 
 	public synchronized void registerUser(User user) throws SQLException{
-		//String query = "INSERT INTO users (first_name, last_name, username, email, password, level_id) values (?, ?, ?, ?, ?, ?)";
 		String query = "INSERT INTO users (first_name, last_name, username, email, password, level) values (?, ?, ?, ?, md5(?), ?)";
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
 		
@@ -117,18 +111,20 @@ public class UserDAO {
 		long id = res.getLong(1);
 		user.setId(id);
 		user.setPassword(md5(user.getPassword()));
-		usersUsername.put(user.getUsername(), user);
+		usersID.put(user.getId(), user);
 	}
 		
-	public synchronized boolean validLogin(String username, String password) {
-		if(usersUsername.containsKey(username)){
-			String result = md5(password);
-			if(usersUsername.get(username).getPassword().equals(result)){
-				System.out.println("Pass and username match with DB. User " + username + " logged in.");
-				return true;
+	public synchronized User validLogin(String username, String password) {
+		for(User u : usersID.values()){
+			if(u.getUsername().equals(username)){
+				String result = md5(password);
+				if(u.getPassword().equals(result)){
+					System.out.println("Pass and username match with DB. User " + username + " logged in.");
+					return u;
+				}
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	private String md5(String pass){
@@ -146,20 +142,21 @@ public class UserDAO {
 		}
 		return pass;
 	}
-	
-	public static synchronized User getUser(String username){
-		User user = usersUsername.get(username);
-		return user;
-	}
-	
+		
 	public static synchronized User getUserID(long id){
 		User user = usersID.get(id);
 		return user;
 	}
 	
+	public HashMap<Long, User> getAllUsers(){		
+		return usersID;
+	}
+	
 	public synchronized boolean checkUser(String user, String email) {
-		if(usersUsername.containsKey(user) || usersEmail.containsKey(email)){
-			return true;
+		for(User u : usersID.values()){
+			if(u.getUsername().equals(user) || u.getEmail().equals(email)){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -206,8 +203,8 @@ public class UserDAO {
 		st.setInt(8, user.getCountry());
 		st.setLong(9, user.getId());
 		st.execute();
-		UserDAO.getUsers().remove(user.getUsername());
-		UserDAO.getUsers().put(user.getUsername(), user);
+		usersID.remove(user.getId());
+		usersID.put(user.getId(), user);
 	}
 	
 }

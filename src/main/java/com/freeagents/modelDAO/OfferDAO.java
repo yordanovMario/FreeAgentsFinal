@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Offer;
+import com.freeagents.model.User;
 
 public class OfferDAO {
 	
@@ -78,6 +79,10 @@ public class OfferDAO {
 	
 	public ArrayList<Offer> getJobOffers(long id){
 		return offers.get(id);
+	}
+	
+	public HashMap<Long, Offer> getAllOffers(){		
+		return offersID;
 	}
 	
 	public Offer getOffer(long id){

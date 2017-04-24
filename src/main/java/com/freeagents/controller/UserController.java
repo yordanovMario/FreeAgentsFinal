@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
+
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.UserDAO;
 
@@ -30,7 +33,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
-	public String profile(Model model, HttpServletRequest request, HttpSession session){
+	public String profile(HttpServletRequest request, HttpSession session){
 		if(session.getAttribute("logged") != null && session.getAttribute("user") != null){
 			if ((Boolean) session.getAttribute("logged")){
 				User user = UserDAO.getProfile((User)session.getAttribute("user"));
@@ -62,8 +65,13 @@ public class UserController {
 		}
 		String user = req.getParameter("username");
 		String pass = req.getParameter("password");
-		if(UserDAO.getInstance().validLogin(user, pass)){
-			User u = UserDAO.getUser(user);
+		User u = UserDAO.getInstance().validLogin(user, pass);
+		if(u != null){
+			if(u.getLevel() == 7){
+				session.setAttribute("user", u);
+		        session.setAttribute("logged", true);
+				return "admin/index";
+			}
 			session.setAttribute("user", u);
 	        session.setAttribute("logged", true);
 	        return "index";
@@ -75,9 +83,9 @@ public class UserController {
 		}
 	}
 	
+	
 	@RequestMapping(value="/viewprofile",method = RequestMethod.GET)
-	public String viewProfile(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
+	public String viewProfile(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
 			long id = Long.parseLong(request.getParameter("id"));
 			User temp = UserDAO.getUserID(id);

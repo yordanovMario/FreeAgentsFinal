@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Feedback;
+import com.freeagents.model.Message;
 
 public class FeedbackDAO {
 
@@ -91,7 +92,11 @@ public class FeedbackDAO {
 		return receivedUser.get(id);
 	}
 	
-	public static synchronized void readMessage(long feedbackID){
+	public HashMap<Long, Feedback> getAllFeedbacks(){		
+		return feedbacks;
+	}
+	
+	public static synchronized void readFeedback(long feedbackID){
 		feedbacks.get(feedbackID).setSeen(true);
 		
 		String query = "UPDATE feedbacks SET is_read=1 WHERE feedback_id = ?";

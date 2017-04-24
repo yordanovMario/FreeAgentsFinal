@@ -136,6 +136,10 @@ public class JobDAO {
 		return temp;
 	}
 	
+	public HashMap<Long, Job> getAllJobs(){		
+		return jobs;
+	}
+	
 	public ArrayList<Job> getMyJobs(long id){
 		return jobsUser.get(id);
 	}
@@ -187,13 +191,6 @@ public class JobDAO {
 //		ResultSet res = st.executeQuery();
 //		while(res.next()){
 //			jobsIWork.add(getJob(res.getLong("job_id")));
-//		}
-//		for(Job j : jobs.values()){
-//			System.out.println(j);
-//			if(j.getWorker().getId() == id){
-//				System.out.println(j);
-//				jobsIWork.add(j);
-//			}
 //		}
 //		return jobsIWork;
 //	}

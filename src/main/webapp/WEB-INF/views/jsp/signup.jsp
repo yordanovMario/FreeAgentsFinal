@@ -1,3 +1,4 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp" />
 		<div id="signup">
 			<h2>Sign Up</h2>
@@ -12,6 +13,7 @@
 			<p class="error">${sessionScope.notification}</p>
 			</c:if>
 			<input type="submit" id="submit-btn" value="Sign Up" />
+			<script type="in/Login"></script>
 			<p>Already registred? Click <a href="LogIn.html">here</a> to log in.</p>
 			</form>
 		</div>

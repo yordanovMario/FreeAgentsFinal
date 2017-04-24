@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.freeagents.model.DBManager;
+import com.freeagents.model.Job;
 import com.freeagents.model.Message;
 
 
@@ -109,6 +110,10 @@ public class MessageDAO {
 	
 	public static synchronized ArrayList<Message> getSent(long id){
 		return sentUser.get(id);
+	}
+	
+	public HashMap<Long, Message> getAllMessages(){		
+		return messages;
 	}
 	
 	public static synchronized void readMessage(long messageID){
