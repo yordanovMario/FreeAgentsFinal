@@ -28,7 +28,7 @@ header {
 }
 
 .flowe-logo {
-	background-image: url("img/logo.png");
+	background-image: url("../png/logo.png");
 	background-repeat: no-repeat;
 	background-position: left;
 	/*background-size:contain;*/

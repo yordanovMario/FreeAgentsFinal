@@ -19,7 +19,7 @@
 					<img src="image/${filename}">
 					<form method="POST" enctype="multipart/form-data" action="uploadpic">
 						<p>Choose a picture</p>
-						<input type="file" id="file" name="failche" accept="image/*">
+						<input type="file" id="file" name="failche" accept="image/*" required="required">
 						<input type="submit" value="Save changes">
 					</form>
 				</div>

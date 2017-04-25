@@ -7,17 +7,17 @@
 			</div>
 			<div class="tips">
 				<div>
-					<span><img src="check.png"></span>
+					<span><img src="../png/check.png"></span>
 					<p>Hire on demand</p>
 					<p>Find global talent when you need it. Stay flexible.</p>
 				</div>
 				<div>
-					<span><img src="check.png"></span>
+					<span><img src="../png/check.png"></span>
 					<p>Choose from 150k+ skills</p>
 					<p>Seamlessly access any skill or expertise at any time.</p>
 				</div>
 				<div>
-					<span><img src="check.png"></span>
+					<span><img src="../png/check.png"></span>
 					<p>Work with 50k+ qualified Freelancers</p>
 					<p>Tap into UK's most trusted freelancing community.</p>
 				</div>
