@@ -34,15 +34,18 @@ public class JobController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			User u = (User) session.getAttribute("user");
-			ArrayList<Job> jobs = JobDAO.getInstance().getMyJobs(u.getId());
+			ArrayList<Job> jobs = new ArrayList<Job>(); 
+			jobs = JobDAO.getInstance().getMyJobs(u.getId());
 			HashMap<Long, Boolean> offers = new HashMap<Long, Boolean>();
-			for(Job j : jobs){
-				offers.put(j.getId(), OfferDAO.getInstance().hasOffers(j.getId()));
+			if(jobs != null){
+				for(Job j : jobs){
+					offers.put(j.getId(), OfferDAO.getInstance().hasOffers(j.getId()));
+				}
+				request.setAttribute("user", u);
+				request.setAttribute("jobs", jobs);
+				request.setAttribute("offers", offers);
+				request.setAttribute("statuses", JobDAO.getStatuses());
 			}
-			request.setAttribute("user", u);
-			request.setAttribute("jobs", jobs);
-			request.setAttribute("offers", offers);
-			request.setAttribute("statuses", JobDAO.getStatuses());
 			return "myjobs";
 		}
 		else{
