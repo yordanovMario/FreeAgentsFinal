@@ -4,8 +4,8 @@
 				<form method="POST" action="login">
 					<input type="text" name="username" placeholder="Username" required="required"/>
 					<input type="password" name="password" placeholder="Password" required="required"/>
-					<c:if test="${not empty sessionScope.notification}">
-						<p class="error">${sessionScope.notification}</p>
+					<c:if test="${not empty sessionScope.notifsignup}">
+						<p class="error">${sessionScope.notifsignup}</p>
 					</c:if>
 					<input type="submit" id="login-btn" value="Sign In" />
 				</form>

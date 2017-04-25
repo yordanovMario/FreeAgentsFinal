@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Feedback;
-import com.freeagents.model.Message;
 
 public class FeedbackDAO {
 

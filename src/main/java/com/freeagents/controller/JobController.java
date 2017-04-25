@@ -32,6 +32,7 @@ public class JobController {
 	@RequestMapping(value="/myjobs",method = RequestMethod.GET)
 	public String myjobs(Model model, HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			User u = (User) session.getAttribute("user");
 			ArrayList<Job> jobs = JobDAO.getInstance().getMyJobs(u.getId());
 			HashMap<Long, Boolean> offers = new HashMap<Long, Boolean>();
@@ -53,6 +54,7 @@ public class JobController {
 	@RequestMapping(value="/postjob",method = RequestMethod.GET)
 	public String postjob(Model model, HttpServletRequest request, HttpSession session){
 		if (session.getAttribute("user") != null){
+			session.removeAttribute("notification");
 			HashMap<Integer, String> categories = UserDAO.getCategories();
 			request.setAttribute("categories", categories);
 			return "postjob";
@@ -71,7 +73,8 @@ public class JobController {
 		String expire = req.getParameter("expire");
 		boolean isSponsored = false;
 		String page = "index";
-		if (session.getAttribute("logged") != null || session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			User user = (User) session.getAttribute("user");
 			if(title.isEmpty() || desc.isEmpty() || budget.isEmpty() || category.isEmpty() || reqExp.isEmpty() || expire.isEmpty()){
 				valid = false;
@@ -138,6 +141,7 @@ public class JobController {
 		}
 		TreeSet<Job> jobs = JobDAO.getInstance().getAllJobs(comp, category, experience);
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			User u = (User) session.getAttribute("user");
 			request.setAttribute("user", u);
 			request.setAttribute("jobs", jobs);
@@ -151,6 +155,7 @@ public class JobController {
 	@RequestMapping(value="/jobsIwork",method = RequestMethod.GET)
 	public String jobsIwork(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			User u = (User) session.getAttribute("user");
 			request.setAttribute("jobsIwork", JobDAO.getInstance().getJobsIWork(u.getId()));
 			request.setAttribute("statuses", JobDAO.getStatuses());

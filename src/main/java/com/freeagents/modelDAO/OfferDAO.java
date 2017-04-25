@@ -5,11 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Offer;
-import com.freeagents.model.User;
 
 public class OfferDAO {
 	
@@ -71,7 +69,7 @@ public class OfferDAO {
 		long jobID = offer.getJob();
 		offersID.put(offer.getId(), offer);
 		if(!offers.containsKey(jobID)){
-			JobDAO.getInstance().getJob(offer.getJob()).setStatus(2);
+			JobDAO.getJob(offer.getJob()).setStatus(2);
 			offers.put(jobID, new ArrayList<Offer>());
 		}
 		offers.get(jobID).add(offer);

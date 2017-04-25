@@ -51,7 +51,7 @@ public class AdminController {
 				return "admin/messages";
 			}
 			else{
-				request.setAttribute("notification", "You don't have permission to access this page!");
+				session.setAttribute("notification", "You don't have permission to access this page!");
 				return "index";
 			}
 		}
@@ -71,7 +71,7 @@ public class AdminController {
 				return "admin/feedbacks";
 			}
 			else{
-				request.setAttribute("notification", "You don't have permission to access this page!");
+				session.setAttribute("notification", "You don't have permission to access this page!");
 				return "index";
 			}
 		}
@@ -91,7 +91,7 @@ public class AdminController {
 				return "jobs";
 			}
 			else{
-				request.setAttribute("notification", "You don't have permission to access this page!");
+				session.setAttribute("notification", "You don't have permission to access this page!");
 				return "index";
 			}
 		}
@@ -111,7 +111,7 @@ public class AdminController {
 				return "admin/users";
 			}
 			else{
-				request.setAttribute("notification", "You don't have permission to access this page!");
+				session.setAttribute("notification", "You don't have permission to access this page!");
 				return "index";
 			}
 		}
@@ -131,7 +131,7 @@ public class AdminController {
 				return "admin_offers";
 			}
 			else{
-				request.setAttribute("notification", "You don't have permission to access this page!");
+				session.setAttribute("notification", "You don't have permission to access this page!");
 				return "index";
 			}
 		}

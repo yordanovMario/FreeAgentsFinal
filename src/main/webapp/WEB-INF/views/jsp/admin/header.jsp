@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="logged" value="false"/>
-<c:if test="${sessionScope['logged'] eq true && not empty sessionScope['user']}">
+<c:if test="${not empty sessionScope['user']}">
 <c:set var="logged" value="true"/>
 </c:if>
 <!DOCTYPE html>
@@ -34,8 +34,10 @@
 					<div class="flowe-blue-button">
 					<p class="flowe-signup-button"><a href="signup">Sign Up</a></p>
 					</c:if>
-					
 					</div>
+					<c:if test="${notification != null}">
+					<p>${notification}</p>
+					</c:if>
 				</div>
 			</div>
 		</div>

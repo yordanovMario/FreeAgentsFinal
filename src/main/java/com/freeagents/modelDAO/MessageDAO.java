@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.freeagents.model.DBManager;
-import com.freeagents.model.Job;
 import com.freeagents.model.Message;
 
 

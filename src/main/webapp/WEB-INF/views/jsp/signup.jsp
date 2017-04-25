@@ -9,8 +9,8 @@
 			<input type="text" name="username" placeholder="Username" required="required"/>
 			<input type="password" name="password" placeholder="Password" required="required"/>
 			<input type="password" name="password2" placeholder="Confirm password" required="required"/>
-			<c:if test="${not empty sessionScope.notification}">
-			<p class="error">${sessionScope.notification}</p>
+			<c:if test="${not empty sessionScope.notifsignup}">
+			<p class="error">${sessionScope.notifsignup}</p>
 			</c:if>
 			<input type="submit" id="submit-btn" value="Sign Up" />
 			<script type="in/Login"></script>

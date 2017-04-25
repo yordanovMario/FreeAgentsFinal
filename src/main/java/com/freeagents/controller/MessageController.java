@@ -21,6 +21,7 @@ public class MessageController {
 	@RequestMapping(value="/mymessages",method = RequestMethod.GET)
 	public String myMessages(Model model, HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			User u = (User) session.getAttribute("user");
 			MessageDAO.getInstance();
 			ArrayList<Message> received = MessageDAO.getReceived(u.getId());
@@ -36,20 +37,27 @@ public class MessageController {
 	
 	@RequestMapping(value="/sendmessage", method=RequestMethod.GET)
 	public String login(HttpSession session, HttpServletRequest req) {
-		long id = Long.parseLong(req.getParameter("id"));
-		req.setAttribute("id", id);
-		req.setAttribute("receiver", UserDAO.getUserID(id));
-		return "sendmessage";
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			long id = Long.parseLong(req.getParameter("id"));
+			req.setAttribute("id", id);
+			req.setAttribute("receiver", UserDAO.getUserID(id));
+			return "sendmessage";
+		}
+		else{
+			return "login";
+		}
 	}
 	
 	@RequestMapping(value="/sendmessage",method = RequestMethod.POST)
-	public String sendmessage(Model model, HttpServletRequest request, HttpSession session) {
+	public String sendmessage(HttpServletRequest request, HttpSession session) {
 		boolean valid = true;
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String date = request.getParameter("date");
 		
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			if(request.getParameter("title") != null && request.getParameter("content") != null){
 				long id = Long.parseLong(request.getParameter("id"));
 				User receiver = UserDAO.getUserID(id);
@@ -61,12 +69,15 @@ public class MessageController {
 					Message message = new Message(sender, receiver, title, content, date);
 					MessageDAO.getInstance();
 					MessageDAO.sendMessage(message);
-					session.setAttribute("notification", "Message successfuly sent!");
+					session.setAttribute("notification", "Message successfully sent!");
 					return "index";
 				}
 				else{
-					session.setAttribute("notification", "There was a problem. Your message was not sent!");
-					return "index";
+					session.setAttribute("notification", "The data you have entered is not correct. Please correct it and try again!");
+					request.setAttribute("content", content);
+					request.setAttribute("title", title);
+					request.setAttribute("id", request.getParameter("id"));
+					return "sendfeedback";
 				}
 			}
 			else{

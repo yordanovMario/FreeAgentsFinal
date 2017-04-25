@@ -34,7 +34,7 @@ public class UserController {
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(HttpServletRequest request, HttpSession session){
 		if(session.getAttribute("user") != null){
-			User user = UserDAO.getProfile((User) session.getAttribute("username"));
+			User user = (User) session.getAttribute("user");
 			request.setAttribute("user", user);
 		}
 		return "index";
@@ -43,6 +43,7 @@ public class UserController {
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public String profile(Model model, HttpServletRequest request, HttpSession session){
 		if(session.getAttribute("user") != null){
+			session.removeAttribute("notification");
 			User user = UserDAO.getProfile((User)session.getAttribute("user"));
 			HashMap<Integer, String> levels = UserDAO.getLevels();
 			HashMap<Integer, String> countries = UserDAO.getCountries();
@@ -57,8 +58,14 @@ public class UserController {
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login(HttpSession session) {
-		session.removeAttribute("notification");
-		return "login";
+		if (session.getAttribute("user") != null) {
+			session.setAttribute("notification", "You are already logged in.");
+			return "index";
+		}
+		else{
+			session.removeAttribute("notification");
+			return "login";
+		}	
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
@@ -80,7 +87,7 @@ public class UserController {
 	        return "index";
 		}		
 		else{
-			session.setAttribute("notification", "Wrong username or password. Try again!");
+			session.setAttribute("notifsignup", "Wrong username or password. Try again!");
 			return "login";
 		}
 	}
@@ -89,6 +96,7 @@ public class UserController {
 	public String viewProfile(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			long id = Long.parseLong(request.getParameter("id"));
 			User temp = UserDAO.getUserID(id);
 			User user = UserDAO.getProfile(temp);
@@ -107,6 +115,7 @@ public class UserController {
 	public String editProfile(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			User user = (User) session.getAttribute("user");
 			String firstname = request.getParameter("firstname");
 			String lastname = request.getParameter("lastname");
@@ -159,58 +168,62 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/signup",method = RequestMethod.POST)
-	public String signup(Model model, HttpServletRequest request, HttpSession session) {
-		boolean valid = true;
-		String page = "signup";
-		String fname = request.getParameter("fname");
-		String lname = request.getParameter("lname");
-		String email = request.getParameter("email");
-		String user = request.getParameter("username");
-		String pass = request.getParameter("password");
-		String passconf	= request.getParameter("password2");
-		
-		if(fname.isEmpty() || lname.isEmpty() || email.isEmpty() || user.isEmpty() || pass.isEmpty() || passconf.isEmpty()){
-			valid = false;
+	public String signup(HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			session.setAttribute("notification", "You are already logged in.");
+			return "index";
 		}
-	
-		boolean second = true;
-		boolean third = true;
-		if(!pass.equals(passconf)){
-			session.setAttribute("notification", "Passwords don't match! Please try again.");
-			second = false;
-			return page;
-		}
-		if(UserDAO.getInstance().checkUser(user, email)){
-			session.setAttribute("notification", "Either username or email address is already taken. Please try again.");
-			third = false;
-			return page;
-		}
-		if(valid && second && third){
-			page = "login";
-			session.setAttribute("notification", "Registration successfull. Please log in to continue:");
-			try {
-				User u = new User(user, pass, email, fname, lname);
-				System.out.println(u);
-				UserDAO.getInstance().registerUser(u);
-			} catch (SQLException e) {
-				System.out.println("SignUp error - " + e.getMessage());
-				session.setAttribute("notification", "Registration failed. Please try again.");
-				return "index";
+		else{
+			boolean valid = true;
+			String fname = request.getParameter("fname");
+			String lname = request.getParameter("lname");
+			String email = request.getParameter("email");
+			String user = request.getParameter("username");
+			String pass = request.getParameter("password");
+			String passconf	= request.getParameter("password2");
+			
+			if(fname.isEmpty() || lname.isEmpty() || email.isEmpty() || user.isEmpty() || pass.isEmpty() || passconf.isEmpty()){
+				valid = false;
 			}
-			//Email sending code:
-			new com.freeagents.util.MailSender(email, "Welcome to FreeAgents!", 
-					"Hi, " + fname + "!" + System.lineSeparator() + System.lineSeparator() +
-					"Welcome to FreeAgents! Thanks so much for joining us." + System.lineSeparator() +
-					System.lineSeparator() +
-					"You are now part of our community of curated freelance talent " + System.lineSeparator() +
-					"available to work for you remotely at the click of a button." + System.lineSeparator() + 
-					"Have any questions? Just shoot us an email! We’re always here to help." + System.lineSeparator() + 
-					System.lineSeparator() +
-					"Cheerfully yours," + System.lineSeparator() +
-					"The Freeagents Team"
-					);
+		
+			boolean second = true;
+			boolean third = true;
+			if(!pass.equals(passconf)){
+				session.setAttribute("notifsignup", "Passwords don't match! Please try again.");
+				second = false;
+				return "signup";
+			}
+			if(UserDAO.getInstance().checkUser(user, email)){
+				session.setAttribute("notifsignup", "Either username or email address is already taken. Please try again.");
+				third = false;
+				return "signup";
+			}
+			if(valid && second && third){
+				try {
+					User u = new User(user, pass, email, fname, lname);
+					System.out.println(u);
+					UserDAO.getInstance().registerUser(u);
+				} catch (SQLException e) {
+					System.out.println("SignUp error - " + e.getMessage());
+					session.setAttribute("notifsignup", "Registration failed. Please try again.");
+					return "signup";
+				}
+				//Email sending code:
+				new com.freeagents.util.MailSender(email, "Welcome to FreeAgents!", 
+						"Hi, " + fname + "!" + System.lineSeparator() + System.lineSeparator() +
+						"Welcome to FreeAgents! Thanks so much for joining us." + System.lineSeparator() +
+						System.lineSeparator() +
+						"You are now part of our community of curated freelance talent " + System.lineSeparator() +
+						"available to work for you remotely at the click of a button." + System.lineSeparator() + 
+						"Have any questions? Just shoot us an email! We’re always here to help." + System.lineSeparator() + 
+						System.lineSeparator() +
+						"Cheerfully yours," + System.lineSeparator() +
+						"The Freeagents Team"
+						);
+			}
+			session.setAttribute("notifsignup", "Registration successfull. Please log in to continue:");
+			return "login";
 		}
-		return page;
 	}
 	
 	@RequestMapping(value="/contact", method=RequestMethod.GET)

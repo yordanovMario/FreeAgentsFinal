@@ -13,7 +13,6 @@ import org.apache.commons.codec.binary.Hex;
 
 import com.freeagents.model.User;
 import com.freeagents.model.DBManager;
-import com.freeagents.model.Job;
 
 
 public class UserDAO {
@@ -96,7 +95,7 @@ public class UserDAO {
 	}
 
 	public synchronized void registerUser(User user) throws SQLException{
-		String query = "INSERT INTO users (first_name, last_name, username, email, password, level) values (?, ?, ?, ?, md5(?), ?)";
+		String query = "INSERT INTO users (first_name, last_name, username, email, password, level_id) values (?, ?, ?, ?, md5(?), ?)";
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
 		
 		st.setString(1, user.getFirstName());

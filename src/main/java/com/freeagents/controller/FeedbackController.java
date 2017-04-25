@@ -1,7 +1,5 @@
 package com.freeagents.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +21,16 @@ public class FeedbackController {
 	
 	@RequestMapping(value="/sendfeedback", method=RequestMethod.GET)
 	public String login(HttpSession session, HttpServletRequest req, HttpServletResponse resp) {
-		session.removeAttribute("notification");
-		long id = Long.parseLong(req.getParameter("id"));
-		req.setAttribute("id", id);
-		req.setAttribute("receiver", UserDAO.getUserID(id));
-		return "sendfeedback";
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			long id = Long.parseLong(req.getParameter("id"));
+			req.setAttribute("id", id);
+			req.setAttribute("receiver", UserDAO.getUserID(id));
+			return "sendfeedback";
+		}
+		else{
+			return "login";
+		}
 	}
 	
 	@RequestMapping(value="/sendfeedback",method = RequestMethod.POST)
@@ -39,6 +42,7 @@ public class FeedbackController {
 		
 		if (session.getAttribute("user") != null) {
 			if(req.getParameter("content") != null && req.getParameter("rating") != null){
+				session.removeAttribute("notification");
 				long id = Long.parseLong(req.getParameter("id"));
 				User receiver = UserDAO.getUserID(id);
 				User sender = (User) session.getAttribute("user");
@@ -49,8 +53,15 @@ public class FeedbackController {
 					Feedback feedback = new Feedback(sender, receiver, content, rating, date);
 					FeedbackDAO.getInstance();
 					FeedbackDAO.sendFeedback(feedback);
-					req.setAttribute("notification", "Feedback successfuly sent!");
+					session.setAttribute("notification", "Feedback successfuly sent!");
 					return "index";
+				}
+				else{
+					session.setAttribute("notification", "The data you have entered is not correct. Please correct it and try again!");
+					req.setAttribute("content", content);
+					req.setAttribute("rating", rating);
+					req.setAttribute("id", req.getParameter("id"));
+					return "sendfeedback";
 				}
 			}
 			else{
@@ -66,6 +77,7 @@ public class FeedbackController {
 	@RequestMapping(value="/myfeedbacks",method = RequestMethod.GET)
 	public String myfeedbacks(Model model, HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
 			User u = (User) session.getAttribute("user");
 			FeedbackDAO.getInstance();
 			ArrayList<Feedback> received = FeedbackDAO.getReceived(u.getId());
