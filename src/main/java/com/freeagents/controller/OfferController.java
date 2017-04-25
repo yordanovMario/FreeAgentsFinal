@@ -22,7 +22,7 @@ public class OfferController {
 	
 	@RequestMapping(value="/viewoffers",method = RequestMethod.GET)
 	public String viewoffers(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			long id = Long.parseLong(request.getParameter("id"));
 			ArrayList<Offer> offers = OfferDAO.getInstance().getJobOffers(id);
 			if(offers != null){
@@ -40,7 +40,7 @@ public class OfferController {
 	@RequestMapping(value="/postoffer",method = RequestMethod.POST)
 	public String sendoffer(HttpServletRequest request, HttpSession session) {
 		User u = (User) session.getAttribute("user");
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			if(request.getParameter("content") != null){
 				long id = Long.parseLong(request.getParameter("id"));
 				String content = (String) request.getParameter("content");
@@ -48,14 +48,18 @@ public class OfferController {
 				Offer offer = new Offer(u.getId(), id, content, price, false);
 				try {
 					OfferDAO.getInstance().postOffer(offer);
+					session.setAttribute("notification", "Your offer was seccessfully sent to the employer");
 				} catch (SQLException e) {
 					System.out.println("Offer sending error - " + e.getMessage());
+					session.setAttribute("notification", "There was an error while processing your request. Please try again.");
+					
 				}
 				return "index";
 			}
 			else{
 				long id = Long.parseLong(request.getParameter("id"));
 				request.setAttribute("id", id);
+				session.setAttribute("notification", "The content of your offer is empty. Please try again.");
 				return "postoffer";
 			}
 		}
@@ -66,7 +70,7 @@ public class OfferController {
 	
 	@RequestMapping(value="/acceptoffer",method = RequestMethod.POST)
 	public String acceptoffer(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			long id = Long.parseLong(request.getParameter("id"));
 			long jobID = Long.parseLong(request.getParameter("jobID"));
 			try {
@@ -74,7 +78,7 @@ public class OfferController {
 				request.setAttribute("id", jobID);
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
-				request.setAttribute("notification", "An error occured during accepting your offer.");
+				request.setAttribute("notification", "An error occured during accepting the offer you wanted. Please try again");
 			}
 			return "viewoffers";
 		}

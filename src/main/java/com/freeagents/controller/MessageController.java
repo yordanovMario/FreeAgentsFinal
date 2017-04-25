@@ -20,7 +20,7 @@ public class MessageController {
 	
 	@RequestMapping(value="/mymessages",method = RequestMethod.GET)
 	public String myMessages(Model model, HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			MessageDAO.getInstance();
 			ArrayList<Message> received = MessageDAO.getReceived(u.getId());
@@ -49,7 +49,7 @@ public class MessageController {
 		String content = request.getParameter("content");
 		String date = request.getParameter("date");
 		
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			if(request.getParameter("title") != null && request.getParameter("content") != null){
 				long id = Long.parseLong(request.getParameter("id"));
 				User receiver = UserDAO.getUserID(id);

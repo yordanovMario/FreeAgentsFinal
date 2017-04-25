@@ -31,7 +31,7 @@ public class JobController {
 	
 	@RequestMapping(value="/myjobs",method = RequestMethod.GET)
 	public String myjobs(Model model, HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			ArrayList<Job> jobs = JobDAO.getInstance().getMyJobs(u.getId());
 			HashMap<Long, Boolean> offers = new HashMap<Long, Boolean>();
@@ -52,7 +52,7 @@ public class JobController {
 	
 	@RequestMapping(value="/postjob",method = RequestMethod.GET)
 	public String postjob(Model model, HttpServletRequest request, HttpSession session){
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null){
+		if (session.getAttribute("user") != null){
 			HashMap<Integer, String> categories = UserDAO.getCategories();
 			request.setAttribute("categories", categories);
 			return "postjob";
@@ -137,7 +137,7 @@ public class JobController {
 			comp = new CompByBudgetDesc();
 		}
 		TreeSet<Job> jobs = JobDAO.getInstance().getAllJobs(comp, category, experience);
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			request.setAttribute("user", u);
 			request.setAttribute("jobs", jobs);
@@ -150,7 +150,7 @@ public class JobController {
 	
 	@RequestMapping(value="/jobsIwork",method = RequestMethod.GET)
 	public String jobsIwork(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			request.setAttribute("jobsIwork", JobDAO.getInstance().getJobsIWork(u.getId()));
 			request.setAttribute("statuses", JobDAO.getStatuses());

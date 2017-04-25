@@ -32,32 +32,25 @@ public class UserController {
 	private static final String FILE_LOCATION = "D:\\uploadedpics";
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
-	public String index(Model model, HttpServletRequest request, HttpSession session){
-		boolean logged;
-		if(session.getAttribute("logged") != null && session.getAttribute("user") != null){
-			logged = (Boolean) session.getAttribute("logged");
-			if (session.getAttribute("logged") != null && logged){
-				User user = UserDAO.getProfile((User) session.getAttribute("username"));
-				request.setAttribute("user", user);
-			}
+	public String index(HttpServletRequest request, HttpSession session){
+		if(session.getAttribute("user") != null){
+			User user = UserDAO.getProfile((User) session.getAttribute("username"));
+			request.setAttribute("user", user);
 		}
 		return "index";
 	}
 
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public String profile(Model model, HttpServletRequest request, HttpSession session){
-		if(session.getAttribute("logged") != null && session.getAttribute("user") != null){
-			if ((Boolean) session.getAttribute("logged")){
-				User user = UserDAO.getProfile((User)session.getAttribute("user"));
-				HashMap<Integer, String> levels = UserDAO.getLevels();
-				HashMap<Integer, String> countries = UserDAO.getCountries();
-				request.setAttribute("user", user);
-				request.setAttribute("countries", countries);
-				request.setAttribute("levels", levels);
-				session.setAttribute("user", user);
-				return "profile";
-			}
-			return "login";
+		if(session.getAttribute("user") != null){
+			User user = UserDAO.getProfile((User)session.getAttribute("user"));
+			HashMap<Integer, String> levels = UserDAO.getLevels();
+			HashMap<Integer, String> countries = UserDAO.getCountries();
+			request.setAttribute("user", user);
+			request.setAttribute("countries", countries);
+			request.setAttribute("levels", levels);
+			session.setAttribute("user", user);
+			return "profile";
 		}
 		return "login";
 	}
@@ -81,24 +74,21 @@ public class UserController {
 		if(u != null){
 			if(u.getLevel() == 7){
 				session.setAttribute("user", u);
-		        session.setAttribute("logged", true);
 				return "admin/index";
 			}
 			session.setAttribute("user", u);
-	        session.setAttribute("logged", true);
 	        return "index";
 		}		
 		else{
-			session.setAttribute("logged", false);
 			session.setAttribute("notification", "Wrong username or password. Try again!");
 			return "login";
 		}
 	}
 	
 	@RequestMapping(value="/viewprofile",method = RequestMethod.GET)
-	public String viewProfile(Model model, HttpServletRequest request) {
+	public String viewProfile(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			long id = Long.parseLong(request.getParameter("id"));
 			User temp = UserDAO.getUserID(id);
 			User user = UserDAO.getProfile(temp);
@@ -114,9 +104,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/editdata",method = RequestMethod.POST)
-	public String editProfile(Model model, HttpServletRequest request) {
+	public String editProfile(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			String firstname = request.getParameter("firstname");
 			String lastname = request.getParameter("lastname");
@@ -152,7 +142,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
-	public String logout(Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();  
 		session.setAttribute("logged", false);
 		session.invalidate();
@@ -204,6 +194,8 @@ public class UserController {
 				UserDAO.getInstance().registerUser(u);
 			} catch (SQLException e) {
 				System.out.println("SignUp error - " + e.getMessage());
+				session.setAttribute("notification", "Registration failed. Please try again.");
+				return "index";
 			}
 			//Email sending code:
 			new com.freeagents.util.MailSender(email, "Welcome to FreeAgents!", 

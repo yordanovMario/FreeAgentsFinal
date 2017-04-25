@@ -24,7 +24,7 @@ public class AdminController {
 
 	@RequestMapping(value="admin/index",method = RequestMethod.GET)
 	public String adminSummary(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			if(user.getLevel() == 7){
 				request.setAttribute("user", user);
@@ -42,7 +42,7 @@ public class AdminController {
 	
 	@RequestMapping(value="admin/messages",method = RequestMethod.GET)
 	public String adminMessages(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			if(user.getLevel() == 7){
 				HashMap <Long, Message> messages = MessageDAO.getInstance().getAllMessages();
@@ -62,7 +62,7 @@ public class AdminController {
 	
 	@RequestMapping(value="admin/feedbacks",method = RequestMethod.GET)
 	public String adminFeedbacks(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			if(user.getLevel() == 7){
 				HashMap <Long, Feedback> feedbacks = FeedbackDAO.getInstance().getAllFeedbacks();
@@ -82,7 +82,7 @@ public class AdminController {
 	
 	@RequestMapping(value="admin/jobs",method = RequestMethod.GET)
 	public String adminJobs(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			if(user.getLevel() == 7){
 				HashMap <Long, Job> jobs = JobDAO.getInstance().getAllJobs();
@@ -102,7 +102,7 @@ public class AdminController {
 	
 	@RequestMapping(value="admin/users",method = RequestMethod.GET)
 	public String adminUsers(HttpServletRequest request, HttpSession session, @PathVariable("page") String page) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			if(user.getLevel() == 7){
 				HashMap <Long, User> users = UserDAO.getInstance().getAllUsers();
@@ -122,7 +122,7 @@ public class AdminController {
 	
 	@RequestMapping(value="admin/offers",method = RequestMethod.GET)
 	public String adminOffers(HttpServletRequest request, HttpSession session, @PathVariable("page") String page) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User user = (User) session.getAttribute("user");
 			if(user.getLevel() == 7){
 				HashMap <Long, Offer> offers = OfferDAO.getInstance().getAllOffers();

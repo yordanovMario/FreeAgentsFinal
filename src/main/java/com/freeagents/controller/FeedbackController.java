@@ -37,7 +37,7 @@ public class FeedbackController {
 		int rating = Integer.parseInt(req.getParameter("rating"));
 		String date = req.getParameter("date");
 		
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			if(req.getParameter("content") != null && req.getParameter("rating") != null){
 				long id = Long.parseLong(req.getParameter("id"));
 				User receiver = UserDAO.getUserID(id);
@@ -65,7 +65,7 @@ public class FeedbackController {
 	
 	@RequestMapping(value="/myfeedbacks",method = RequestMethod.GET)
 	public String myfeedbacks(Model model, HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("logged") != null && session.getAttribute("user") != null) {
+		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
 			FeedbackDAO.getInstance();
 			ArrayList<Feedback> received = FeedbackDAO.getReceived(u.getId());
