@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="header.jsp" />
+	
 		<section>
 		<div class="main-description">
 		<div class="main-header">
@@ -14,6 +15,14 @@
 				<p><a href="jobsIwork">Jobs I'm working</a></p>
  			</div>				
 			<div id="signup">
+				<div id="profilepic">
+					<img src="image/${filename}">
+					<form method="POST" enctype="multipart/form-data" action="uploadpic">
+						<p>Choose a picture</p>
+						<input type="file" id="file" name="failche" accept="image/*" required="required">
+						<input type="submit" value="Save changes">
+					</form>
+				</div>
 				<form method="POST" action="editdata">
 				<label for="first-name">First name</label>
 				<input type="text" id="first-name" name="firstname" value="${user.firstName}"/>
