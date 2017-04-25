@@ -128,7 +128,7 @@ public class AdminController {
 				HashMap <Long, Offer> offers = OfferDAO.getInstance().getAllOffers();
 				request.setAttribute("offers", offers);
 				request.setAttribute("user", user);
-				return "admin/offers";
+				return "admin_offers";
 			}
 			else{
 				request.setAttribute("notification", "You don't have permission to access this page!");
