@@ -40,11 +40,8 @@
 						</div>
 					</c:forEach>
 				</c:if>
-				<c:if test="${jobsIwork == ''}">
+				<c:if test="${empty jobsIwork}">
 					<h2>There are no jobs that you're working at the moment!</h2>
-				</c:if>
-				<c:if test="${jobsIwork == ''}">
-					<h2>There was error while processing your request!</h2>
 				</c:if>
 				</div>
 			<div class="post-job-account">

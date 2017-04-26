@@ -9,22 +9,27 @@
 		<div id="post-job">
 			<h2 id="search-offers">My Feedbacks</h2>
 			<div class="post-job search-job">
-				<table style="border: 1px solid black;">
-					  <tr>
-					    <th>Sender name</th>
-					    <th>Rating</th>
-					    <th>Content</th>  
-					    <th>Date & Time</th>
-					  </tr>
-					<c:forEach var="feedback" items="${feedbacks}">
-						<tr>
-						<td>${feedback.sender.firstName} ${feedback.sender.lastName}</td>
-						<td>${feedback.rating}</td>
-						<td>${feedback.content}</td>
-						<td>${feedback.date}</td>
-						</tr>
-					</c:forEach>
-				</table>
+				<c:if test="${not empty messages}">
+					<table style="border: 1px solid black;">
+						  <tr>
+						    <th>Sender name</th>
+						    <th>Rating</th>
+						    <th>Content</th>  
+						    <th>Date & Time</th>
+						  </tr>
+						<c:forEach var="feedback" items="${feedbacks}">
+							<tr>
+							<td>${feedback.sender.firstName} ${feedback.sender.lastName}</td>
+							<td>${feedback.rating}</td>
+							<td>${feedback.content}</td>
+							<td>${feedback.date}</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:if>
+				<c:if test="${empty feedbacks}">
+					<h2>You don't have any feedbacks yet!</h2>
+				</c:if>
 				</div>
 			<div class="post-job-account">
 			</div>

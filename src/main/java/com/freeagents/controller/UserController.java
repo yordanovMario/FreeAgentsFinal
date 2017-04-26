@@ -245,5 +245,14 @@ public class UserController {
 		java.io.File file = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
 		Files.copy(file.toPath(), resp.getOutputStream());
 	}
+	
+//	@RequestMapping(value="viewprofpic/{filename}", method=RequestMethod.GET)
+//	@ResponseBody
+//	public void viewProfilePicture(@PathVariable("filename") String filename, HttpServletResponse resp, HttpServletRequest request, Model model, HttpSession session) throws IOException{
+//		long id = Long.parseLong(request.getParameter("id"));
+//		request.setAttribute("profpicid", id);
+//		java.io.File file = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
+//		Files.copy(file.toPath(), resp.getOutputStream());
+//	}
 
 }
