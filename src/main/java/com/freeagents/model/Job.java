@@ -29,22 +29,8 @@ public class Job {
 		if(employer!=null){
 			this.employer = employer;
 		}
-		if(title != null && !title.isEmpty()){
-			if(description.length() < 99){
-				this.description = description;
-			}
-			else{
-				this.description = description.substring(0, 98);
-			}
-		}
-		if(description != null && !description.isEmpty()){
-			if(description.length() < 800){
-				this.description = description;
-			}
-			else{
-				this.description = description.substring(0, 799);
-			}
-		}
+		
+		setDescription(description);
 		if(budget>0){
 			this.budget = budget;
 		}
@@ -125,11 +111,25 @@ public class Job {
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		if(title != null && !title.isEmpty()){
+			if(title.length() < 99){
+				this.title = title;
+			}
+			else{
+				this.title = title.substring(0, 98);
+			}
+		}
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		if(description != null && !description.isEmpty()){
+			if(description.length() < 800){
+				this.description = description;
+			}
+			else{
+				this.description = description.substring(0, 799);
+			}
+		}
 	}
 
 	public void setBudget(int budget) {
