@@ -47,10 +47,11 @@ public class UserController {
 	public String profile(Model model, HttpServletRequest request, HttpSession session){
 		if(session.getAttribute("user") != null){
 			session.removeAttribute("notification");
-			User user = UserDAO.getProfile((User)session.getAttribute("user"));
+			User user = (User)session.getAttribute("user");
+			User userprofile = UserDAO.getProfile(user.getId());
 			HashMap<Integer, String> levels = UserDAO.getLevels();
 			HashMap<Integer, String> countries = UserDAO.getCountries();
-			request.setAttribute("user", user);
+			request.setAttribute("user", userprofile);
 			request.setAttribute("countries", countries);
 			request.setAttribute("levels", levels);
 			session.setAttribute("user", user);
@@ -100,9 +101,9 @@ public class UserController {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
-			long id = Long.parseLong(request.getParameter("id"));
-			User user = UserDAO.getProfile((User) session.getAttribute("user"));
-			request.setAttribute("userprofile", user);
+			User user = (User)session.getAttribute("user");
+			User userprofile = UserDAO.getProfile(user.getId());
+			request.setAttribute("userprofile", userprofile);
 			String country = UserDAO.getCountry(user.getCountry());
 			request.setAttribute("country", country);
 			return "viewprofile";

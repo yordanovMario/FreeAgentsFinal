@@ -89,11 +89,15 @@ public class JobController {
 					req.setAttribute("notification", "Your job was posted successfully.");
 				} catch (SQLException e) {
 					System.out.println("Job posting error - " + e.getMessage());
+					HashMap<Integer, String> categories = UserDAO.getCategories();
+					req.setAttribute("categories", categories);
 					req.setAttribute("notification", "There was an error with your job. Please try again.");
 					page = "postjob";
 				}
 			}
 			else{
+				HashMap<Integer, String> categories = UserDAO.getCategories();
+				req.setAttribute("categories", categories);
 				req.setAttribute("notification", "One ore more fields were empty. Please try again.");
 				page = "postjob";
 			}

@@ -162,7 +162,8 @@ public class UserDAO {
 		return false;
 	}
 	
-	public static synchronized User getProfile(User user){
+	public static synchronized User getProfile(long id){
+		User user = usersID.get(id);
 		String query = "SELECT username, password, email, first_name, last_name, job_title, phone, about_me, country_id, level_id, portfolio, perHourRate FROM users WHERE username = ?";
 		PreparedStatement ps;
 		try {
