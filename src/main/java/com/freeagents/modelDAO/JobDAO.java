@@ -11,6 +11,7 @@ import java.util.TreeSet;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Job;
+import com.freeagents.model.Message;
 import com.freeagents.model.Notification;
 import com.freeagents.model.Offer;
 import com.freeagents.model.User;
@@ -201,7 +202,7 @@ public class JobDAO {
 		  st2.execute();
 		  st3.execute();
 		  getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
-		  offer.getSenderUser().addNotification(new Notification("Your offer for job " + getJob(jobID).getTitle() + " was accepted from employer.", "jobsIwork"));
+		  addNotification(offer);
 		  con.commit();
 		}
 		catch(SQLException e)
@@ -215,6 +216,14 @@ public class JobDAO {
 		}
 
 		
+	}
+	
+	private static void addNotification(Offer offer){
+		offer.getSenderUser().addNotification(new Notification("Your offer for job " + getJob(offer.getJob()).getTitle() + " was accepted from employer.", 3, offer.getId()));
+	}
+	
+	private static void removeNotification(Offer offer){
+		offer.getSenderUser().removeNotification(offer.getId(), 3);
 	}
 	
 //	private synchronized ArrayList<Job> jobsIWork(long id) throws SQLException{

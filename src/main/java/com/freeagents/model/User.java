@@ -232,4 +232,44 @@ public class User {
 		this.notifications.add(notif);
 	}
 	
+	public void removeNotification(long id, int number){
+		switch (number) {
+		case 1:
+			for(Notification n : notifications){
+				if(n.messageID == id){
+					notifications.remove(n);
+					break;
+				}
+			}
+			break;
+		case 2:
+			for(Notification n : notifications){
+				if(n.feedbackID == id){
+					notifications.remove(n);
+					break;
+				}
+			}
+			break;
+		case 3:
+			for(Notification n : notifications){
+				if(n.offerID == id){
+					notifications.remove(n);
+					break;
+				}
+			}
+			break;
+		case 4:
+			for(Notification n : notifications){
+				if(n.jobID == id){
+					notifications.remove(n);
+					break;
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		
+	}
+	
 }

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.freeagents.model.DBManager;
+import com.freeagents.model.Message;
+import com.freeagents.model.Notification;
 import com.freeagents.model.Offer;
 
 public class OfferDAO {
@@ -67,12 +69,21 @@ public class OfferDAO {
 		long id = res.getLong(1);
 		offer.setId(id);
 		long jobID = offer.getJob();
+		addNotification(offer);
 		offersID.put(offer.getId(), offer);
 		if(!offers.containsKey(jobID)){
 			JobDAO.getJob(offer.getJob()).setStatus(2);
 			offers.put(jobID, new ArrayList<Offer>());
 		}
 		offers.get(jobID).add(offer);
+	}
+	
+	private static void addNotification(Offer offer){
+		JobDAO.getJob(offer.getJob()).getEmployer().addNotification(new Notification("You have one new offer from " + offer.getSenderUser().getFirstName(), 4, offer.getId()));
+	}
+	
+	private static void removeNotification(Offer offer){
+
 	}
 	
 	public ArrayList<Offer> getJobOffers(long id){
@@ -90,4 +101,5 @@ public class OfferDAO {
 	public boolean hasOffers(long id){
 		return offersID.containsKey(id);
 	}
+	
 }

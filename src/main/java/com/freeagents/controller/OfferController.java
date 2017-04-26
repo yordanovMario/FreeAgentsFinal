@@ -49,7 +49,6 @@ public class OfferController {
 				Offer offer = new Offer(u.getId(), id, content, price, false);
 				try {
 					OfferDAO.getInstance().postOffer(offer);
-					JobDAO.getJob(id).getEmployer().addNotification(new Notification("You have one new offer from " + u.getFirstName(), "viewoffers?id=" + id));
 					session.setAttribute("notification", "Your offer was seccessfully sent your offer to the employer");
 				} catch (SQLException e) {
 					System.out.println("Offer sending error - " + e.getMessage());

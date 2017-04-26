@@ -107,7 +107,11 @@ public class MessageDAO {
 	}
 	
 	private static void addNotification(Message message){
-		message.getReceiver().addNotification(new Notification("You have one new message from " + message.getSender().getFirstName(), "mymessages"));
+		message.getReceiver().addNotification(new Notification("You have one new message from " + message.getSender().getFirstName(), 1, message.getId()));
+	}
+	
+	private static void removeNotification(long id){
+		messages.get(id).getReceiver().removeNotification(id, 1);
 	}
 	
 	public static synchronized ArrayList<Message> getReceived(long id){
@@ -131,6 +135,7 @@ public class MessageDAO {
 			st = DBManager.getInstance().getConnection().prepareStatement(query);
 			st.setLong(1, messageID);
 			st.execute();
+			removeNotification(messageID);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

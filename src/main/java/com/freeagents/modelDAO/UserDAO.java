@@ -188,21 +188,34 @@ public class UserDAO {
 		return user;
 	}
 	
+//	public static synchronized void updateProfile(User user) throws SQLException{
+//		String query = "UPDATE users SET first_name=?, last_name=?, job_title=?, phone=?, perHourRate=?, about_me=?, portfolio=?, country_id=? WHERE user_id=?;";
+//		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
+//		st.setString(1, user.getFirstName());
+//		st.setString(2, user.getLastName());
+//		st.setString(3, user.getJobTitle());
+//		st.setString(4, user.getPhone());
+//		st.setInt(5, user.getPerHourRate());
+//		st.setString(6, user.getAboutMe());
+//		st.setString(7, user.getPortfolio());
+//		st.setInt(8, user.getCountry());
+//		st.setLong(9, user.getId());
+//		st.execute();
+//		usersID.put(user.getId(), user);
+//	}
 	public static synchronized void updateProfile(User user) throws SQLException{
-		String query = "UPDATE users SET first_name=?, last_name=?, job_title=?, phone=?, perHourRate=?, about_me=?, portfolio=?, country_id=? WHERE user_id=?;";
+		String query = "UPDATE users job_title=?, phone=?, perHourRate=?, about_me=?, portfolio=?, country_id=? WHERE user_id=?;";
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
-		st.setString(1, user.getFirstName());
-		st.setString(2, user.getLastName());
-		st.setString(3, user.getJobTitle());
-		st.setString(4, user.getPhone());
-		st.setInt(5, user.getPerHourRate());
-		st.setString(6, user.getAboutMe());
-		st.setString(7, user.getPortfolio());
-		st.setInt(8, user.getCountry());
-		st.setLong(9, user.getId());
+		st.setString(1, user.getJobTitle());
+		st.setString(2, user.getPhone());
+		st.setInt(3, user.getPerHourRate());
+		st.setString(4, user.getAboutMe());
+		st.setString(5, user.getPortfolio());
+		st.setInt(6, user.getCountry());
+		st.setLong(7, user.getId());
 		st.execute();
+		usersID.remove(user.getId());
 		usersID.put(user.getId(), user);
 	}
-	
 }
 

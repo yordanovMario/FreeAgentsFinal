@@ -91,7 +91,7 @@ public class FeedbackDAO {
 	}
 	
 	private static void addNotification(Feedback feedback){
-		feedback.getReceiver().addNotification(new Notification("You have new feedback posted from " + feedback.getSender().getFirstName(), "myfeedbacks"));
+		feedback.getReceiver().addNotification(new Notification("You have new feedback posted from " + feedback.getSender().getFirstName(), 2, feedback.getId()));
 	}	
 	
 	public static synchronized ArrayList<Feedback> getReceived(long id){
