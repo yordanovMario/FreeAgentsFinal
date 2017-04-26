@@ -9,7 +9,7 @@
 		<div id="post-job">
 			<h2 id="search-offers">My Feedbacks</h2>
 			<div class="post-job search-job">
-				<c:if test="${not empty messages}">
+				<c:if test="${not empty feedbacks}">
 					<table style="border: 1px solid black;">
 						  <tr>
 						    <th>Sender name</th>

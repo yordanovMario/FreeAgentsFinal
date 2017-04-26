@@ -152,7 +152,6 @@ public class JobDAO {
 		ArrayList<Job> working = new ArrayList<Job>();
 		removeNotification(-2, id);
 		for(Job j : jobs.values()){
-			System.out.println(j);
 			if(j.getWorker() != null){
 				if(j.getWorker().getId() == id){
 					System.out.println(j);

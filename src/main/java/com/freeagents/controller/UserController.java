@@ -37,6 +37,7 @@ public class UserController {
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(HttpServletRequest request, HttpSession session){
 		if(session.getAttribute("user") != null){
+			request.removeAttribute("notification");
 			User user = (User) session.getAttribute("user");
 			request.setAttribute("user", user);
 		}
@@ -68,6 +69,7 @@ public class UserController {
 		}
 		else{
 			session.removeAttribute("notification");
+			session.removeAttribute("notifsignup");
 			return "login";
 		}	
 	}

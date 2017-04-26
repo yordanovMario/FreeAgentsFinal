@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.freeagents.model.Job;
-import com.freeagents.model.Notification;
 import com.freeagents.model.Offer;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.JobDAO;
@@ -38,18 +36,34 @@ public class OfferController {
 		}
 	}
 	
+	@RequestMapping(value="/postoffer", method=RequestMethod.GET)
+	public String postoffer(HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			request.setAttribute("id", request.getParameter("id"));
+			return "postoffer";
+		}
+		else{
+			session.removeAttribute("notification");
+			session.removeAttribute("notifsignup");
+			return "login";
+		}	
+	}
+	
 	@RequestMapping(value="/postoffer",method = RequestMethod.POST)
 	public String sendoffer(HttpServletRequest request, HttpSession session) {
-		User u = (User) session.getAttribute("user");
+		User u;
+		long id;
 		if (session.getAttribute("user") != null) {
 			if(request.getParameter("content") != null){
-				long id = Long.parseLong(request.getParameter("id"));
+				session.removeAttribute("notification");
+				id = Long.parseLong(request.getParameter("id"));
 				String content = (String) request.getParameter("content");
 				int price = Integer.parseInt(request.getParameter("price"));
+				u = (User) session.getAttribute("user");
 				Offer offer = new Offer(u.getId(), id, content, price, false);
 				try {
 					OfferDAO.getInstance().postOffer(offer);
-					session.setAttribute("notification", "Your offer was seccessfully sent your offer to the employer");
+					session.setAttribute("notification", "Your offer was seccessfully sent to the employer");
 				} catch (SQLException e) {
 					System.out.println("Offer sending error - " + e.getMessage());
 					session.setAttribute("notification", "There was an error while processing your request. Please try again.");
@@ -58,7 +72,7 @@ public class OfferController {
 				return "index";
 			}
 			else{
-				long id = Long.parseLong(request.getParameter("id"));
+				id = Long.parseLong(request.getParameter("id"));
 				request.setAttribute("id", id);
 				session.setAttribute("notification", "The content of your offer is empty. Please try again.");
 				return "postoffer";

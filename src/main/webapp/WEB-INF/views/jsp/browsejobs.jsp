@@ -112,7 +112,7 @@
 						<p>Date posted</p>
 						<p>${job.date}</p>
 					</div>
-					<form method="POST" action="postoffer">
+					<form method="GET" action="postoffer">
 						<input type="hidden" value="${job.id}"name="id">
 						<input type="submit" id="post-job-btn" value="Send Offer" />
 					</form>
