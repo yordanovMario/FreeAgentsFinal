@@ -101,7 +101,8 @@ public class UserController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			long id = Long.parseLong(request.getParameter("id"));
-			User user = UserDAO.getProfile((User) session.getAttribute("user"));
+			User temp = UserDAO.getUserID(id);
+			User user = UserDAO.getProfile(temp);
 			request.setAttribute("userprofile", user);
 			String country = UserDAO.getCountry(user.getCountry());
 			request.setAttribute("country", country);
