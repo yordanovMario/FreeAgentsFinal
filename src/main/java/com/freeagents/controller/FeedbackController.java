@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.freeagents.model.Feedback;
+import com.freeagents.model.Notification;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.FeedbackDAO;
 import com.freeagents.modelDAO.UserDAO;
@@ -53,6 +54,7 @@ public class FeedbackController {
 					Feedback feedback = new Feedback(sender, receiver, content, rating, date);
 					FeedbackDAO.getInstance();
 					FeedbackDAO.sendFeedback(feedback);
+					
 					session.setAttribute("notification", "Feedback successfuly sent!");
 					return "index";
 				}

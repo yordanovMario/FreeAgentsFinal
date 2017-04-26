@@ -14,28 +14,60 @@ public class Feedback {
 	private boolean isRead;
 	
 	public Feedback(User sender, User receiver, String content, int rating, String date) {
-		if(content!=null && !content.isEmpty()){
-			this.content = content;
+		setContent(content);
+		setRating(rating);
+		setDate(date);
+		setReceiver(receiver);
+		setSender(sender);
+		this.isRead = false;
+	}
+	
+	public Feedback(long id, String content, User sender, User receiver, String date, int rating, int isRead) {
+		this.id = id;
+		this.content = content;
+		this.sender = sender;
+		this.receiver = receiver;
+		this.date = date;
+		this.rating = rating;
+		this.isRead = (isRead == 0 ? false : true);
+	}
+
+	private void setContent(String content) {
+		if(content != null && !content.isEmpty()){
+			if(content.length() < 400){
+				this.content = content;
+			}
+			else{
+				this.content = content.substring(0,399);
+			}
 		}
-		if(sender!=null){
+	}
+
+	private void setSender(User sender) {
+		if(sender != null){
 			this.sender = sender;
 		}
-		if(sender!=null){
+	}
+
+	private void setReceiver(User receiver) {
+		if(receiver != null){
 			this.receiver = receiver;
 		}
-		if(date == null){
-			LocalDateTime dateTime = LocalDateTime.now();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-			this.date = dateTime.format(formatter);
-		}
-		else{
-			this.date = date;
-		}
+	}
+
+	private void setRating(int rating) {
 		if(rating >=1 && rating <= 5){
 			this.rating = rating;
 		}
-		this.isRead = false;
+		else{
+			this.rating = 3;
+		}
 	}
+
+	private void setRead(boolean isRead) {
+		this.isRead = isRead;
+	}
+
 	
 	public String getContent() {
 		return content;
@@ -46,7 +78,9 @@ public class Feedback {
 	}
 	
 	public void setDate(String date) {
-		this.date = date;
+		LocalDateTime dateTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+		this.date = dateTime.format(formatter);
 	}
 	
 	public User getSender() {

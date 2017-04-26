@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.freeagents.model.Job;
+import com.freeagents.model.Notification;
 import com.freeagents.model.Offer;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.JobDAO;
@@ -47,7 +49,8 @@ public class OfferController {
 				Offer offer = new Offer(u.getId(), id, content, price, false);
 				try {
 					OfferDAO.getInstance().postOffer(offer);
-					session.setAttribute("notification", "Your offer was seccessfully sent to the employer");
+					JobDAO.getJob(id).getEmployer().addNotification(new Notification("You have one new offer from " + u.getFirstName(), "viewoffers?id=" + id));
+					session.setAttribute("notification", "Your offer was seccessfully sent your offer to the employer");
 				} catch (SQLException e) {
 					System.out.println("Offer sending error - " + e.getMessage());
 					session.setAttribute("notification", "There was an error while processing your request. Please try again.");

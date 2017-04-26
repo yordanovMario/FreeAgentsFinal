@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Feedback;
+import com.freeagents.model.Message;
+import com.freeagents.model.Notification;
 
 public class FeedbackDAO {
 
@@ -41,10 +43,11 @@ public class FeedbackDAO {
 				while(res.next()){
 					sender = res.getLong("sender_id");
 					receiver = res.getLong("receiver_id");
-					feedback = new Feedback(UserDAO.getUserID(sender), UserDAO.getUserID(receiver), 
-									res.getString("content"), Integer.parseInt(res.getString("rating")), res.getString("date"));
-					feedback.setId(Long.parseLong(res.getString("feedback_id")));
-					feedback.setSeen(Integer.parseInt(res.getString("is_read")) == 0 ? false : true);
+					feedback = new Feedback(res.getLong("feedback_id"), res.getString("content"), UserDAO.getUserID(sender), UserDAO.getUserID(receiver), 
+							res.getString("date"), res.getInt("rating"), res.getInt("is_read"));
+					if(res.getInt("is_read") == 0){
+						addNotification(feedback);
+					}
 					feedbacks.put(feedback.getId(), feedback);
 					if(!receivedUser.containsKey(receiver)){
 						receivedUser.put(receiver, new ArrayList<Feedback>());
@@ -81,11 +84,15 @@ public class FeedbackDAO {
 			res.next();
 			long id = res.getLong(1);
 			feedback.setId(id);
+			addNotification(feedback);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	private static void addNotification(Feedback feedback){
+		feedback.getReceiver().addNotification(new Notification("You have new feedback posted from " + feedback.getSender().getFirstName(), "myfeedbacks"));
+	}	
 	
 	public static synchronized ArrayList<Feedback> getReceived(long id){
 		return receivedUser.get(id);

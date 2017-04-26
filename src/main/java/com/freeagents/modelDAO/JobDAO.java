@@ -1,5 +1,6 @@
 package com.freeagents.modelDAO;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,8 @@ import java.util.TreeSet;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Job;
+import com.freeagents.model.Notification;
+import com.freeagents.model.Offer;
 import com.freeagents.model.User;
 
 public class JobDAO {
@@ -171,16 +174,47 @@ public class JobDAO {
 	}
 	
 	public synchronized void acceptOffer(long jobID, long offerID) throws SQLException{
-		String query = "UPDATE jobs SET accepted_offer_id = ?, status = ?, user_worker_id = ?, visibility = ? WHERE job_id = ?";
+		String query1 = "UPDATE jobs SET accepted_offer_id = ?, status = ?, user_worker_id = ?, visibility = ? WHERE job_id = ?";
+		Connection con = null;
+		Offer offer = OfferDAO.getInstance().getOffer(offerID);
+		PreparedStatement st1 = DBManager.getInstance().getConnection().prepareStatement(query1);
+		st1.setLong(1, offerID);
+		st1.setLong(2, 3);
+		st1.setLong(3, offer.getSender());
+		st1.setInt(4, 0);
+		st1.setLong(5, jobID);
 		
-		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
-		st.setLong(1, offerID);
-		st.setLong(2, 3);
-		st.setLong(3, OfferDAO.getInstance().getOffer(offerID).getSender());
-		st.setInt(4, 0);
-		st.setLong(5, jobID);
-		st.execute();
-		getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
+		String query2 = "INSERT INTO workersww (employer_id, worker_id) values (?, ?)";
+		PreparedStatement st2 = DBManager.getInstance().getConnection().prepareStatement(query2);
+		st2.setLong(1, getJob(jobID).getEmployer().getId());
+		st2.setLong(2, offer.getSender());
+		
+		String query3 = "INSERT INTO employersww (employer_id, worker_id) values (?, ?)";
+		PreparedStatement st3 = DBManager.getInstance().getConnection().prepareStatement(query3);
+		st2.setLong(1, getJob(jobID).getEmployer().getId());
+		st2.setLong(2, offer.getSender());
+		
+		try
+		{
+		  con.setAutoCommit(false);
+		  st1.execute();
+		  st2.execute();
+		  st3.execute();
+		  getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
+		  offer.getSenderUser().addNotification(new Notification("Your offer for job " + getJob(jobID).getTitle() + " was accepted from employer.", "jobsIwork"));
+		  con.commit();
+		}
+		catch(SQLException e)
+		{
+		  System.out.println(e.getMessage());
+		  con.rollback();
+		}
+		finally
+		{
+		   con.close();
+		}
+
+		
 	}
 	
 //	private synchronized ArrayList<Job> jobsIWork(long id) throws SQLException{

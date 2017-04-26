@@ -2,6 +2,7 @@ package com.freeagents.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class User {
 	
@@ -30,6 +31,7 @@ public class User {
 	private File avatar;
 	private ArrayList<String> skills;
 	private double rating;
+	private TreeSet<Notification> notifications;
 
 	public User(String username, String password, String email, String firstName, String lastName) {
 		setUsername(username);
@@ -225,5 +227,9 @@ public class User {
 	public long getId() {
 		return id;
 	}
-		
+	
+	public void addNotification(Notification notif){
+		this.notifications.add(notif);
+	}
+	
 }

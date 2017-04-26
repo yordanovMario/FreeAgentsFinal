@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Message;
+import com.freeagents.model.Notification;
 
 
 public class MessageDAO {
@@ -45,7 +46,10 @@ public class MessageDAO {
 					sender = res.getLong("sender_id");
 					receiver = res.getLong("receiver_id");
 					message = new Message(res.getLong("message_id"), sender, receiver, res.getString("title"), 
-							res.getString("content"), res.getString("date"), Integer.parseInt(res.getString("is_read")));
+							res.getString("content"), res.getString("date"), res.getInt("is_read"));
+					if(res.getInt("is_read") == 0){
+						addNotification(message);
+					}
 					messages.put(message.getId(), message);
 					if(!receivedUser.containsKey(receiver)){
 						receivedUser.put(receiver, new ArrayList<Message>());
@@ -95,10 +99,15 @@ public class MessageDAO {
 			res.next();
 			long id = res.getLong(1);
 			message.setId(id);
+			addNotification(message);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private static void addNotification(Message message){
+		message.getReceiver().addNotification(new Notification("You have one new message from " + message.getSender().getFirstName(), "mymessages"));
 	}
 	
 	public static synchronized ArrayList<Message> getReceived(long id){
