@@ -101,16 +101,15 @@ public class UserController {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
-			User user = (User)session.getAttribute("user");
-			User userprofile = UserDAO.getProfile(user.getId());
+			long id = Long.parseLong(request.getParameter("id"));
+			User userprofile = UserDAO.getProfile(id);
 			request.setAttribute("userprofile", userprofile);
-			String country = UserDAO.getCountry(user.getCountry());
+			String country = UserDAO.getCountry(userprofile.getCountry());
 			request.setAttribute("country", country);
 			return "viewprofile";
 		}
 		else{
 			return "login";
-			
 		}
 	}
 
