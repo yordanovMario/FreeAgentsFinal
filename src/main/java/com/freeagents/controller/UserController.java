@@ -240,11 +240,9 @@ public class UserController {
 		return "profile";
 	}
 	
-	@RequestMapping(value="image/{fileName}", method=RequestMethod.GET)
+	@RequestMapping(value="image/{id}", method=RequestMethod.GET)
 	@ResponseBody
-	public void viewPicture(@PathVariable("fileName") String fileName, HttpServletResponse resp, Model model, HttpSession session) throws IOException{
-		User user = (User) session.getAttribute("user");
-		long id = user.getId();
+	public void viewPicture(@PathVariable("id") Long id, HttpServletResponse resp, Model model, HttpSession session) throws IOException{
 		java.io.File file = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
 		Files.copy(file.toPath(), resp.getOutputStream());
 	}

@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp" />
 		<div id="signup">
-				<p><img src="image/${filename}"></p>
+				<p><img src="image/${userprofile.id}"></p>
 				<label for="first-name">First name</label>
 				<p>${userprofile.firstName}</p>
 				<label for="last-name">Last name</label>

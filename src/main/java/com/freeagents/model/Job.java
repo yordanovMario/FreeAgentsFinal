@@ -26,23 +26,11 @@ public class Job {
 	private int expire;
 
 	public Job(User employer, String title, String description, int budget, int category, int requiredExp, boolean sponsored, int expire, String date) {
-		if(employer!=null){
-			this.employer = employer;
-		}
-		
+		setEmployer(employer);
+		setTitle(title);
 		setDescription(description);
-		if(budget>0){
-			this.budget = budget;
-		}
-		else{
-			this.budget = 0;
-		}
-		if(budget > 1000000){
-			this.budget = 1000000;
-		}
-		if(category > 0 && category!=0 && category <= 16){
-			this.category = category;
-		}
+		setBudget(budget);
+		setCategory(category);
 		this.sponsored = sponsored;
 		this.requiredExp = requiredExp;
 		this.status = 1;
@@ -107,7 +95,9 @@ public class Job {
 	}
 
 	public void setEmployer(User employer) {
-		this.employer = employer;
+		if(employer!=null){
+			this.employer = employer;
+		}
 	}
 
 	public void setTitle(String title) {
@@ -133,11 +123,21 @@ public class Job {
 	}
 
 	public void setBudget(int budget) {
-		this.budget = budget;
+		if(budget>0){
+			this.budget = budget;
+		}
+		else{
+			this.budget = 0;
+		}
+		if(budget > 1000000){
+			this.budget = 1000000;
+		}
 	}
 
 	public void setCategory(int category) {
-		this.category = category;
+		if(category > 0 && category!=0 && category <= 16){
+			this.category = category;
+		}
 	}
 
 	public void setVisible(boolean visible) {

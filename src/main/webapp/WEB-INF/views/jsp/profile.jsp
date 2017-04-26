@@ -15,7 +15,7 @@
  			</div>				
 			<div id="signup">
 				<div id="profilepic">
-					<img src="image/${filename}">
+					<img src="image/${user.id}">
 					<form method="POST" enctype="multipart/form-data" action="uploadpic">
 						<p>Choose a picture</p>
 						<input type="file" id="file" name="failche" accept="image/*" required="required">
