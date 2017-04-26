@@ -29,16 +29,32 @@ public class Job {
 		if(employer!=null){
 			this.employer = employer;
 		}
-		if(title!=null && !title.isEmpty()){
-			this.title = title;
+		if(title != null && !title.isEmpty()){
+			if(description.length() < 99){
+				this.description = description;
+			}
+			else{
+				this.description = description.substring(0, 98);
+			}
 		}
-		if(description!=null && !description.isEmpty()){
-			this.description = description;
+		if(description != null && !description.isEmpty()){
+			if(description.length() < 800){
+				this.description = description;
+			}
+			else{
+				this.description = description.substring(0, 799);
+			}
 		}
 		if(budget>0){
 			this.budget = budget;
 		}
-		if(category!=0 && category <= 16){
+		else{
+			this.budget = 0;
+		}
+		if(budget > 1000000){
+			this.budget = 1000000;
+		}
+		if(category > 0 && category!=0 && category <= 16){
 			this.category = category;
 		}
 		this.sponsored = sponsored;

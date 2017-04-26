@@ -44,10 +44,8 @@ public class MessageDAO {
 				while(res.next()){
 					sender = res.getLong("sender_id");
 					receiver = res.getLong("receiver_id");
-					message = new Message(UserDAO.getUserID(sender), UserDAO.getUserID(receiver), 
-									res.getString("title"), res.getString("content"), res.getString("date"));
-					message.setId(Long.parseLong(res.getString("message_id")));
-					message.setRead(Integer.parseInt(res.getString("is_read")) == 0 ? false : true);
+					message = new Message(res.getLong("message_id"), sender, receiver, res.getString("title"), 
+							res.getString("content"), res.getString("date"), Integer.parseInt(res.getString("is_read")));
 					messages.put(message.getId(), message);
 					if(!receivedUser.containsKey(receiver)){
 						receivedUser.put(receiver, new ArrayList<Message>());

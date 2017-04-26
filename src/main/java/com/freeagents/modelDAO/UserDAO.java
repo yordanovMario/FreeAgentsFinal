@@ -97,7 +97,6 @@ public class UserDAO {
 	public synchronized void registerUser(User user) throws SQLException{
 		String query = "INSERT INTO users (first_name, last_name, username, email, password, level_id) values (?, ?, ?, ?, md5(?), ?)";
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
-		
 		st.setString(1, user.getFirstName());
 		st.setString(2, user.getLastName());
 		st.setString(3, user.getUsername());
@@ -202,7 +201,6 @@ public class UserDAO {
 		st.setInt(8, user.getCountry());
 		st.setLong(9, user.getId());
 		st.execute();
-		usersID.remove(user.getId());
 		usersID.put(user.getId(), user);
 	}
 	

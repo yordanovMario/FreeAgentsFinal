@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.NestedServletException;
 
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.UserDAO;
@@ -117,29 +118,20 @@ public class UserController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			User user = (User) session.getAttribute("user");
-			String firstname = request.getParameter("firstname");
-			String lastname = request.getParameter("lastname");
-			String jobtitle = request.getParameter("jobtitle");
-			String phone = request.getParameter("phone");
-			int perhourrate = Integer.parseInt(request.getParameter("perhourrate"));
-			String aboutme = request.getParameter("aboutme");
-			String portfolio = request.getParameter("portfolio");
-			int country = Integer.parseInt(request.getParameter("country"));
-			user.setFirstName(firstname);
-			user.setLastName(lastname);
-			user.setJobTitle(jobtitle);
-			user.setPhone(phone);
-			user.setPerHourRate(perhourrate);
-			user.setAboutMe(aboutme);
-			user.setPortfolio(portfolio);
-			user.setCountry(country);
+			user.setFirstName(request.getParameter("firstname"));
+			user.setLastName(request.getParameter("lastname"));
+			user.setJobTitle(request.getParameter("jobtitle"));
+			user.setPhone(request.getParameter("phone"));
+			user.setPerHourRate(Integer.parseInt(request.getParameter("perhourrate")));
+			user.setAboutMe(request.getParameter("aboutme"));
+			user.setPortfolio(request.getParameter("portfolio"));
+			user.setCountry(Integer.parseInt(request.getParameter("country")));
 			try {
 				UserDAO.updateProfile(user);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			HashMap<Integer, String> countries = UserDAO.getCountries();
-			session.removeAttribute("user");
 			session.setAttribute("user", user);
 			session.setAttribute("countries", countries);
 			return "profile";
@@ -209,17 +201,21 @@ public class UserController {
 					return "signup";
 				}
 				//Email sending code:
-				new com.freeagents.util.MailSender(email, "Welcome to FreeAgents!", 
-						"Hi, " + fname + "!" + System.lineSeparator() + System.lineSeparator() +
-						"Welcome to FreeAgents! Thanks so much for joining us." + System.lineSeparator() +
-						System.lineSeparator() +
-						"You are now part of our community of curated freelance talent " + System.lineSeparator() +
-						"available to work for you remotely at the click of a button." + System.lineSeparator() + 
-						"Have any questions? Just shoot us an email! We’re always here to help." + System.lineSeparator() + 
-						System.lineSeparator() +
-						"Cheerfully yours," + System.lineSeparator() +
-						"The Freeagents Team"
-						);
+				try{
+					new com.freeagents.util.MailSender(email, "Welcome to FreeAgents!", 
+							"Hi, " + fname + "!" + System.lineSeparator() + System.lineSeparator() +
+							"Welcome to FreeAgents! Thanks so much for joining us." + System.lineSeparator() +
+							System.lineSeparator() +
+							"You are now part of our community of curated freelance talent " + System.lineSeparator() +
+							"available to work for you remotely at the click of a button." + System.lineSeparator() + 
+							"Have any questions? Just shoot us an email! We’re always here to help." + System.lineSeparator() + 
+							System.lineSeparator() +
+							"Cheerfully yours," + System.lineSeparator() +
+							"The Freeagents Team"
+							);
+				} catch(NoClassDefFoundError e){
+					System.out.println("ERROR in mailsending for registration in UserController");
+				}
 			}
 			session.setAttribute("notifsignup", "Registration successfull. Please log in to continue:");
 			return "login";

@@ -83,11 +83,16 @@ public class JobController {
 				Job job = new Job(user, title, desc, Integer.parseInt(budget), Integer.parseInt(category), Integer.parseInt(reqExp), isSponsored, Integer.parseInt(expire), null);
 				try {
 					JobDAO.getInstance().postJob(job);
+					req.setAttribute("notification", "Your job was posted successfully.");
 				} catch (SQLException e) {
 					System.out.println("Job posting error - " + e.getMessage());
 					req.setAttribute("notification", "There was an error with your job. Please try again.");
 					page = "postjob";
 				}
+			}
+			else{
+				req.setAttribute("notification", "One ore more fields were empty. Please try again.");
+				page = "postjob";
 			}
 		}
 		return page;
