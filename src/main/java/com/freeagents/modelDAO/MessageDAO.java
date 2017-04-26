@@ -107,11 +107,11 @@ public class MessageDAO {
 	}
 	
 	private static void addNotification(Message message){
-		message.getReceiver().addNotification(new Notification("You have one new message from " + message.getSender().getFirstName(), 1, message.getId()));
+		message.getReceiver().addNotification(new Notification(message.getSender().getFirstName(), 1, message.getId()));
 	}
 	
-	private static void removeNotification(long id){
-		messages.get(id).getReceiver().removeNotification(id, 1);
+	private static void removeNotification(long notificationId, long userId){
+		UserDAO.getUserID(userId).removeNotification(notificationId);
 	}
 	
 	public static synchronized ArrayList<Message> getReceived(long id){
@@ -126,8 +126,9 @@ public class MessageDAO {
 		return messages;
 	}
 	
-	public static synchronized void readMessage(long messageID){
-		messages.get(messageID).setRead(true);
+	public static synchronized Message readMessage(long messageID, long notificationID){
+		Message message = messages.get(messageID);
+		message.setRead(true);
 		
 		String query = "UPDATE messages SET is_read=1 WHERE message_id = ?";
 		PreparedStatement st;
@@ -135,10 +136,13 @@ public class MessageDAO {
 			st = DBManager.getInstance().getConnection().prepareStatement(query);
 			st.setLong(1, messageID);
 			st.execute();
-			removeNotification(messageID);
+			if(notificationID != 0){
+				removeNotification(notificationID, message.getReceiver().getId());
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return message;
 	}
 	
 }

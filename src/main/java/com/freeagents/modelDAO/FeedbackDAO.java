@@ -91,7 +91,11 @@ public class FeedbackDAO {
 	}
 	
 	private static void addNotification(Feedback feedback){
-		feedback.getReceiver().addNotification(new Notification("You have new feedback posted from " + feedback.getSender().getFirstName(), 2, feedback.getId()));
+		feedback.getReceiver().addNotification(new Notification(feedback.getSender().getFirstName(), 2, feedback.getId()));
+	}
+	
+	private static void removeNotification(long notificationId, long userId){
+		UserDAO.getUserID(userId).removeNotification(notificationId);
 	}	
 	
 	public static synchronized ArrayList<Feedback> getReceived(long id){
@@ -102,17 +106,22 @@ public class FeedbackDAO {
 		return feedbacks;
 	}
 	
-	public static synchronized void readFeedback(long feedbackID){
-		feedbacks.get(feedbackID).setSeen(true);
-		
+	public static synchronized Feedback readFeedback(long feedbackID, long notificationID){
+		Feedback feedback = feedbacks.get(feedbackID);
+		feedback.setSeen(true);
 		String query = "UPDATE feedbacks SET is_read=1 WHERE feedback_id = ?";
 		PreparedStatement st;
 		try {
 			st = DBManager.getInstance().getConnection().prepareStatement(query);
 			st.setLong(1, feedbackID);
 			st.execute();
+			if(notificationID != 0){
+				removeNotification(feedbackID, notificationID);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return feedback;
 	}
 }

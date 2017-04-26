@@ -6,13 +6,16 @@ import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.apache.commons.codec.binary.Hex;
 
 import com.freeagents.model.User;
 import com.freeagents.model.DBManager;
+import com.freeagents.model.Notification;
 
 
 public class UserDAO {
@@ -216,6 +219,14 @@ public class UserDAO {
 		st.execute();
 		usersID.remove(user.getId());
 		usersID.put(user.getId(), user);
+	}
+	
+	public static ArrayList<Notification> getNotifications(User user){
+		ArrayList<Notification> notifications = new ArrayList<Notification>();
+		for(Notification n : usersID.get(user.getId()).getNotifications().values()){
+			notifications.add(n);
+		}
+		return notifications;
 	}
 }
 

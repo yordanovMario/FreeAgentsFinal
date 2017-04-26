@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.freeagents.model.Feedback;
+import com.freeagents.model.Message;
 import com.freeagents.model.Notification;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.FeedbackDAO;
+import com.freeagents.modelDAO.MessageDAO;
 import com.freeagents.modelDAO.UserDAO;
 
 @Controller
@@ -86,6 +88,21 @@ public class FeedbackController {
 			request.setAttribute("user", u);
 			request.setAttribute("feedbacks", received);
 			return "myfeedbacks";
+		}
+		else{
+			return "login";
+		}
+	}
+	
+	@RequestMapping(value="/readfeedback", method=RequestMethod.GET)
+	public String readmessage(HttpSession session, HttpServletRequest req) {
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			long id = Long.parseLong(req.getParameter("id"));
+			long notification = (req.getParameter("notifID") != null ? Long.parseLong(req.getParameter("notifID")) : 0);
+			Feedback feedback = FeedbackDAO.readFeedback(id, notification);
+			req.setAttribute("feedback", feedback);
+			return "readfeedback";
 		}
 		else{
 			return "login";

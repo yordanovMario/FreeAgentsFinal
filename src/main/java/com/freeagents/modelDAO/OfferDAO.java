@@ -79,14 +79,15 @@ public class OfferDAO {
 	}
 	
 	private static void addNotification(Offer offer){
-		JobDAO.getJob(offer.getJob()).getEmployer().addNotification(new Notification("You have one new offer from " + offer.getSenderUser().getFirstName(), 4, offer.getId()));
+		JobDAO.getJob(offer.getJob()).getEmployer().addNotification(new Notification(offer.getSenderUser().getFirstName(), 4, offer.getId()));
 	}
 	
-	private static void removeNotification(Offer offer){
-
+	private static void removeNotification(long notificationId, long userId){
+		UserDAO.getUserID(userId).removeNotification(userId, notificationId);
 	}
 	
 	public ArrayList<Offer> getJobOffers(long id){
+		removeNotification(id, JobDAO.getJob(id).getEmployer().getId());
 		return offers.get(id);
 	}
 	

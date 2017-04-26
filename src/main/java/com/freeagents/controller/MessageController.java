@@ -37,7 +37,7 @@ public class MessageController {
 	}
 	
 	@RequestMapping(value="/sendmessage", method=RequestMethod.GET)
-	public String login(HttpSession session, HttpServletRequest req) {
+	public String sendmessage(HttpSession session, HttpServletRequest req) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			long id = Long.parseLong(req.getParameter("id"));
@@ -91,5 +91,19 @@ public class MessageController {
 			return "login";
 		}
 		
+	}
+	@RequestMapping(value="/readmessage", method=RequestMethod.GET)
+	public String readmessage(HttpSession session, HttpServletRequest req) {
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			long id = Long.parseLong(req.getParameter("id"));
+			long notification = (req.getParameter("notifID") != null ? Long.parseLong(req.getParameter("notifID")) : 0);
+			Message message = MessageDAO.readMessage(id, notification);
+			req.setAttribute("message", message);
+			return "readmessage";
+		}
+		else{
+			return "login";
+		}
 	}
 }

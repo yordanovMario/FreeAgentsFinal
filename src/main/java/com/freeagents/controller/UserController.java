@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.freeagents.model.Notification;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.UserDAO;
 
@@ -79,10 +82,10 @@ public class UserController {
 		String pass = req.getParameter("password");
 		User u = UserDAO.getInstance().validLogin(user, pass);
 		if(u != null){
-			if(u.getLevel() == 7){
-				session.setAttribute("user", u);
-				return "admin/index";
-			}
+//			if(u.getLevel() == 7){
+//				session.setAttribute("user", u);
+//				return "admin/index";
+//			}
 			session.setAttribute("user", u);
 	        return "index";
 		}		
@@ -98,8 +101,7 @@ public class UserController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			long id = Long.parseLong(request.getParameter("id"));
-			User temp = UserDAO.getUserID(id);
-			User user = UserDAO.getProfile(temp);
+			User user = UserDAO.getProfile((User) session.getAttribute("user"));
 			request.setAttribute("userprofile", user);
 			String country = UserDAO.getCountry(user.getCountry());
 			request.setAttribute("country", country);
@@ -117,8 +119,8 @@ public class UserController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			User user = (User) session.getAttribute("user");
-			user.setFirstName(request.getParameter("firstname"));
-			user.setLastName(request.getParameter("lastname"));
+//			user.setFirstName(request.getParameter("firstname"));
+//			user.setLastName(request.getParameter("lastname"));
 			user.setJobTitle(request.getParameter("jobtitle"));
 			user.setPhone(request.getParameter("phone"));
 			user.setPerHourRate(Integer.parseInt(request.getParameter("perhourrate")));
@@ -245,6 +247,18 @@ public class UserController {
 		Files.copy(file.toPath(), resp.getOutputStream());
 	}
 	
+	@RequestMapping(value="/notifications",method = RequestMethod.GET)
+	public String notification(HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			ArrayList<Notification> notifications = UserDAO.getNotifications((User) session.getAttribute("user"));
+			request.setAttribute("notifications", notifications);
+			return "notifications";
+		}
+		else{
+			return "login";
+		}
+	}
 //	@RequestMapping(value="viewprofpic/{filename}", method=RequestMethod.GET)
 //	@ResponseBody
 //	public void viewProfilePicture(@PathVariable("filename") String filename, HttpServletResponse resp, HttpServletRequest request, Model model, HttpSession session) throws IOException{
