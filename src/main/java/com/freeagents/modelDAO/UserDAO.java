@@ -2,20 +2,18 @@ package com.freeagents.modelDAO;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.apache.commons.codec.binary.Hex;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import com.freeagents.model.User;
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Notification;
+import com.freeagents.model.User;
 
 
 public class UserDAO {
@@ -111,7 +109,8 @@ public class UserDAO {
 		res.next();
 		long id = res.getLong(1);
 		user.setId(id);
-		user.setPassword(md5(user.getPassword()));
+		String pw_hash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+		user.setPassword(pw_hash);
 		usersID.put(user.getId(), user);
 	}
 		
@@ -119,7 +118,7 @@ public class UserDAO {
 		for(User u : usersID.values()){
 			if(u.getUsername().equals(username)){
 				String result = md5(password);
-				if(u.getPassword().equals(result)){
+				if(u.getPassword().equals(result) || BCrypt.checkpw(password, u.getPassword())){
 					System.out.println("Pass and username match with DB. User " + username + " logged in.");
 					return u;
 				}

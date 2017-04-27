@@ -164,7 +164,7 @@ public class UserController {
 	
 	@RequestMapping(value="/signup",method = RequestMethod.POST)
 	public String signup(HttpServletRequest request, HttpSession session) {
-		if (session.getAttribute("user") != null) {
+		if(session.getAttribute("user") != null) {
 			session.setAttribute("notification", "You are already logged in.");
 			return "index";
 		}
