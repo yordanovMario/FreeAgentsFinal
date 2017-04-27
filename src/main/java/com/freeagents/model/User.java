@@ -159,44 +159,50 @@ public class User {
 		this.id = id;
 	}
 	public void setJobTitle(String jobTitle) {
-		if(jobTitle.length() < 35){
-			this.jobTitle = jobTitle;
-		}
-		else{
-			this.jobTitle = jobTitle.substring(0,34);
+		if(jobTitle != null){
+			if(jobTitle.length() < 35){
+				this.jobTitle = jobTitle;
+			}
+			else{
+				this.jobTitle = jobTitle.substring(0,34);
+			}
 		}
 	}
 
 	public void setPhone(String phone) {
-		if(phone.matches(PHONE_PATTERN) && !phone.isEmpty()){
-			if(phone.length() < 20){
-				this.phone = phone;
-			}
-			else{
-				this.phone = phone.substring(0,19);
+		if(phone != null){
+			if(phone.matches(PHONE_PATTERN) && !phone.isEmpty()){
+				if(phone.length() < 20){
+					this.phone = phone;
+				}
+				else{
+					this.phone = phone.substring(0,19);
+				}
 			}
 		}
 	}
 
 	public void setAboutMe(String aboutMe) {
-		if(aboutMe.length() < 400){
-			this.aboutMe = aboutMe;
-		}
-		else{
-			this.aboutMe = aboutMe.substring(0,399);
+		if(aboutMe != null){
+			if(aboutMe.length() < 400){
+				this.aboutMe = aboutMe;
+			}
+			else{
+				this.aboutMe = aboutMe.substring(0,399);
+			}
 		}
 	}
 
 	public void setPerHourRate(int perHourRate) {
-		if(perHourRate < 10000 && perHourRate > 0){
-			this.perHourRate = perHourRate;
-		}
-		if(perHourRate < 0){
-			this.perHourRate = 0;
-		}
-		if(perHourRate > 10000){
-			this.perHourRate = 10000;
-		}
+			if(perHourRate < 10000 && perHourRate > 0){
+				this.perHourRate = perHourRate;
+			}
+			if(perHourRate < 0){
+				this.perHourRate = 0;
+			}
+			if(perHourRate > 10000){
+				this.perHourRate = 10000;
+			}
 	}
 
 	public void setCountry(int country) {
@@ -209,13 +215,14 @@ public class User {
 	}
 
 	public void setPortfolio(String portfolio) {
-		if(portfolio.length() < 1500){
-			this.portfolio = portfolio;
+		if(portfolio != null){
+			if(portfolio.length() < 1500){
+				this.portfolio = portfolio;
+			}
+			else{
+				this.portfolio = portfolio.substring(0,1499);
+			}
 		}
-		else{
-			this.portfolio = portfolio.substring(0,1499);
-		}
-		
 	}
 
 	public void setAvatar(File avatar) {
