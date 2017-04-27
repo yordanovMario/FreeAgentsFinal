@@ -14,7 +14,7 @@
 			</c:if>
 			<input type="submit" id="submit-btn" value="Sign Up" />
 			<script type="in/Login"></script>
-			<p>Already registred? Click <a href="LogIn.html">here</a> to log in.</p>
+			<p>Already registred? Click <a href="login">here</a> to log in.</p>
 			</form>
 		</div>
 <jsp:include page="footer.jsp" />

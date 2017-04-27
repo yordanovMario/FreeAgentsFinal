@@ -53,7 +53,7 @@ public class JobDAO {
 				job = new Job(res.getLong("job_id"), user, UserDAO.getUserID(res.getLong("user_worker_id")), res.getString("title"), 
 						res.getString("description"), res.getInt("budget"), res.getInt("category_id"), res.getInt("required_exp"), false, 
 						(res.getInt("expire") > 0 ? 7 : res.getInt("expire")), res.getString("date"), res.getInt("status"), res.getInt("visibility"), 
-						OfferDAO.getInstance().getOffer(res.getLong("accepted_offer_id")));
+						(res.getString("accepted_offer_id") != null ? res.getLong("accepted_offer_id") : 0));
 				long userID = user.getId();
 				jobs.put(job.getId(), job);
 				if(jobsUser.containsKey(userID)){
@@ -175,39 +175,37 @@ public class JobDAO {
 	}
 	
 	public synchronized void acceptOffer(long jobID, long offerID) throws SQLException{
-		String query1 = "UPDATE jobs SET accepted_offer_id = ?, status = ?, user_worker_id = ?, visibility = ? WHERE job_id = ?";
-		Connection con = null;
+		String query1 = "UPDATE jobs SET accepted_offer_id = ?, status = 3, user_worker_id = ?, visibility = 0 WHERE job_id = ?";
+		Connection con = DBManager.getInstance().getConnection();
 		Offer offer = OfferDAO.getInstance().getOffer(offerID);
-		PreparedStatement st1 = DBManager.getInstance().getConnection().prepareStatement(query1);
+		PreparedStatement st1 = con.prepareStatement(query1);
 		st1.setLong(1, offerID);
-		st1.setLong(2, 3);
-		st1.setLong(3, offer.getSender());
-		st1.setInt(4, 0);
-		st1.setLong(5, jobID);
+		st1.setLong(2, offer.getSender());
+		st1.setLong(3, jobID);
 		
-		String query2 = "INSERT INTO workersww (employer_id, worker_id) values (?, ?)";
-		PreparedStatement st2 = DBManager.getInstance().getConnection().prepareStatement(query2);
-		st2.setLong(1, getJob(jobID).getEmployer().getId());
-		st2.setLong(2, offer.getSender());
-		
-		String query3 = "INSERT INTO employersww (employer_id, worker_id) values (?, ?)";
-		PreparedStatement st3 = DBManager.getInstance().getConnection().prepareStatement(query3);
-		st2.setLong(1, getJob(jobID).getEmployer().getId());
-		st2.setLong(2, offer.getSender());
+//		String query2 = "INSERT INTO workersww (employer_id, worker_id) values (?, ?)";
+//		PreparedStatement st2 = con.prepareStatement(query2);
+//		st2.setLong(1, getJob(jobID).getEmployer().getId());
+//		st2.setLong(2, offer.getSender());
+//		
+//		String query3 = "INSERT INTO employersww (employer_id, worker_id) values (?, ?)";
+//		PreparedStatement st3 = con.prepareStatement(query3);
+//		st2.setLong(1, getJob(jobID).getEmployer().getId());
+//		st2.setLong(2, offer.getSender());
 		
 		try
 		{
 		  con.setAutoCommit(false);
 		  st1.execute();
-		  st2.execute();
-		  st3.execute();
-		  getJob(jobID).acceptOffer(OfferDAO.getInstance().getOffer(offerID));
+//		  st2.execute();
+//		  st3.execute();
+		  getJob(jobID).acceptOffer(offer);
 		  addNotification(offer);
 		  con.commit();
 		}
 		catch(SQLException e)
 		{
-		  System.out.println(e.getMessage());
+		  System.out.println("The error is in JobDAO - " + e.getMessage());
 		  con.rollback();
 		}
 		finally

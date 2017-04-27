@@ -45,7 +45,7 @@ public class FeedbackDAO {
 					receiver = res.getLong("receiver_id");
 					feedback = new Feedback(res.getLong("feedback_id"), res.getString("content"), UserDAO.getUserID(sender), UserDAO.getUserID(receiver), 
 							res.getString("date"), res.getInt("rating"), res.getInt("is_read"));
-					if(res.getInt("is_read") == 0){
+					if(!feedback.isRead()){
 						addNotification(feedback);
 					}
 					feedbacks.put(feedback.getId(), feedback);

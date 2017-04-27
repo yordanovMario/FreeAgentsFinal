@@ -40,11 +40,14 @@ public class OfferDAO {
 			java.sql.PreparedStatement st = DBManager.getInstance().getConnection().clientPrepareStatement(query);
 			ResultSet res = st.executeQuery();
 			Offer offer;
+			long jobID;
 			while(res.next()){
-				offer = new Offer(res.getLong("sender_id"), res.getLong("job_id"), res.getString("content"), Integer.parseInt(res.getString("price")), false);
-				long jobID = Long.parseLong(res.getString("job_id"));
-				offer.setId(Long.parseLong(res.getString("offer_id")));
-				offer.setDate(res.getString("date"));
+				jobID = res.getLong("job_id");
+				offer = new Offer(res.getLong("offer_id"), res.getLong("sender_id"), jobID, res.getString("content"), res.getInt("price"), 
+						res.getInt("is_read"), res.getString("date"));
+				if(!offer.isRead()){
+					addNotification(offer);
+				}
 				offersID.put(offer.getId(), offer);
 				if(!offers.containsKey(jobID)){
 					offers.put(jobID, new ArrayList<Offer>());
@@ -73,12 +76,26 @@ public class OfferDAO {
 		offersID.put(offer.getId(), offer);
 		if(!offers.containsKey(jobID)){
 			JobDAO.getJob(offer.getJob()).setStatus(2);
+			query = "UPDATE jobs SET status=2 WHERE job_id=?";
+			PreparedStatement st2 = DBManager.getInstance().getConnection().prepareStatement(query);
+			st2.setLong(1, jobID);
+			st2.execute();
 			offers.put(jobID, new ArrayList<Offer>());
 		}
 		offers.get(jobID).add(offer);
 	}
 	
 	private static void addNotification(Offer offer){
+//		System.out.println(offer.getJob());
+//		System.out.println(1);
+//		System.out.println(offer.getId());
+//		System.out.println(2);
+//		System.out.println(offer.getJob());
+//		System.out.println(3);
+//		System.out.println(JobDAO.getJob(offer.getJob()).getEmployer());
+//		System.out.println(4);
+//		System.out.println(offer.getSenderUser().getFirstName());
+//		System.out.println(5);
 		JobDAO.getJob(offer.getJob()).getEmployer().addNotification(new Notification(offer.getSenderUser().getFirstName(), 4, offer.getId()));
 	}
 	
@@ -96,7 +113,13 @@ public class OfferDAO {
 	}
 	
 	public Offer getOffer(long id){
-		return offersID.get(id);
+		if(id > 0){
+			return offersID.get(id);
+		}
+		else{
+			return null;
+		}
+		
 	}
 	
 	public boolean hasOffers(long id){

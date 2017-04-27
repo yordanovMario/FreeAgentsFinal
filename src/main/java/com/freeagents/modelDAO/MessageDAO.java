@@ -47,7 +47,7 @@ public class MessageDAO {
 					receiver = res.getLong("receiver_id");
 					message = new Message(res.getLong("message_id"), sender, receiver, res.getString("title"), 
 							res.getString("content"), res.getString("date"), res.getInt("is_read"));
-					if(res.getInt("is_read") == 0){
+					if(!message.isRead()){
 						addNotification(message);
 					}
 					messages.put(message.getId(), message);

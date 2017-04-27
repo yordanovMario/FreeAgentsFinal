@@ -3,6 +3,7 @@ package com.freeagents.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.freeagents.model.Job;
 import com.freeagents.model.Offer;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.JobDAO;
@@ -63,7 +65,7 @@ public class OfferController {
 				Offer offer = new Offer(u.getId(), id, content, price, false);
 				try {
 					OfferDAO.getInstance().postOffer(offer);
-					session.setAttribute("notification", "Your offer was seccessfully sent to the employer");
+					session.setAttribute("notification", "Your offer was successfully sent to the employer");
 				} catch (SQLException e) {
 					System.out.println("Offer sending error - " + e.getMessage());
 					session.setAttribute("notification", "There was an error while processing your request. Please try again.");
@@ -86,16 +88,29 @@ public class OfferController {
 	@RequestMapping(value="/acceptoffer",method = RequestMethod.POST)
 	public String acceptoffer(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
+			User u = (User) session.getAttribute("user");
 			long id = Long.parseLong(request.getParameter("id"));
 			long jobID = Long.parseLong(request.getParameter("jobID"));
 			try {
 				JobDAO.getInstance().acceptOffer(jobID, id);
-				request.setAttribute("id", jobID);
+				session.setAttribute("notification", "You have successfully accepted the offer");
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
-				request.setAttribute("notification", "An error occured during accepting the offer you wanted. Please try again");
+				session.setAttribute("notification", "An error occured during accepting the offer you wanted. Please try again");
 			}
-			return "viewoffers";
+			ArrayList<Job> jobs = new ArrayList<Job>();
+			jobs = JobDAO.getInstance().getMyJobs(u.getId());
+			HashMap<Long, Boolean> offers = new HashMap<Long, Boolean>();
+			if(jobs != null){
+				for(Job j : jobs){
+					offers.put(j.getId(), OfferDAO.getInstance().hasOffers(j.getId()));
+				}
+				request.setAttribute("user", u);
+				request.setAttribute("jobs", jobs);
+				request.setAttribute("offers", offers);
+				request.setAttribute("statuses", JobDAO.getStatuses());
+			}
+			return "myjobs";
 		}
 		else{
 			return "login";

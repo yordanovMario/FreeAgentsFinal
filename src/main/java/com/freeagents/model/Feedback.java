@@ -42,7 +42,11 @@ public class Feedback {
 			}
 		}
 	}
-
+	
+	public boolean isRead() {
+		return isRead;
+	}
+	
 	private void setSender(User sender) {
 		if(sender != null){
 			this.sender = sender;

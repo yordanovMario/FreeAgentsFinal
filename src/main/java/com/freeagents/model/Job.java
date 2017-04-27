@@ -19,7 +19,7 @@ public class Job {
 	private ArrayList<File> files;
 	private int requiredExp;
 	private int status;
-	private Offer acceptedOffer;
+	private long acceptedOffer;
 	private boolean sponsored;
 	private String date;
 	private boolean visible;
@@ -41,7 +41,7 @@ public class Job {
 		this.visible = true;
 	}
 	
-	public Job(long id, User employer, User worker, String title, String description, int budget, int category, int requiredExp, boolean sponsored, int expire, String date, int status, int visibility, Offer acceptedOffer){
+	public Job(long id, User employer, User worker, String title, String description, int budget, int category, int requiredExp, boolean sponsored, int expire, String date, int status, int visibility, long acceptedOffer){
 		this.id = id;
 		this.employer = employer;
 		this.title = title;
@@ -55,7 +55,7 @@ public class Job {
 		this.status = status;
 		this.visible = (visibility == 0 ? false : true);
 		this.worker = (worker != null ? worker : null);
-		this.acceptedOffer = (acceptedOffer != null ? acceptedOffer : null);
+		this.acceptedOffer = (acceptedOffer > 0 ? acceptedOffer : 0);
 	}
 
 	public void setWorker(User worker) {
@@ -86,12 +86,8 @@ public class Job {
 		this.status = status;
 	}
 
-	public Offer getAcceptedOffer() {
+	public long getAcceptedOffer() {
 		return acceptedOffer;
-	}
-
-	public void setAcceptedOffer(Offer acceptedOffer) {
-		this.acceptedOffer = acceptedOffer;
 	}
 
 	public void setEmployer(User employer) {
@@ -186,7 +182,7 @@ public class Job {
 		
 	public void acceptOffer(Offer offer){
 		this.worker = UserDAO.getUserID(offer.getSender());
-		this.acceptedOffer = offer;
+		this.acceptedOffer = offer.getId();
 		this.visible = false;
 		this.status = 3;
 	}
