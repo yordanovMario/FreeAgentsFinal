@@ -19,13 +19,14 @@
 		<label for="portfolio">Portfolio</label>
 		<p>${userprofile.portfolio}</p>
 	</div>
+	<c:if test="${userprofile.id != sessionScope.user.id}">
 	<form method="GET" action="sendmessage">
 		<input type="hidden" value="${userprofile.id}" name="id">
 		<input type="submit" id="post-job-btn" value="Send Message" />
 	</form>
-	
 	<form method="GET" action="sendfeedback">
 		<input type="hidden" value="${userprofile.id}" name="id">
 		<input type="submit" id="post-job-btn" value="Send Feedback" />
 	</form>
+	</c:if>
 <jsp:include page="footer.jsp" />
