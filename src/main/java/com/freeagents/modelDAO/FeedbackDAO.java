@@ -63,12 +63,6 @@ public class FeedbackDAO {
 	}
 	
 	public static synchronized void sendFeedback(Feedback feedback){
-		feedbacks.put(feedback.getId(), feedback);
-		if(!receivedUser.containsKey(feedback.getReceiver().getId())){
-			receivedUser.put(feedback.getReceiver().getId(), new ArrayList<Feedback>());
-		}
-		receivedUser.get(feedback.getReceiver().getId()).add(feedback);
-		
 		String query = "INSERT INTO feedbacks (content, rating, date, sender_id, receiver_id, is_read) values (?, ?, ?, ?, ?, ?)";
 		PreparedStatement st;
 		try {
@@ -88,6 +82,12 @@ public class FeedbackDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		feedbacks.put(feedback.getId(), feedback);
+		if(!receivedUser.containsKey(feedback.getReceiver().getId())){
+			receivedUser.put(feedback.getReceiver().getId(), new ArrayList<Feedback>());
+		}
+		receivedUser.get(feedback.getReceiver().getId()).add(feedback);
+		
 	}
 	
 	private static void addNotification(Feedback feedback){
