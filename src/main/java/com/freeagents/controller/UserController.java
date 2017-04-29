@@ -50,9 +50,6 @@ public class UserController {
 			session.removeAttribute("notification");
 			User user = (User)session.getAttribute("user");
 			User userprofile = UserDAO.getProfile(user.getId());
-			User userdefpic = UserDAO.getProfile(user.getId());
-			userdefpic.setId(0);
-			request.setAttribute("userdefpic", userdefpic);
 			HashMap<Integer, String> levels = UserDAO.getLevels();
 			HashMap<Integer, String> countries = UserDAO.getCountries();
 			request.setAttribute("user", userprofile);
@@ -111,9 +108,6 @@ public class UserController {
 			request.setAttribute("userprofile", userprofile);
 			String country = UserDAO.getCountry(userprofile.getCountry());
 			request.setAttribute("country", country);
-			User userdefpic = UserDAO.getProfile(id);
-			userdefpic.setId(0);
-			request.setAttribute("userdefpic", userdefpic);
 			return "viewprofile";
 		}
 		else{
@@ -252,6 +246,14 @@ public class UserController {
 		java.io.File file = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
 		Files.copy(file.toPath(), resp.getOutputStream());
 	}
+	
+	@RequestMapping(value="image/0", method=RequestMethod.GET)
+	@ResponseBody
+	public void viewPicture(HttpServletResponse resp, Model model, HttpSession session) throws IOException{
+		java.io.File file = new java.io.File(FILE_LOCATION + "/0.jpg");
+		Files.copy(file.toPath(), resp.getOutputStream());
+	}
+	
 	
 	@RequestMapping(value="/notifications",method = RequestMethod.GET)
 	public String notification(HttpServletRequest request, HttpSession session) {

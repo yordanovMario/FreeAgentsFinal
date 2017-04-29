@@ -14,14 +14,12 @@
 				<p><a href="jobsIwork">Jobs I'm working</a></p>
  			</div>				
 			<div id="signup">
-				<div id="profilepic">
-					<img src="image/${user.id}" onerror="this.src='image/${userdefpic.id}'">
-					<form method="POST" enctype="multipart/form-data" action="uploadpic">
-						<p>Choose a picture</p>
-						<input type="file" id="file" name="failche" accept="image/*" required="required">
-						<input type="submit" value="Save changes">
-					</form>
-				</div>
+				<img src="image/${user.id}" onerror="this.src='image/0'" style="width:170px;height:170px;">
+				<form method="POST" enctype="multipart/form-data" action="uploadpic">
+					<p>Choose a picture</p>
+					<input type="file" id="file" name="failche" accept="image/*" required="required">
+					<input type="submit" value="Save changes">
+				</form>
 				<form method="POST" action="editdata">
 				<label for="first-name">First name</label>
 				<input type="text" id="first-name" name="firstname" value="${user.firstName}"/>
