@@ -244,23 +244,17 @@ public class User {
 	}
 	
 	public void removeNotification(long id){
-		if(id == -2){
-			for(Notification n : notifications.values()){
-				if(n.getType() == 3){
-					notifications.remove(n);
+		if(notifications.containsKey(id)){
+			if(notifications.get(id).getType() == 4){
+				for(Notification n : notifications.values()){
+					if(n.getType() == 4 && n.getObjectID() == id){
+						notifications.remove(n);
+					}
 				}
 			}
-		}
-	}
-	
-	public void removeNotification(long id, long jobId){
-		if(id == this.id){
-			for(Notification n : notifications.values()){
-				if(n.getType() == 4 && n.getObjectID() == jobId){
-					notifications.remove(n);
-				}
+			else{
+				notifications.remove(id);
 			}
 		}
-	}
-	
+	}	
 }

@@ -100,11 +100,27 @@ public class OfferDAO {
 	}
 	
 	private static void removeNotification(long notificationId, long userId){
-		UserDAO.getUserID(userId).removeNotification(userId, notificationId);
+		UserDAO.getUserID(userId).removeNotification(notificationId);
 	}
 	
 	public ArrayList<Offer> getJobOffers(long id){
 		removeNotification(id, JobDAO.getJob(id).getEmployer().getId());
+		String query = new String("");
+		for(Offer o : offers.get(id)){
+			if(!o.isRead()){
+				o.setRead(true);
+				query.concat("UPDATE offers SET is_read=1 WHERE offer_id=" + o.getId() + "\n");
+			}
+		}
+		java.sql.PreparedStatement st;
+		try {
+			st = DBManager.getInstance().getConnection().clientPrepareStatement(query);
+			st.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return offers.get(id);
 	}
 	

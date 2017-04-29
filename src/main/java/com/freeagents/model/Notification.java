@@ -2,12 +2,12 @@ package com.freeagents.model;
 
 public class Notification implements Comparable<Notification>{
 	
-	long id;
-	String title;
-	String link;
-	static long counter = 1;
-	int type;
-	long objectID;
+	private long id;
+	private String title;
+	private String link;
+	private static long counter = 1;
+	private int type;
+	private long objectID;
 	
 	public long getId() {
 		return id;
@@ -21,18 +21,18 @@ public class Notification implements Comparable<Notification>{
 		switch (number) {
 		case 1:
 			this.title = "You have one new message from " + text;
-			this.link = "readmessage?id=" + objectID;
+			this.link = "readmessage?id=" + objectID + "&notifID=" + id;
 			break;
 		case 2:
 			this.title = "You have new feedback posted from " + text;
-			this.link = "readfeedback?id=" + objectID;
+			this.link = "readfeedback?id=" + objectID + "&notifID=" + id;
 			break;
 		case 3:
 			this.title = "The employer of the job " + text + " has accepted your offer.";
-			this.link = "jobsIWork";
+			this.link = "viewjob?id=" + objectID;
 			break;
 		case 4:
-			this.title = "You have new offer for your job " + text;
+			this.title = "You have new offer for your job from " + text;
 			this.link = "viewoffers?id="+objectID;
 			break;
 		default:
