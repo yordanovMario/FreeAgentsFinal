@@ -17,7 +17,7 @@
 		<!-- header -->
 		<header>
 			<div class="flowe-header">
-				<div class="flowe-logo"><a href="index"></a></div>
+				<a href="index"><div class="flowe-logo"></div></a>
 				<div class="flowe-header-menu"></div>
 				<div class="header-menu">
 					<c:if test="${logged eq true}">

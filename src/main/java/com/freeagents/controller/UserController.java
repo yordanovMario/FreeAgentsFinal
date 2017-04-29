@@ -50,6 +50,9 @@ public class UserController {
 			session.removeAttribute("notification");
 			User user = (User)session.getAttribute("user");
 			User userprofile = UserDAO.getProfile(user.getId());
+			User userdefpic = UserDAO.getProfile(user.getId());
+			userdefpic.setId(0);
+			request.setAttribute("userdefpic", userdefpic);
 			HashMap<Integer, String> levels = UserDAO.getLevels();
 			HashMap<Integer, String> countries = UserDAO.getCountries();
 			request.setAttribute("user", userprofile);
@@ -108,6 +111,9 @@ public class UserController {
 			request.setAttribute("userprofile", userprofile);
 			String country = UserDAO.getCountry(userprofile.getCountry());
 			request.setAttribute("country", country);
+			User userdefpic = UserDAO.getProfile(id);
+			userdefpic.setId(0);
+			request.setAttribute("userdefpic", userdefpic);
 			return "viewprofile";
 		}
 		else{
@@ -259,13 +265,5 @@ public class UserController {
 			return "login";
 		}
 	}
-//	@RequestMapping(value="viewprofpic/{filename}", method=RequestMethod.GET)
-//	@ResponseBody
-//	public void viewProfilePicture(@PathVariable("filename") String filename, HttpServletResponse resp, HttpServletRequest request, Model model, HttpSession session) throws IOException{
-//		long id = Long.parseLong(request.getParameter("id"));
-//		request.setAttribute("profpicid", id);
-//		java.io.File file = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
-//		Files.copy(file.toPath(), resp.getOutputStream());
-//	}
 
 }
