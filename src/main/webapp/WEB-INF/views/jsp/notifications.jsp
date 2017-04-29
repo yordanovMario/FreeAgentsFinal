@@ -12,6 +12,8 @@
 		<p>${notification.type}</p>
 		<p>${notification.objectID}</p>
 		<p><a href="${notification.link}">link to</a></p>
+		
+		
 		<br>
 	</c:forEach>
 </body>

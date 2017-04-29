@@ -148,9 +148,9 @@ public class JobDAO {
 		return jobsUser.get(id);
 	}
 	
-	public ArrayList<Job> getJobsIWork(long id){
+	public ArrayList<Job> getJobsIWork(long id, long notificationId){
 		ArrayList<Job> working = new ArrayList<Job>();
-		removeNotification(-2, id);
+		removeNotification(notificationId, id);
 		for(Job j : jobs.values()){
 			if(j.getWorker() != null){
 				if(j.getWorker().getId() == id){
@@ -215,11 +215,13 @@ public class JobDAO {
 	}
 	
 	private static void addNotification(Offer offer){
-		offer.getSenderUser().addNotification(new Notification(getJob(offer.getJob()).getTitle(), 3, offer.getId()));
+		offer.getSenderUser().addNotification(new Notification(getJob(offer.getJob()).getTitle(), 3, getJob(offer.getJob()).getId()));
 	}
 	
 	private static void removeNotification(long notificationId, long userId){
-		UserDAO.getUserID(userId).removeNotification(notificationId);
+		if(notificationId != 0){
+			UserDAO.getUserID(userId).removeNotification(notificationId);
+		}
 	}
 	
 //	private synchronized ArrayList<Job> jobsIWork(long id) throws SQLException{

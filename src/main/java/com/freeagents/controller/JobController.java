@@ -168,11 +168,34 @@ public class JobController {
 	public String jobsIwork(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			long id;
+			if(request.getParameter("id") != null){
+				id = Long.parseLong(request.getParameter("id"));
+			}
+			else{
+				id = 0;
+			}
 			User u = (User) session.getAttribute("user");
-			request.setAttribute("jobsIwork", JobDAO.getInstance().getJobsIWork(u.getId()));
+			request.setAttribute("jobsIwork", JobDAO.getInstance().getJobsIWork(u.getId(), id));
 			request.setAttribute("statuses", JobDAO.getStatuses());
 			request.setAttribute("user", u);
 			return "jobsIwork";
+		}
+		else{
+			return "login";
+		}
+	}
+	
+	@RequestMapping(value="/viewjob",method = RequestMethod.GET)
+	public String viewjob(HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			long id = Long.parseLong(request.getParameter("id"));
+			User u = (User) session.getAttribute("user");
+			request.setAttribute("job", JobDAO.getJob(id));
+			request.setAttribute("statuses", JobDAO.getStatuses());
+			request.setAttribute("user", u);
+			return "viewjob";
 		}
 		else{
 			return "login";

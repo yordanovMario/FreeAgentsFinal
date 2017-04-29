@@ -104,6 +104,10 @@ public class Offer {
 		return sender;
 	}
 	
+	public void setRead(boolean isRead) {
+		this.isRead = isRead;
+	}
+
 	public User getSenderUser() { 
 		return senderUser;
 	}

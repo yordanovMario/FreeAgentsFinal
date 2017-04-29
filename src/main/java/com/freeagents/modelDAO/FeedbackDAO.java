@@ -116,7 +116,7 @@ public class FeedbackDAO {
 			st.setLong(1, feedbackID);
 			st.execute();
 			if(notificationID != 0){
-				removeNotification(feedbackID, notificationID);
+				removeNotification(notificationID, feedback.getReceiver().getId());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

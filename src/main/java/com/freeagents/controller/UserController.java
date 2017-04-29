@@ -125,10 +125,10 @@ public class UserController {
 //			user.setLastName(request.getParameter("lastname"));
 			user.setJobTitle(request.getParameter("jobtitle"));
 			user.setPhone(request.getParameter("phone"));
-			user.setPerHourRate(Integer.parseInt(request.getParameter("perhourrate")));
+			user.setPerHourRate(request.getParameter("perhourrate") == "" ? 0 : Integer.parseInt(request.getParameter("perhourrate")));
 			user.setAboutMe(request.getParameter("aboutme"));
 			user.setPortfolio(request.getParameter("portfolio"));
-			user.setCountry(Integer.parseInt(request.getParameter("country")));
+			user.setCountry(request.getParameter("country") == "" ? 3 : Integer.parseInt(request.getParameter("country")));
 			try {
 				UserDAO.updateProfile(user);
 			} catch (SQLException e) {
