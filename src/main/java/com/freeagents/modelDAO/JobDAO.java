@@ -223,16 +223,14 @@ public class JobDAO {
 			UserDAO.getUserID(userId).removeNotification(notificationId);
 		}
 	}
+	//TODO:
 	
-//	private synchronized ArrayList<Job> jobsIWork(long id) throws SQLException{
-//		ArrayList<Job> jobsIWork = new ArrayList<Job>();
-//		String query = "SELECT job_id FROM jobs WHERE user_worker_id = ?";
-//		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
-//		st.setLong(1, id);
-//		ResultSet res = st.executeQuery();
-//		while(res.next()){
-//			jobsIWork.add(getJob(res.getLong("job_id")));
-//		}
-//		return jobsIWork;
+//	public synchronized void finishJob(long jobID, long offerID) throws SQLException{
+//		String query1 = "UPDATE jobs SET status = 5, visibility = 0 WHERE job_id = ?";
+//		Connection con = DBManager.getInstance().getConnection();
+//		PreparedStatement st1 = con.prepareStatement(query1);
+//		st1.setLong(1, jobID);
 //	}
+	
+
 }

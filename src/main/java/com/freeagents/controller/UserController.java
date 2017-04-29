@@ -251,6 +251,14 @@ public class UserController {
 		Files.copy(file.toPath(), resp.getOutputStream());
 	}
 	
+	@RequestMapping(value="image/0", method=RequestMethod.GET)
+	@ResponseBody
+	public void viewDefaultPicture(HttpServletResponse resp, Model model, HttpSession session) throws IOException{
+		java.io.File file = new java.io.File(FILE_LOCATION + "/0.jpg");
+		Files.copy(file.toPath(), resp.getOutputStream());
+	}
+	
+	
 	@RequestMapping(value="/notifications",method = RequestMethod.GET)
 	public String notification(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
@@ -263,13 +271,5 @@ public class UserController {
 			return "login";
 		}
 	}
-//	@RequestMapping(value="viewprofpic/{filename}", method=RequestMethod.GET)
-//	@ResponseBody
-//	public void viewProfilePicture(@PathVariable("filename") String filename, HttpServletResponse resp, HttpServletRequest request, Model model, HttpSession session) throws IOException{
-//		long id = Long.parseLong(request.getParameter("id"));
-//		request.setAttribute("profpicid", id);
-//		java.io.File file = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
-//		Files.copy(file.toPath(), resp.getOutputStream());
-//	}
 
 }

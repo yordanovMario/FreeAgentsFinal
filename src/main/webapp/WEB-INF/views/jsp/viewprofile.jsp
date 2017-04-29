@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp" />
 	<div id="signup">
-		<p><img src="image/${userprofile.id}"></p>
+		<p><img src="image/${userprofile.id}" onerror="this.src='image/0'" width="170" height="170"></p>
 		<label for="first-name">First name</label>
 		<p>${userprofile.firstName}</p>
 		<label for="last-name">Last name</label>
@@ -19,13 +19,14 @@
 		<label for="portfolio">Portfolio</label>
 		<p>${userprofile.portfolio}</p>
 	</div>
+	<c:if test="${userprofile.id != sessionScope.user.id}">
 	<form method="GET" action="sendmessage">
 		<input type="hidden" value="${userprofile.id}" name="id">
 		<input type="submit" id="post-job-btn" value="Send Message" />
 	</form>
-	
 	<form method="GET" action="sendfeedback">
 		<input type="hidden" value="${userprofile.id}" name="id">
 		<input type="submit" id="post-job-btn" value="Send Feedback" />
 	</form>
+	</c:if>
 <jsp:include page="footer.jsp" />
