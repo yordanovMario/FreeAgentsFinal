@@ -249,7 +249,7 @@ public class UserController {
 	
 	@RequestMapping(value="image/0", method=RequestMethod.GET)
 	@ResponseBody
-	public void viewPicture(HttpServletResponse resp, Model model, HttpSession session) throws IOException{
+	public void viewDefaultPicture(HttpServletResponse resp, Model model, HttpSession session) throws IOException{
 		java.io.File file = new java.io.File(FILE_LOCATION + "/0.jpg");
 		Files.copy(file.toPath(), resp.getOutputStream());
 	}

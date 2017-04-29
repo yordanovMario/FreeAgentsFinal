@@ -201,5 +201,38 @@ public class JobController {
 			return "login";
 		}
 	}
+	//TODO:
+	
+//	@RequestMapping(value="/finishjob",method = RequestMethod.POST)
+//	public String finishJob(HttpServletRequest request, HttpSession session) {
+//		if (session.getAttribute("user") != null) {
+//			User u = (User) session.getAttribute("user");
+//			long id = Long.parseLong(request.getParameter("id"));
+//			long jobID = Long.parseLong(request.getParameter("jobID"));
+//			try {
+//				JobDAO.getInstance().acceptOffer(jobID, id);
+//				session.setAttribute("notification", "You have successfully finished the job!");
+//			} catch (SQLException e) {
+//				System.out.println(e.getMessage());
+//				session.setAttribute("notification", "An error occured during finishing the job. Please try again!");
+//			}
+//			ArrayList<Job> jobs = new ArrayList<Job>();
+//			jobs = JobDAO.getInstance().getMyJobs(u.getId());
+//			HashMap<Long, Boolean> offers = new HashMap<Long, Boolean>();
+//			if(jobs != null){
+//				for(Job j : jobs){
+//					offers.put(j.getId(), OfferDAO.getInstance().hasOffers(j.getId()));
+//				}
+//				request.setAttribute("user", u);
+//				request.setAttribute("jobs", jobs);
+//				request.setAttribute("offers", offers);
+//				request.setAttribute("statuses", JobDAO.getStatuses());
+//			}
+//			return "myjobs";
+//		}
+//		else{
+//			return "login";
+//		}
+//	}
 	
 }

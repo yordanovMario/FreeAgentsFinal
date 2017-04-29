@@ -21,10 +21,6 @@
 					<input type="submit" value="Save changes">
 				</form>
 				<form method="POST" action="editdata">
-				<label for="first-name">First name</label>
-				<input type="text" id="first-name" name="firstname" value="${user.firstName}"/>
-				<label for="last-name">Last name</label>
-				<input type="text" id="last-name" name="lastname" value="${user.lastName}">
 				<label for="country">Location</label>
 				<select name="country" class="categories">
 					<option value="">Select Country</option>
