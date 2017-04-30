@@ -167,6 +167,15 @@ public class UserDAO {
 		return false;
 	}
 	
+	public synchronized boolean checkEmail(String email) {
+		for(User u : usersID.values()){
+			if(u.getEmail().equals(email)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static synchronized User getProfile(long id){
 		User user = usersID.get(id);
 		String query = "SELECT username, password, email, first_name, last_name, job_title, phone, about_me, country_id, level_id, portfolio, perHourRate FROM users WHERE username = ?";
@@ -213,7 +222,7 @@ public class UserDAO {
 //		usersID.put(user.getId(), user);
 //	}
 	public static synchronized void updateProfile(User user) throws SQLException{
-		String query = "UPDATE users job_title=?, phone=?, perHourRate=?, about_me=?, portfolio=?, country_id=? WHERE user_id=?;";
+		String query = "UPDATE users SET job_title=?, phone=?, perHourRate=?, about_me=?, portfolio=?, country_id=? WHERE user_id=?;";
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
 		st.setString(1, user.getJobTitle());
 		st.setString(2, user.getPhone());

@@ -10,9 +10,11 @@
 					<input type="submit" id="login-btn" value="Sign In" />
 				</form>
 				<div>
-					New to our site? Click
-					<a href="signup">here</a>
-					to register.
+					New to our site? Click <a href="signup">here</a> to register.
 				</div>
+				<div>
+					Forgot your password? Click <a href="forgotpassword">here</a>.
+				</div>
+				
 		</div>
 <jsp:include page="footer.jsp" />
