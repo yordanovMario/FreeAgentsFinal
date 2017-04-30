@@ -21,6 +21,41 @@ h1 {
 	margin-left: 23%;
 }
 
+.my-messages,
+.my-feedbacks {
+	margin-left: 20%;
+}
+
+.table-messages {
+	width: 80%; 
+	margin-top: 20px;
+	border-collapse: collapse;
+	-webkit-box-shadow: 0px 2px 30px 5px rgba(112,112,112,1);
+	-moz-box-shadow: 0px 2px 30px 5px rgba(112,112,112,1);
+	box-shadow: 0px 2px 30px 5px rgba(112,112,112,1);
+}
+
+.table-messages td{
+	font-size: 18px;
+	padding: 10px 15px;
+}
+
+.table-messages th {
+	text-align: left;
+    font-size: 20px;
+    padding: 10px 15px;
+    font-weight: 600;
+}
+
+.table-messages tr {
+	border-bottom: 1px solid #3e4651;
+}
+
+.my-jobs,
+.working-jobs {
+	margin-left: 0;
+}
+
 #post-job input {
 	display: block;
 	width: 500px;

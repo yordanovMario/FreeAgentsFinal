@@ -2,13 +2,13 @@
 <jsp:include page="header.jsp" />
 		<div class="flowe-footer-menu profile">
 			<p><a href="mymessages">My Messages</a></p>
-			<p><a href="myjobs">My Jobs</a></p>
+			<p><a href="myjobs" style="color: #FFA500; font-weight: 600;">My Jobs</a></p>
 			<p><a href="myfeedbacks?id=${user.id}">My Feedbacks</a></p>
 			<p><a href="jobsIwork">Jobs I'm working</a></p>
 		</div>	
 		<div id="post-job">
-			<h2 id="search-offers">My Jobs</h2>
-			<div class="post-job search-job">
+			<!-- <h2 id="search-offers">My Jobs</h2> -->
+			<div class="post-job search-job my-jobs">
 				<c:if test="${not empty jobs}">
 					<c:forEach var="job" items="${jobs}">
 						<div class="search-results">
@@ -45,7 +45,7 @@
 							</c:if>
 							<form method="GET" action="viewjob">
 									<input type="hidden" value="${job.id}"name="id">
-									<input type="submit" id="post-job-btn" value="View job details" />
+									<input type="submit" id="post-job-btn" value="View Job Details" />
 							</form>
 						</div>
 					</c:forEach>

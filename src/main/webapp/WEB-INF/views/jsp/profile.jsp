@@ -7,7 +7,7 @@
 		</div>
 		<div class="tips">
 		<div>
-			<div class="profile my-profile">
+			<div class="flowe-footer-menu profile">
 				<p><a href="mymessages">My Messages</a></p>
 				<p><a href="myjobs">My Jobs</a></p>
 				<p><a href="myfeedbacks?id=${user.id}">My Feedbacks</a></p>
@@ -50,20 +50,4 @@
 			</div>
 		</div>
 		</section>
-		<footer>
-		<div class="flowe-footer-menu">
-				<p>Terms Of Service</p>	
-				<p>Privacy Policy</p>
-				<p class="flowe-blog">Blog</p>
-				<p>Careers</p>
-				<p class="flowe-faq">FAQ</p>
- 		</div>
-		<div class="flowe-footer">
-			<div class="flowe-logo-footer"> 
-				<img src="logo.png">
-			</div>
-			<p>&copy; 2017 Free Agents LTD. All rights reserved.</p>
-		</div>
-	</footer>
-</body>
-</html>
+<jsp:include page="footer.jsp" />

@@ -53,7 +53,7 @@ public class OfferDAO {
 				if(!offers.containsKey(jobID)){
 					offers.put(jobID, new ArrayList<Offer>());
 				}
-				offers.get(jobID).add(offer);
+				offers.get(jobID).add(0, offer);
 			}
 			System.out.println("Offer cache reloaded successfully.");
 		}
@@ -84,7 +84,7 @@ public class OfferDAO {
 			st2.execute();
 			offers.put(jobID, new ArrayList<Offer>());
 		}
-		offers.get(jobID).add(offer);
+		offers.get(jobID).add(0, offer);
 	}
 	
 	private static void addNotification(Offer offer){

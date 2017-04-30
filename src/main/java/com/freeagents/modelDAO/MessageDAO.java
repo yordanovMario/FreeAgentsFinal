@@ -54,12 +54,12 @@ public class MessageDAO {
 					if(!receivedUser.containsKey(receiver)){
 						receivedUser.put(receiver, new ArrayList<Message>());
 					}
-					receivedUser.get(receiver).add(message);
+					receivedUser.get(receiver).add(0, message);
 					
 					if(!sentUser.containsKey(sender)){
 						sentUser.put(sender, new ArrayList<Message>());
 					}
-					sentUser.get(sender).add(message);
+					sentUser.get(sender).add(0, message);
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -95,12 +95,12 @@ public class MessageDAO {
 		if(!receivedUser.containsKey(message.getReceiver().getId())){
 			receivedUser.put(message.getReceiver().getId(), new ArrayList<Message>());
 		}
-		receivedUser.get(message.getReceiver().getId()).add(message);
+		receivedUser.get(message.getReceiver().getId()).add(0, message);
 		
 		if(!sentUser.containsKey(message.getSender().getId())){
 			sentUser.put(message.getSender().getId(), new ArrayList<Message>());
 		}
-		sentUser.get(message.getSender().getId()).add(message);
+		sentUser.get(message.getSender().getId()).add(0, message);
 	}
 	
 	private static void addNotification(Message message){

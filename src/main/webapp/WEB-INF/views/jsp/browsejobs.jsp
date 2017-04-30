@@ -116,7 +116,7 @@
 					<c:if test="${job.employer.id != sessionScope.user.id}">
 					<form method="GET" action="postoffer">
 						<input type="hidden" value="${job.id}"name="id">
-						<input type="submit" id="post-job-btn" value="Send Offer" />
+						<input type="submit" id="post-job-btn" value="View Details" />
 					</form>
 					</c:if>
 				</div>

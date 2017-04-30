@@ -4,11 +4,11 @@
 				<p><a href="mymessages">My Messages</a></p>
 				<p><a href="myjobs">My Jobs</a></p>
 				<p><a href="myfeedbacks?id=${user.id}">My Feedbacks</a></p>
-				<p><a href="jobsIwork">Jobs I'm working</a></p>
+				<p><a href="jobsIwork" style="color: #FFA500; font-weight: 600;">Jobs I'm working</a></p>
  			</div>	
 		<div id="post-job">
-			<h2 id="search-offers">Jobs I'm working</h2>
-			<div class="post-job search-job">
+			<!-- <h2 id="search-offers">Jobs I'm working</h2> -->
+			<div class="post-job search-job working-jobs">
 				<c:if test="${(jobsIwork != '') && (jobsIwork != 'error')}">
 					<c:forEach var="job" items="${jobsIwork}">
 						<div class="search-results">

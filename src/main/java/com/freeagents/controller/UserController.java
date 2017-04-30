@@ -64,7 +64,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String login(HttpSession session) {
+	public String login1(HttpSession session, HttpServletRequest request) {
 		if (session.getAttribute("user") != null) {
 			session.setAttribute("notification", "You are already logged in.");
 			return "index";
@@ -72,6 +72,7 @@ public class UserController {
 		else{
 			session.removeAttribute("notification");
 			session.removeAttribute("notifsignup");
+			request.setAttribute("url", request.getParameter("url"));
 			return "login";
 		}	
 	}
@@ -91,7 +92,12 @@ public class UserController {
 //				session.setAttribute("user", u);
 //				return "admin/index";
 //			}
+			
 			session.setAttribute("user", u);
+			System.out.println(req.getParameter("url"));
+			if(req.getParameter("url") != null){
+				return req.getParameter("url");
+			}
 	        return "index";
 		}		
 		else{

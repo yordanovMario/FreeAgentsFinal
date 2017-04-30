@@ -52,7 +52,7 @@ public class FeedbackDAO {
 					if(!receivedUser.containsKey(receiver)){
 						receivedUser.put(receiver, new ArrayList<Feedback>());
 					}
-					receivedUser.get(receiver).add(feedback);
+					receivedUser.get(receiver).add(0, feedback);
 				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage() + " SQL Exception in relaodCache()");
@@ -86,7 +86,7 @@ public class FeedbackDAO {
 		if(!receivedUser.containsKey(feedback.getReceiver().getId())){
 			receivedUser.put(feedback.getReceiver().getId(), new ArrayList<Feedback>());
 		}
-		receivedUser.get(feedback.getReceiver().getId()).add(feedback);
+		receivedUser.get(feedback.getReceiver().getId()).add(0, feedback);
 		
 	}
 	

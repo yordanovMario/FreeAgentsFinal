@@ -287,12 +287,6 @@ and (min-width: 1224px) {
 		margin: 5% 0;
 	}
 	
-	.tips .my-profile {
-		display: inline;
-		float: left;
-		margin: 20px 0;
-	}
-	
 	.tips div > span {
 		display: inline;
 		float: left;

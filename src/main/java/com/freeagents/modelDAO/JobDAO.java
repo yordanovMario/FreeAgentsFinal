@@ -209,10 +209,6 @@ public class JobDAO {
 		  System.out.println("The error is in JobDAO - " + e.getMessage());
 		  con.rollback();
 		}
-		finally
-		{
-		   con.close();
-		}
 	}
 	
 	private static void addNotification(Offer offer){
