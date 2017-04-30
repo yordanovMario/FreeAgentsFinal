@@ -1,9 +1,9 @@
 <footer>
 		<div class="flowe-footer-menu">
-				<p>Terms Of Service</p>	
-				<p>Privacy Policy</p>
+				<p><a href="terms">Terms</a></p>
+				<p><a href="privacy">Privacy</a></p>
 				<p class="flowe-blog"><a href="contact">Contact Us</a></p>
-				<p>Careers</p>
+				<p><a href="careers">Careers</a></p>
 				<p class="flowe-faq">FAQ</p>
  		</div>
 		<div class="flowe-footer">

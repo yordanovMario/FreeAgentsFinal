@@ -234,12 +234,6 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value="/contact", method=RequestMethod.GET)
-	public String contact(Model model){
-		return "contact";
-	}
-	
-	
 	@RequestMapping(value="/uploadpic",method = RequestMethod.POST)
 	public String uploadPicture(@RequestParam("failche") MultipartFile multiPartFile, Model model, HttpSession session) throws IOException {
 		User user = (User) session.getAttribute("user");
