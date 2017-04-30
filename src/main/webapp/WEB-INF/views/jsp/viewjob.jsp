@@ -52,6 +52,10 @@
 							<p>Offer accepted from</p>
 							<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
 							<a href="sendmessage?id=${job.worker.id}">Contact</a>
+							<form method="POST" action="finishjob">
+								<input type="hidden" value="${job.id}"name="id">
+								<input type="submit" id="post-job-btn" value="Finish Job" />
+							</form>
 						</div>
 					</c:if>
 

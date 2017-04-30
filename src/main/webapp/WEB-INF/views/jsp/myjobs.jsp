@@ -16,14 +16,6 @@
 								<p>Title</p>
 								<p>${job.title}</p>
 							</div>
-							<div class="result-budjet">
-								<p>Budjet</p>
-								<p>${job.budget}</p>
-							</div>
-							<div class="result-description">
-								<p>Description</p>
-								<p>${job.description}</p>
-							</div>
 							<div class="result-description">
 								<p>Status</p>
 								<p>${statuses.get(job.status)}</p>
@@ -47,11 +39,14 @@
 								<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
 								<a href="sendmessage?id=${job.worker.id}">Contact</a>
 							</div>
-								<form method="GET" action="viewjob">
+							</c:if>
+							<c:if test="${job.status eq 5}">
+								
+							</c:if>
+							<form method="GET" action="viewjob">
 									<input type="hidden" value="${job.id}"name="id">
 									<input type="submit" id="post-job-btn" value="View job details" />
-								</form>
-							</c:if>
+							</form>
 						</div>
 					</c:forEach>
 				</c:if>
