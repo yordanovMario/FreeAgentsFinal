@@ -8,7 +8,7 @@
  		</div>
 		<div class="flowe-footer">
 			<div class="flowe-logo-footer"> 
-				<img src="../png/logo.png">
+				<img src="../FreeAgentsFinal/png/logo.png">
 			</div>
 			<p>&copy; 2017 Free Agents LTD. All rights reserved.</p>
 		</div>

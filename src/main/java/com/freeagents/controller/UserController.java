@@ -163,6 +163,11 @@ public class UserController {
 	@RequestMapping(value="/signup", method=RequestMethod.GET)
 	public String signup(HttpSession session) {
 		session.removeAttribute("notification");
+		session.removeAttribute("notifisignup");
+		if(session.getAttribute("user") != null) {
+			session.setAttribute("notification", "You are already logged in.");
+			return "index";
+		}
 		return "signup";
 	}
 	

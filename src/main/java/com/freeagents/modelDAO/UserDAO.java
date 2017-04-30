@@ -31,6 +31,7 @@ public class UserDAO {
 	private UserDAO(){
 		try {
 			reloadCache();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -93,6 +94,11 @@ public class UserDAO {
 				levels.put((Integer) res.getInt("level_id"), res.getString("name"));
 			}
 		}
+		System.out.println("Users Cache reloaded successfully");
+		MessageDAO.getInstance();
+		FeedbackDAO.getInstance();
+		JobDAO.getInstance();
+		OfferDAO.getInstance();
 	}
 
 	public synchronized void registerUser(User user) throws SQLException{
@@ -222,11 +228,7 @@ public class UserDAO {
 	}
 	
 	public static ArrayList<Notification> getNotifications(User user){
-		ArrayList<Notification> notifications = new ArrayList<Notification>();
-		for(Notification n : usersID.get(user.getId()).getNotifications().values()){
-			notifications.add(n);
-		}
-		return notifications;
+		return usersID.get(user.getId()).getNotifications();
 	}
 }
 

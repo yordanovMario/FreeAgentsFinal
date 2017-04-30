@@ -7,22 +7,22 @@
 		</div>
 		<div class="tips">
 		<div>
-			<div class="flowe-footer-menu profile">
+			<div class="profile my-profile">
 				<p><a href="mymessages">My Messages</a></p>
 				<p><a href="myjobs">My Jobs</a></p>
 				<p><a href="myfeedbacks?id=${user.id}">My Feedbacks</a></p>
 				<p><a href="jobsIwork">Jobs I'm working</a></p>
  			</div>				
-			<div id="signup">
+			<div id="signup" class="profile-options">
 				<img src="image/${user.id}" onerror="this.src='image/0'" style="width:170px;height:170px;">
 				<form method="POST" enctype="multipart/form-data" action="uploadpic">
 					<p>Choose a picture</p>
 					<input type="file" id="file" name="failche" accept="image/*" required="required">
-					<input type="submit" value="Save changes">
+					<input type="submit" class="save-avatar" value="Save avatar">
 				</form>
 				<form method="POST" action="editdata">
 				<label for="country">Location</label>
-				<select name="country" class="categories">
+				<select name="country" class="categories country-option">
 					<option value="">Select Country</option>
 					<c:forEach var="country" items="${countries}">
 						<c:if test="${user.country == country.key}">
@@ -43,7 +43,7 @@
 				<textarea rows="4" cols="50" id="aboutme" name="aboutme">${user.aboutMe}</textarea>
 				<label for="portfolio">Portfolio</label>
 				<textarea rows="4" cols="50" id="portfolio" name="portfolio">${user.portfolio}</textarea>
-				<input type="submit" id="post-job-btn" value="Edit my data" />
+				<input style="width: 200px; margin: 5px 75px;" type="submit" id="post-job-btn" value="Edit my data" />
 				</form>
 			</div>
 			</div>

@@ -64,6 +64,7 @@ public class JobDAO {
 					jobsUser.get(userID).add(job);
 				}
 			}
+			System.out.println("Job cache reloaded successfully");
 		}
 		if(statuses.isEmpty()){
 			String query = "SELECT * FROM statuses";

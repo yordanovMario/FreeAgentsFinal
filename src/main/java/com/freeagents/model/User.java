@@ -3,6 +3,7 @@ package com.freeagents.model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class User {
 	
@@ -31,7 +32,7 @@ public class User {
 	private File avatar;
 	private ArrayList<String> skills;
 	private double rating;
-	private TreeMap<Long, Notification> notifications = new TreeMap<Long, Notification>();
+	private ConcurrentSkipListMap<Long, Notification> notifications = new ConcurrentSkipListMap<Long, Notification>();
 
 	public User(String username, String password, String email, String firstName, String lastName) {
 		setUsername(username);
@@ -65,8 +66,12 @@ public class User {
 		}
 	}
 
-	public TreeMap<Long, Notification> getNotifications() {
-		return notifications;
+	public ArrayList<Notification> getNotifications() {
+		ArrayList<Notification> notifications2 = new ArrayList<Notification>();
+		for(Notification n : notifications.values()){
+			notifications2.add(n);
+		}
+		return notifications2;
 	}
 
 	public void setPassword(String password) {
@@ -245,15 +250,16 @@ public class User {
 	
 	public void removeNotification(long id){
 		if(notifications.containsKey(id)){
-			if(notifications.get(id).getType() == 4){
-				for(Notification n : notifications.values()){
-					if(n.getType() == 4 && n.getObjectID() == id){
-						notifications.remove(n);
-					}
+			notifications.remove(id);
+		}
+	}	
+	
+	public void removeNotification(long objectID, int type){
+		if(type == -2){
+			for(Notification n : notifications.values()){
+				if(n.getObjectID() == objectID){
+					notifications.remove(n.getId());
 				}
-			}
-			else{
-				notifications.remove(id);
 			}
 		}
 	}	

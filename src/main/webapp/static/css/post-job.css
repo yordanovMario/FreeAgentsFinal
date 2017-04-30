@@ -76,9 +76,26 @@ h1 {
 	margin-bottom: 10px;
 }
 
+.country-option {
+	width: 340px;
+}
+
+#signup .save-avatar {
+	cursor: pointer;
+    width: 200px;
+    margin: 5px 75px;
+	background-color: #FFA500;
+}
+
+.profile-options label {
+	font-size: 18px;
+    font-weight: 600;
+}
+
 .search-job .categories {
 	display: inline;
-	width: 350px;
+	width: 235px;
+	cursor: pointer;
 }
 
 /*.categories option {
@@ -101,6 +118,7 @@ h1 {
     vertical-align: middle;
     line-height: 20px;
     margin: 2% 17%;
+	cursor: pointer;
 }
 
 .post-job-account p {
