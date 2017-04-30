@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.freeagents.model.Feedback;
 import com.freeagents.model.Notification;
 import com.freeagents.model.User;
+import com.freeagents.modelDAO.FeedbackDAO;
 import com.freeagents.modelDAO.UserDAO;
 
 @SessionAttributes("filename")
@@ -105,9 +107,11 @@ public class UserController {
 			session.removeAttribute("notification");
 			long id = Long.parseLong(request.getParameter("id"));
 			User userprofile = UserDAO.getProfile(id);
+			ArrayList<Feedback> feedbacks = FeedbackDAO.getReceived(id);
 			request.setAttribute("userprofile", userprofile);
 			String country = UserDAO.getCountry(userprofile.getCountry());
 			request.setAttribute("country", country);
+			request.setAttribute("feedbacks", feedbacks);
 			return "viewprofile";
 		}
 		else{
@@ -159,6 +163,11 @@ public class UserController {
 	@RequestMapping(value="/signup", method=RequestMethod.GET)
 	public String signup(HttpSession session) {
 		session.removeAttribute("notification");
+		session.removeAttribute("notifisignup");
+		if(session.getAttribute("user") != null) {
+			session.setAttribute("notification", "You are already logged in.");
+			return "index";
+		}
 		return "signup";
 	}
 	

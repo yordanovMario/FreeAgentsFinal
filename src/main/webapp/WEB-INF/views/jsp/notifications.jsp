@@ -7,13 +7,12 @@
 </head>
 <body>
 	<c:forEach var="notification" items="${notifications}">
-		<p>${notification.id}</p>
-		<p>${notification.title}</p>
-		<p>${notification.type}</p>
-		<p>${notification.objectID}</p>
-		<p><a href="${notification.link}">link to</a></p>
-		
-		
+		<p>ID:${notification.id}</p>
+		<p>Title:${notification.title}</p>
+		<p>Type:${notification.type}</p>
+		<p>Object ID:${notification.objectID}</p>
+		<p> 1 - message, 2 - feedback, 3 - accepted offer, 4 new offer for job</p>
+		<p>Link:<a href="${notification.link}">link to</a></p>
 		<br>
 	</c:forEach>
 </body>

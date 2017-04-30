@@ -80,18 +80,19 @@
 						<p>Title</p>
 						<p>${job.title}</p>
 					</div>
+					<div class="result-title">
+						<p>From</p>
+						<p><a href="viewprofile?id=${job.employer.id}">${job.employer.firstName} ${job.employer.lastName}</a></p>
+					</div>
 					<div class="result-budjet">
 						<p>Budjet</p>
 						<p>${job.budget}</p>
 					</div>
-					<div class="result-description">
+					<!-- <div class="result-description">
 						<p>Description</p>
 						<p>${job.description}</p>
-					</div>
-					<div class="result-description">
-						<p>Category</p>
-						<p>${categories.get(job.category)}</p>
-					</div>
+					</div> -->
+					
 					<div class="result-description">
 						<p>Required Experience</p>
 						<c:if test="${job.requiredExp == 1}">
@@ -104,9 +105,9 @@
 						<p>Expert</p>
 						</c:if>
 					</div>
-					<div class="result-title">
-						<p>From</p>
-						<p><a href="viewprofile?id=${job.employer.id}">${job.employer.firstName} ${job.employer.lastName}</a></p>
+					<div class="result-description">
+						<p>Category</p>
+						<p>${categories.get(job.category)}</p>
 					</div>
 					<div class="result-title">
 						<p>Date posted</p>

@@ -71,19 +71,6 @@ public class MessageDAO {
 	}
 	
 	public static synchronized void sendMessage(Message message){
-		
-		messages.put(message.getId(), message);
-		
-		if(!receivedUser.containsKey(message.getReceiver().getId())){
-			receivedUser.put(message.getReceiver().getId(), new ArrayList<Message>());
-		}
-		receivedUser.get(message.getReceiver().getId()).add(message);
-		
-		if(!sentUser.containsKey(message.getSender().getId())){
-			sentUser.put(message.getSender().getId(), new ArrayList<Message>());
-		}
-		sentUser.get(message.getSender().getId()).add(message);
-		
 		String query = "INSERT INTO messages (title, content, date, sender_id, receiver_id, is_read) values (?, ?, ?, ?, ?, ?)";
 		PreparedStatement st;
 		try {
@@ -103,7 +90,17 @@ public class MessageDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		messages.put(message.getId(), message);
 		
+		if(!receivedUser.containsKey(message.getReceiver().getId())){
+			receivedUser.put(message.getReceiver().getId(), new ArrayList<Message>());
+		}
+		receivedUser.get(message.getReceiver().getId()).add(message);
+		
+		if(!sentUser.containsKey(message.getSender().getId())){
+			sentUser.put(message.getSender().getId(), new ArrayList<Message>());
+		}
+		sentUser.get(message.getSender().getId()).add(message);
 	}
 	
 	private static void addNotification(Message message){
@@ -128,6 +125,8 @@ public class MessageDAO {
 	
 	public static synchronized Message readMessage(long messageID, long notificationID){
 		Message message = messages.get(messageID);
+		System.out.println(message);
+		System.out.println(message.isRead());
 		message.setRead(true);
 		
 		String query = "UPDATE messages SET is_read=1 WHERE message_id = ?";

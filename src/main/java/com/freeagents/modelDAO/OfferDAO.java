@@ -10,6 +10,7 @@ import com.freeagents.model.DBManager;
 import com.freeagents.model.Message;
 import com.freeagents.model.Notification;
 import com.freeagents.model.Offer;
+import com.mysql.jdbc.Connection;
 
 public class OfferDAO {
 	
@@ -54,6 +55,7 @@ public class OfferDAO {
 				}
 				offers.get(jobID).add(offer);
 			}
+			System.out.println("Offer cache reloaded successfully.");
 		}
 	}
 	
@@ -86,42 +88,39 @@ public class OfferDAO {
 	}
 	
 	private static void addNotification(Offer offer){
-//		System.out.println(offer.getJob());
-//		System.out.println(1);
-//		System.out.println(offer.getId());
-//		System.out.println(2);
-//		System.out.println(offer.getJob());
-//		System.out.println(3);
-//		System.out.println(JobDAO.getJob(offer.getJob()).getEmployer());
-//		System.out.println(4);
-//		System.out.println(offer.getSenderUser().getFirstName());
-//		System.out.println(5);
-		JobDAO.getJob(offer.getJob()).getEmployer().addNotification(new Notification(offer.getSenderUser().getFirstName(), 4, offer.getId()));
+		JobDAO.getJob(offer.getJob()).getEmployer().addNotification(new Notification(offer.getSenderUser().getFirstName(), 4, offer.getJob()));
 	}
 	
-	private static void removeNotification(long notificationId, long userId){
-		UserDAO.getUserID(userId).removeNotification(notificationId);
+	private static void removeNotification(long objectId, long userId){
+		UserDAO.getUserID(userId).removeNotification(objectId, -2);
 	}
 	
 	public ArrayList<Offer> getJobOffers(long id){
 		removeNotification(id, JobDAO.getJob(id).getEmployer().getId());
-		String query = new String("");
-		for(Offer o : offers.get(id)){
-			if(!o.isRead()){
-				o.setRead(true);
-				query.concat("UPDATE offers SET is_read=1 WHERE offer_id=" + o.getId() + "\n");
-			}
-		}
+		String query;
 		java.sql.PreparedStatement st;
-		try {
-			st = DBManager.getInstance().getConnection().clientPrepareStatement(query);
-			st.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Connection con = DBManager.getInstance().getConnection();
+		if(offers.containsKey(id)){
+			for(Offer o : offers.get(id)){
+				if(!o.isRead()){
+					o.setRead(true);
+					removeNotification(id, JobDAO.getJob(id).getEmployer().getId());
+					query = "UPDATE offers SET is_read=1 WHERE offer_id=" + o.getId();
+					try {
+						st = con.clientPrepareStatement(query);
+						st.execute();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
-		return offers.get(id);
+				}
+			}
+			return offers.get(id);
+		}
+		else{
+			return null;
+		}
 	}
 	
 	public HashMap<Long, Offer> getAllOffers(){		

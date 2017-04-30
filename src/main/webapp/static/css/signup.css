@@ -189,7 +189,8 @@ header {
     margin: 10px 60px;
 }
 
-.flowe-footer-menu p {
+.flowe-footer-menu p,
+.flowe-footer-menu p > a {
 	/*display: inline-block;*/
     margin: 0 42px;
 	font-size: 18px;
@@ -222,6 +223,10 @@ header {
 
 .profile a:hover {
     color: #FFA500;
+}
+
+.profile p {
+	margin: 0 18px;
 }
 
 .flowe-bot {
@@ -269,7 +274,7 @@ and (min-width: 1224px) {
 
 	.main-description {
 		width: 750px;
-		margin: 0 auto;
+		margin: 70px auto;
 		color: #3e4651;
 	}
 	
@@ -282,15 +287,22 @@ and (min-width: 1224px) {
 		margin: 5% 0;
 	}
 	
+	.tips .my-profile {
+		display: inline;
+		float: left;
+		margin: 20px 0;
+	}
+	
 	.tips div > span {
 		display: inline;
 		float: left;
 	}
 	
-	/*.tips p {
-		font-size: 22px;
-		margin-right: 22%;
-	}*/
+	.tips div  > p {
+		padding: 4px 0;
+		font-size: 16px;
+		/* font-weight: 600px; */
+	}
 	
 	.tips img {
 		width: 65px;
@@ -339,5 +351,9 @@ and (min-width: 1224px) {
 	.flowe-footer-menu p {
 		display: inline-block;
 		text-align: justify;
+	}
+	
+	.flowe-footer-menu p >a {
+		text-decoration: none;
 	}
 }
