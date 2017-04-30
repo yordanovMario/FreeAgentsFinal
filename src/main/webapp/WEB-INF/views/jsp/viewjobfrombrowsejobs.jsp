@@ -38,29 +38,15 @@
 						<p>Date posted</p>
 						<p>${job.date}</p>
 					</div>
-					<c:if test="${job.status eq 2}">
-						<form method="GET" action="viewoffers">
-							<input type="hidden" value="${job.id}"name="id">
-							<input type="submit" id="post-job-btn" value="View offers" />
-						</form>
+					<c:if test="${job.employer.id != sessionScope.user.id}">
+					<form method="GET" action="postoffer">
+						<input type="hidden" value="${job.id}"name="id">
+						<input type="submit" id="post-job-btn" value="Send Offer" />
+					</form>
 					</c:if>
-					<c:if test="${job.status eq 1}">
-						<p>There are no offers yet for this job</p>
-					</c:if>
-					<c:if test="${job.status eq 3}">
-						<div class="result-description">
-							<p>Offer accepted from</p>
-							<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
-							<a href="sendmessage?id=${job.worker.id}">Contact</a>
-							<form method="POST" action="finishjob">
-								<input type="hidden" value="${job.id}"name="id">
-								<input type="submit" id="post-job-btn" value="Finish Job" />
-							</form>
-						</div>
-					</c:if>
-
+					
 				</div>
-			<div class="post-job-account">
-			</div>
+		<div class="post-job-account">
 		</div>
+	</div>
 <jsp:include page="footer.jsp" />

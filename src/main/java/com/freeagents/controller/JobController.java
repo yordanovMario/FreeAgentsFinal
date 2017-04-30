@@ -199,13 +199,32 @@ public class JobController {
 			request.setAttribute("job", JobDAO.getJob(id));
 			request.setAttribute("statuses", JobDAO.getStatuses());
 			request.setAttribute("user", u);
+			HashMap<Integer, String> categories = UserDAO.getCategories();
+			request.setAttribute("categories", categories);
 			return "viewjob";
 		}
 		else{
 			return "login";
 		}
 	}
-	//TODO:
+	
+	@RequestMapping(value="/viewjobfrombrowsejobs",method = RequestMethod.GET)
+	public String viewJobFromBrowseJobs(HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			long id = Long.parseLong(request.getParameter("id"));
+			User u = (User) session.getAttribute("user");
+			request.setAttribute("job", JobDAO.getJob(id));
+			request.setAttribute("statuses", JobDAO.getStatuses());
+			request.setAttribute("user", u);
+			HashMap<Integer, String> categories = UserDAO.getCategories();
+			request.setAttribute("categories", categories);
+			return "viewjobfrombrowsejobs";
+		}
+		else{
+			return "login";
+		}
+	}
 	
 	@RequestMapping(value="/finishjob",method = RequestMethod.POST)
 	public String finishJob(HttpServletRequest request, HttpSession session) {

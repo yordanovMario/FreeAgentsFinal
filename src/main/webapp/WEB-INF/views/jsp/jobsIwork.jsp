@@ -17,7 +17,7 @@
 								<p>${job.title}</p>
 							</div>
 							<div class="result-budjet">
-								<p>Budjet</p>
+								<p>Budget</p>
 								<p>${job.budget}</p>
 							</div>
 							<div class="result-description">
