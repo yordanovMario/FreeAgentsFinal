@@ -21,6 +21,11 @@ h1 {
 	margin-left: 23%;
 }
 
+.no-jobs {
+	margin-left: 40%;
+	font-size: 18px;
+}
+
 .my-messages,
 .my-feedbacks {
 	margin-left: 20%;
@@ -174,3 +179,4 @@ h1 {
 .post-job-account a:hover {
 	color: #FFA500;
 }
+

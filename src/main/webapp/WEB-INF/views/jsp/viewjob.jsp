@@ -38,7 +38,10 @@
 						</form>
 					</c:if>
 					<c:if test="${job.status eq 1}">
+					<div class="result-description">
+						<p>Offers</p>
 						<p>There are no offers yet for this job</p>
+					</div>
 					</c:if>
 					<c:if test="${job.status eq 3}">
 					<div class="result-description">
@@ -46,16 +49,37 @@
 						<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
 						<a href="sendmessage?id=${job.worker.id}">Contact</a>
 					</div>
+					<form method="POST" action="finishjob">
+							<input type="hidden" value="${job.id}"name="id">
+							<input type="submit" id="post-job-btn" value="Finish Job" />
+					</form>
 					</c:if>
 					<c:if test="${job.status eq 5}">
-						<p>Job done from</p>
-						<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
-						<a href="sendmessage?id=${job.worker.id}">Contact</a>
-						<form method="GET" action="sendfeedback">
-							<input type="hidden" value="${job.worker.id}"name="id">
-							<input type="submit" id="post-job-btn" value="Leave feedback" />
-						</form>
+					<div class="result-description">
+						<p>Job done by</p>
+						<p><a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a></p>
+						<p><a href="sendmessage?id=${job.worker.id}">Contact</a></p>
+					</div>
+						<c:if test="${job.fbFromEmployer eq false}">
+						<div class="result-description">
+							<p>Feedback</p>
+							<p>You have not left feedback for the job</p>
+							<form method="GET" action="sendfeedback">
+								<input type="hidden" value="${job.worker.id}" name="id">
+								<input type="hidden" value="${job.id}" name="jobid">
+								<input type="hidden" value="true" name="who">
+								<input type="submit" id="post-job-btn" value="Leave feedback" />
+							</form>
+						</div>
+						</c:if>
+						<c:if test="${job.fbFromEmployer eq true}">
+						<div class="result-description">
+							<p>Feedback</p>
+							<p>You have left feedback for the job</p>
+						</div>
+						</c:if>
 					</c:if>
+					
 				</div>
 				</div>
 			<div class="post-job-account">

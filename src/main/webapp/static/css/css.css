@@ -156,6 +156,10 @@ h1 {
 	box-shadow: 0px 2px 30px 5px rgba(112,112,112,1);
 }
 
+.reed-feedback .search-results {
+	margin-left: 0;
+}
+
 .result-title,
 .result-budjet,
 .result-description,
@@ -289,4 +293,57 @@ h1 {
 	border-radius: 5px;
 	border: 1px solid #3e4651;
 	margin-left: 5px;
+}
+
+.notification-box {
+	background-color: #4ECBEE;
+    width: 40px;
+    display: inline;
+    position: absolute;
+    margin-left: 550px;
+	margin-top: -85px;
+    height: 32px;
+    border-radius: 20px;
+    padding-top: 4px;
+    font-weight: 600;
+    font-size: 20px;
+	cursor: pointer;
+}
+
+.notif-menu {
+	display: none;
+	margin-top: -30px;
+}
+
+.view-menu {
+	display: block;
+    /* width: 150px;
+    height: 100px;
+    background-color: pink;
+    margin-top: -45px; */
+}
+
+.view-menu-not {
+	display: none;
+}
+
+.notif-element {
+	display: inline-block;
+    /* margin: 0;
+    padding: 0; */
+    height: 40px;
+    /* margin-top: -25px; */
+	/* padding-bottom: 80px; */
+}
+
+.notif-element a {
+	margin: 0;
+	font-size: 16px;
+	padding: 5px;
+	color: #3e4651;
+}
+
+.notif-element a:hover {
+	border-bottom: 1px solid #3e4651;
+    color: #FFA500;
 }

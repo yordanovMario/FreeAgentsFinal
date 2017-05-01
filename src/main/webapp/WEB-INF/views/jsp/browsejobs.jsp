@@ -72,7 +72,7 @@
 				</form>
 			</div>
 			<c:if test="${empty jobs}">
-				<h3>There are no jobs with this criteria</h3>
+				<h3 class="no-jobs">There are no jobs with this criteria</h3>
 			</c:if>
 			<c:forEach var="job" items="${jobs}">
 				<div class="search-results">

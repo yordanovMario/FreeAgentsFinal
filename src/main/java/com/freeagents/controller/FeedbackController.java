@@ -1,5 +1,6 @@
 package com.freeagents.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import com.freeagents.model.Message;
 import com.freeagents.model.Notification;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.FeedbackDAO;
+import com.freeagents.modelDAO.JobDAO;
 import com.freeagents.modelDAO.MessageDAO;
 import com.freeagents.modelDAO.UserDAO;
 
@@ -26,8 +28,13 @@ public class FeedbackController {
 	public String login(HttpSession session, HttpServletRequest req, HttpServletResponse resp) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(req.getParameter("id"));
+			long jobid = Long.parseLong(req.getParameter("jobid"));
+			boolean whoIsSending = Boolean.getBoolean(req.getParameter("who"));
 			req.setAttribute("id", id);
+			req.setAttribute("jobid", jobid);
+			req.setAttribute("who", whoIsSending);
 			req.setAttribute("receiver", UserDAO.getUserID(id));
 			return "sendfeedback";
 		}
@@ -46,7 +53,10 @@ public class FeedbackController {
 		if (session.getAttribute("user") != null) {
 			if(req.getParameter("content") != null && req.getParameter("rating") != null){
 				session.removeAttribute("notification");
+				session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 				long id = Long.parseLong(req.getParameter("id"));
+				long jobid = Long.parseLong(req.getParameter("jobid"));
+				boolean whoIsSending = Boolean.getBoolean(req.getParameter("who"));
 				User receiver = UserDAO.getUserID(id);
 				User sender = (User) session.getAttribute("user");
 				if(sender == null || receiver == null || content.isEmpty() || rating < 1 || rating >5){
@@ -54,10 +64,15 @@ public class FeedbackController {
 				}
 				if(valid){
 					Feedback feedback = new Feedback(sender, receiver, content, rating, date);
-					FeedbackDAO.getInstance();
-					FeedbackDAO.sendFeedback(feedback);
-					
-					session.setAttribute("notification", "Feedback successfuly sent!");
+					try {
+						FeedbackDAO.getInstance();
+						FeedbackDAO.sendFeedback(feedback);
+						JobDAO.leavefeedback(jobid, whoIsSending);
+						session.setAttribute("notification", "Feedback successfully sent!");
+					} catch (SQLException e) {
+						session.setAttribute("notification", "Feedback was not sent. Please try again");
+						e.printStackTrace();
+					}
 					return "index";
 				}
 				else{
@@ -65,6 +80,8 @@ public class FeedbackController {
 					req.setAttribute("content", content);
 					req.setAttribute("rating", rating);
 					req.setAttribute("id", req.getParameter("id"));
+					req.setAttribute("jobid", jobid);
+					req.setAttribute("who", whoIsSending);
 					return "sendfeedback";
 				}
 			}
@@ -82,6 +99,7 @@ public class FeedbackController {
 	public String myfeedbacks(Model model, HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			User u = (User) session.getAttribute("user");
 			FeedbackDAO.getInstance();
 			ArrayList<Feedback> received = FeedbackDAO.getReceived(u.getId());
@@ -98,6 +116,7 @@ public class FeedbackController {
 	public String readmessage(HttpSession session, HttpServletRequest req) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(req.getParameter("id"));
 			long notification = (req.getParameter("notifID") != null ? Long.parseLong(req.getParameter("notifID")) : 0);
 			Feedback feedback = FeedbackDAO.readFeedback(id, notification);

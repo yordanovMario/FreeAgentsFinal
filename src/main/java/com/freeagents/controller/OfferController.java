@@ -17,6 +17,7 @@ import com.freeagents.model.Offer;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.JobDAO;
 import com.freeagents.modelDAO.OfferDAO;
+import com.freeagents.modelDAO.UserDAO;
 
 @Controller
 public class OfferController {
@@ -24,6 +25,8 @@ public class OfferController {
 	@RequestMapping(value="/viewoffers",method = RequestMethod.GET)
 	public String viewoffers(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(request.getParameter("id"));
 			ArrayList<Offer> offers = OfferDAO.getInstance().getJobOffers(id);
 			if(offers != null){
@@ -58,6 +61,7 @@ public class OfferController {
 		if (session.getAttribute("user") != null) {
 			if(request.getParameter("content") != null){
 				session.removeAttribute("notification");
+				session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 				id = Long.parseLong(request.getParameter("id"));
 				String content = (String) request.getParameter("content");
 				int price = Integer.parseInt(request.getParameter("price"));
@@ -76,6 +80,7 @@ public class OfferController {
 			else{
 				id = Long.parseLong(request.getParameter("id"));
 				request.setAttribute("id", id);
+				session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 				session.setAttribute("notification", "The content of your offer is empty. Please try again.");
 				return "postoffer";
 			}
@@ -89,6 +94,7 @@ public class OfferController {
 	public String acceptoffer(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(request.getParameter("id"));
 			long jobID = Long.parseLong(request.getParameter("jobID"));
 			try {

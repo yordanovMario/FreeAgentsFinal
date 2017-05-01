@@ -34,6 +34,7 @@ public class JobController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			User u = (User) session.getAttribute("user");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			ArrayList<Job> jobs = new ArrayList<Job>(); 
 			jobs = JobDAO.getInstance().getMyJobs(u.getId());
 			HashMap<Long, Boolean> offers = new HashMap<Long, Boolean>();
@@ -58,6 +59,7 @@ public class JobController {
 	public String postjob(Model model, HttpServletRequest request, HttpSession session){
 		if (session.getAttribute("user") != null){
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			HashMap<Integer, String> categories = UserDAO.getCategories();
 			request.setAttribute("categories", categories);
 			return "postjob";
@@ -78,6 +80,7 @@ public class JobController {
 		String page = "index";
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			User user = (User) session.getAttribute("user");
 			if(title.isEmpty() || desc.isEmpty() || budget.isEmpty() || category.isEmpty() || reqExp.isEmpty() || expire.isEmpty()){
 				valid = false;
@@ -154,6 +157,7 @@ public class JobController {
 		TreeSet<Job> jobs = JobDAO.getInstance().getAllJobs(comp, category, experience);
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			User u = (User) session.getAttribute("user");
 			request.setAttribute("user", u);
 			request.setAttribute("jobs", jobs);
@@ -172,6 +176,7 @@ public class JobController {
 	public String jobsIwork(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id;
 			if(request.getParameter("id") != null){
 				id = Long.parseLong(request.getParameter("id"));
@@ -194,6 +199,7 @@ public class JobController {
 	public String viewjob(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(request.getParameter("id"));
 			User u = (User) session.getAttribute("user");
 			request.setAttribute("job", JobDAO.getJob(id));
@@ -211,6 +217,7 @@ public class JobController {
 	public String viewJobFromBrowseJobs(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(request.getParameter("id"));
 			User u = (User) session.getAttribute("user");
 			request.setAttribute("job", JobDAO.getJob(id));
@@ -229,6 +236,7 @@ public class JobController {
 	public String finishJob(HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			User u = (User) session.getAttribute("user");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(request.getParameter("id"));
 			try {
 				JobDAO.getInstance().finishJob(id);

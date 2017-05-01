@@ -14,6 +14,8 @@
 					</select>
 					<textarea rows="4" cols="50" name="content" required="required" placeholder="Enter your comment here..."></textarea>
 					<input type="hidden" value="${id}" name="id">
+					<input type="hidden" value="${jobid}" name="jobid">
+					<input type="hidden" value="${who}" name="who">
 					<input type="submit" id="post-job-btn" value="Send Feedback" />
 				</form>
 			</div>

@@ -43,7 +43,7 @@ public class JobDAO {
 	
 	private void reloadCache() throws SQLException{
 		if(jobsUser.isEmpty()){
-			String query = "SELECT job_id, title, description, budget, category_id, user_employer_id, user_worker_id, status, accepted_offer_id, date, expire, visibility, required_exp FROM jobs";
+			String query = "SELECT job_id, title, description, budget, category_id, user_employer_id, user_worker_id, status, accepted_offer_id, date, expire, visibility, required_exp, fb_from_employer, fb_from_worker FROM jobs";
 			java.sql.PreparedStatement st = DBManager.getInstance().getConnection().clientPrepareStatement(query);
 			ResultSet res = st.executeQuery();
 			User user;
@@ -53,7 +53,7 @@ public class JobDAO {
 				job = new Job(res.getLong("job_id"), user, UserDAO.getUserID(res.getLong("user_worker_id")), res.getString("title"), 
 						res.getString("description"), res.getInt("budget"), res.getInt("category_id"), res.getInt("required_exp"), false, 
 						(res.getInt("expire") > 0 ? 7 : res.getInt("expire")), res.getString("date"), res.getInt("status"), res.getInt("visibility"), 
-						(res.getString("accepted_offer_id") != null ? res.getLong("accepted_offer_id") : 0));
+						(res.getString("accepted_offer_id") != null ? res.getLong("accepted_offer_id") : 0), res.getInt("fb_from_employer"), res.getInt("fb_from_worker"));
 				long userID = user.getId();
 				jobs.put(job.getId(), job);
 				if(jobsUser.containsKey(userID)){
@@ -77,7 +77,7 @@ public class JobDAO {
 	}
 	
 	public synchronized void postJob(Job job) throws SQLException{
-		String query = "INSERT INTO jobs (title, description, budget, category_id, status, user_employer_id, date, expire, visibility, required_exp) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO jobs (title, description, budget, category_id, status, user_employer_id, date, expire, visibility, required_exp, fb_from_worker, fb_from_employer) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
 		st.setString(1, job.getTitle());
 		st.setString(2, job.getDescription());
@@ -89,6 +89,8 @@ public class JobDAO {
 		st.setInt(8, job.getExpire());
 		st.setInt(9, job.isVisible() ? 1 : 0);
 		st.setInt(10, job.getRequiredExp());
+		st.setInt(11, 0);
+		st.setInt(12, 0);
 		st.execute();
 		ResultSet res = st.getGeneratedKeys();
 		res.next();
@@ -229,6 +231,26 @@ public class JobDAO {
 		st1.setLong(1, jobID);
 		getJob(jobID).setStatus(5);
 		st1.execute();
+	}
+
+	public static void leavefeedback(long jobID, boolean whoIsSending) throws SQLException {
+		if(whoIsSending == true){
+			String query = "UPDATE jobs SET fb_from_employer = 1 WHERE job_id = ?";
+			Connection con = DBManager.getInstance().getConnection();
+			PreparedStatement st = con.prepareStatement(query);
+			st.setLong(1, jobID);
+			st.execute();
+			jobs.get(jobID).setFbFromEmployer(true);
+		}
+		else{
+			String query = "UPDATE jobs SET fb_from_worker = 1 WHERE job_id = ?";
+			Connection con = DBManager.getInstance().getConnection();
+			PreparedStatement st = con.prepareStatement(query);
+			st.setLong(1, jobID);
+			st.execute();
+			jobs.get(jobID).setFbFromWorker(true);
+		}
+		
 	}
 	
 

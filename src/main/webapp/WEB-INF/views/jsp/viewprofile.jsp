@@ -16,12 +16,17 @@
 		</div>
 		<div class="description">
 			<c:if test="${country == null}"><p>N/A</p></c:if>
-			<c:if test="${country != null}"><p>${country}"</p></c:if>
-			<p>${userprofile.jobTitle}</p>
-			<p>${userprofile.phone}</p>
-			<p>${userprofile.perHourRate}</p>
-			<p>${userprofile.aboutMe}</p>
-			<p>${userprofile.portfolio}</p>
+			<c:if test="${country != null}"><p>${country}</p></c:if>
+			<c:if test="${userprofile.jobTitle == null}"><p>N/A</p></c:if>
+			<c:if test="${userprofile.jobTitle != null}"><p>${userprofile.jobTitle}</p></c:if>
+			<c:if test="${userprofile.phone == null}"><p>N/A</p></c:if>
+			<c:if test="${userprofile.phone != null}"><p>${userprofile.phone}</p></c:if>
+			<c:if test="${userprofile.perHourRate == null}"><p>N/A</p></c:if>
+			<c:if test="${userprofile.perHourRate != null}"><p>${userprofile.perHourRate}</p></c:if>
+			<c:if test="${userprofile.aboutMe == null}"><p>N/A</p></c:if>
+			<c:if test="${userprofile.aboutMe != null}"><p>${userprofile.aboutMe}</p></c:if>
+			<c:if test="${userprofile.portfolio == null}"><p>N/A</p></c:if>
+			<c:if test="${userprofile.portfolio != null}"><p>${userprofile.portfolio}</p></c:if>
 			<c:if test="${rating == null}"><p>No feedbacks yet</p></c:if>
 			<c:if test="${rating != null}"><p>${rating}/5</p></c:if>
 		</div>
@@ -31,7 +36,11 @@
 		<input type="hidden" value="${userprofile.id}" name="id">
 		<input type="submit" id="post-job-btn" value="Send Message" class="view-message-button"/>
 	</form>
-	
+	</c:if>
+	<c:if test="${userprofile.id == sessionScope.user.id}">
+	<form method="GET" action="sendmessage" class="view-send-message">
+	</form>
+	</c:if>
 	<div id="post-job">
 			<!-- <h2 id="search-offers">My Feedbacks</h2> -->
 			<div class="post-job search-job my-feedbacks">
@@ -44,22 +53,14 @@
 						    <th>Date & Time</th>
 						  </tr>
 						<c:forEach var="feedback" items="${feedbacks}">
-						<c:if test="${feedback.isRead() eq true}">
+						
 							<tr style="background-color: #ECE7E7;">
 							<td>${feedback.sender.firstName} ${feedback.sender.lastName}</td>
 							<td>${feedback.rating}</td>
 							<td>${feedback.content}</td>
 							<td>${feedback.date}</td>
 							</tr>
-						</c:if>
-						<c:if test="${feedback.isRead() eq false}">	
-							<tr style="background-color: #D9CFD0;">
-							<td>${feedback.sender.firstName} ${feedback.sender.lastName}</td>
-							<td>${feedback.rating}</td>
-							<td>${feedback.content}</td>
-							<td>${feedback.date}</td>
-							</tr>
-						</c:if>
+
 						</c:forEach>
 					</table>
 				</c:if>
@@ -70,5 +71,4 @@
 			<div class="post-job-account">
 			</div>
 		</div>
-	</c:if>
 <jsp:include page="footer.jsp" />

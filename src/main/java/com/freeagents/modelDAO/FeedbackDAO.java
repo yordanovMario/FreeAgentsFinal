@@ -62,26 +62,22 @@ public class FeedbackDAO {
 		}
 	}
 	
-	public static synchronized void sendFeedback(Feedback feedback){
+	public static synchronized void sendFeedback(Feedback feedback) throws SQLException{
 		String query = "INSERT INTO feedbacks (content, rating, date, sender_id, receiver_id, is_read) values (?, ?, ?, ?, ?, ?)";
 		PreparedStatement st;
-		try {
-			st = DBManager.getInstance().getConnection().prepareStatement(query);
-			st.setString(1, feedback.getContent());
-			st.setInt(2, feedback.getRating());
-			st.setString(3, feedback.getDate());
-			st.setLong(4, feedback.getSender().getId());
-			st.setLong(5, feedback.getReceiver().getId());
-			st.setInt(6, 0);
-			st.execute();
-			ResultSet res = st.getGeneratedKeys();
-			res.next();
-			long id = res.getLong(1);
-			feedback.setId(id);
-			addNotification(feedback);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		st = DBManager.getInstance().getConnection().prepareStatement(query);
+		st.setString(1, feedback.getContent());
+		st.setInt(2, feedback.getRating());
+		st.setString(3, feedback.getDate());
+		st.setLong(4, feedback.getSender().getId());
+		st.setLong(5, feedback.getReceiver().getId());
+		st.setInt(6, 0);
+		st.execute();
+		ResultSet res = st.getGeneratedKeys();
+		res.next();
+		long id = res.getLong(1);
+		feedback.setId(id);
+		addNotification(feedback);
 		feedbacks.put(feedback.getId(), feedback);
 		if(!receivedUser.containsKey(feedback.getReceiver().getId())){
 			receivedUser.put(feedback.getReceiver().getId(), new ArrayList<Feedback>());

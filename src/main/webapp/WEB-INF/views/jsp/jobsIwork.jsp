@@ -37,6 +37,23 @@
 								<p>Date posted</p>
 								<p>${job.date}</p>
 							</div>
+							<c:if test="${job.status eq 5}">
+							<div class="result-description">
+								<p>Feedback</p>
+								<c:if test="${job.fbFromWorker eq false}">
+									<p>You have not left feedback for the job</p>
+									<form method="GET" action="sendfeedback">
+										<input type="hidden" value="${job.worker.id}" name="id">
+										<input type="hidden" value="${job.id}" name="jobid">
+										<input type="hidden" value="false" name="who">
+										<input type="submit" id="post-job-btn" value="Leave feedback" />
+									</form>
+								</c:if>
+								<c:if test="${job.fbFromWorker eq true}">
+									<p>You have left feedback for the job</p>
+								</c:if>
+							</div>
+							</c:if>
 						</div>
 					</c:forEach>
 				</c:if>

@@ -24,7 +24,10 @@ public class Job {
 	private String date;
 	private boolean visible;
 	private int expire;
-
+	private boolean fbFromEmployer;
+	private boolean fbFromWorker;
+	
+	
 	public Job(User employer, String title, String description, int budget, int category, int requiredExp, boolean sponsored, int expire, String date) {
 		setEmployer(employer);
 		setTitle(title);
@@ -39,9 +42,12 @@ public class Job {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		this.date = dateTime.format(formatter);
 		this.visible = true;
+		this.fbFromEmployer = false;
+		this.fbFromWorker = false;
 	}
 	
-	public Job(long id, User employer, User worker, String title, String description, int budget, int category, int requiredExp, boolean sponsored, int expire, String date, int status, int visibility, long acceptedOffer){
+	public Job(long id, User employer, User worker, String title, String description, int budget, int category, int requiredExp, boolean sponsored, int expire, 
+			String date, int status, int visibility, long acceptedOffer, int fbFromEmployer, int fbFromWorker){
 		this.id = id;
 		this.employer = employer;
 		this.title = title;
@@ -56,6 +62,16 @@ public class Job {
 		this.visible = (visibility == 0 ? false : true);
 		this.worker = (worker != null ? worker : null);
 		this.acceptedOffer = (acceptedOffer > 0 ? acceptedOffer : 0);
+		this.fbFromEmployer = (fbFromEmployer == 0 ? false : true);
+		this.fbFromWorker = (fbFromWorker == 0 ? false : true);
+	}
+
+	public boolean isFbFromEmployer() {
+		return fbFromEmployer;
+	}
+
+	public boolean isFbFromWorker() {
+		return fbFromWorker;
 	}
 
 	public void setWorker(User worker) {
@@ -187,6 +203,14 @@ public class Job {
 		this.status = 3;
 	}
 	
+	public void setFbFromEmployer(boolean fbFromEmployer) {
+		this.fbFromEmployer = fbFromEmployer;
+	}
+
+	public void setFbFromWorker(boolean fbFromWorker) {
+		this.fbFromWorker = fbFromWorker;
+	}
+
 	public void receiveDeposit(){
 		this.status = 4;
 	}

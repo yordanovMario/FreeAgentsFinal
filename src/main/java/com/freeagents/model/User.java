@@ -68,11 +68,17 @@ public class User {
 	}
 
 	public ArrayList<Notification> getNotifications() {
-		ArrayList<Notification> notifications2 = new ArrayList<Notification>();
-		for(Notification n : notifications.values()){
-			notifications2.add(n);
+		if(notifications != null){
+			ArrayList<Notification> notifications2 = new ArrayList<Notification>();
+			for(Notification n : notifications.values()){
+				notifications2.add(n);
+			}
+			return notifications2;
 		}
-		return notifications2;
+		else{
+			return null;
+		}
+		
 	}
 
 	public void setPassword(String password) {

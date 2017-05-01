@@ -95,6 +95,7 @@ public class UserController {
 //			}
 			
 			session.setAttribute("user", u);
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			System.out.println(req.getParameter("url"));
 			if(req.getParameter("url") != null){
 				return req.getParameter("url");
@@ -112,6 +113,7 @@ public class UserController {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(request.getParameter("id"));
 			User userprofile = UserDAO.getProfile(id);
 			ArrayList<Feedback> feedbacks = FeedbackDAO.getReceived(id);
@@ -140,6 +142,7 @@ public class UserController {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			User user = (User) session.getAttribute("user");
 //			user.setFirstName(request.getParameter("firstname"));
 //			user.setLastName(request.getParameter("lastname"));
@@ -168,7 +171,6 @@ public class UserController {
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();  
-		session.setAttribute("logged", false);
 		session.invalidate();
 		response.setHeader("Pragma", "No-cache");
 		response.setDateHeader("Expires", 0);
@@ -314,7 +316,8 @@ public class UserController {
 			return "login";
 		}
 		else{
-			return "index";
+			session.setAttribute("notification", "No such user with this email.");
+			return "login";
 		}
 	}
 	

@@ -27,6 +27,12 @@
 					<a href="logout">Log Out</a>
 					<div class="flowe-blue-button">
 					<p class="flowe-signup-button"><a href="profile">${sessionScope.user.firstName}</a></p>
+					<div class="notif-menu">
+						<c:forEach var="notification" items="${notifications}">
+							<p class="notif-element"><a href="${notification.link}">${notification.title}</a></p>
+						</c:forEach>
+						
+					</div>
 					</c:if>
 					<c:if test="${logged eq false}">
 					<a href="login">Post Job</a>	
@@ -36,8 +42,12 @@
 					<p class="flowe-signup-button"><a href="signup">Sign Up</a></p>
 					</c:if>
 					</div>
-					<c:if test="${notification != null}">
-					<p>${notification}</p>
+					<c:if test="${notifications != null}">
+					<!-- <a href="notifications-template"> </a> -->
+						<div id="notification" class="notification-box">
+							${notifications.size()}
+						</div>
+					<!-- <p>${notification}</p> -->
 					</c:if>
 				</div>
 			</div>

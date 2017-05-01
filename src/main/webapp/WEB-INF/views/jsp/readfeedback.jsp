@@ -8,7 +8,7 @@
 		</div>	
 		<div id="post-job">
 			<h2 id="search-offers">Reading feedback from ${feedback.sender.firstName}</h2>
-			<div class="post-job search-job">
+			<div class="post-job search-job reed-feedback">
 						<div class="search-results">
 							
 							<div class="result-budjet">

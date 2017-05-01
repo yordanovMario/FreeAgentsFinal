@@ -23,6 +23,7 @@ public class MessageController {
 	public String myMessages(Model model, HttpServletRequest request, HttpSession session) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			User u = (User) session.getAttribute("user");
 			MessageDAO.getInstance();
 			ArrayList<Message> received = MessageDAO.getReceived(u.getId());
@@ -40,6 +41,7 @@ public class MessageController {
 	public String sendmessage(HttpSession session, HttpServletRequest req) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(req.getParameter("id"));
 			req.setAttribute("id", id);
 			req.setAttribute("receiver", UserDAO.getUserID(id));
@@ -59,6 +61,7 @@ public class MessageController {
 		
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			if(request.getParameter("title") != null && request.getParameter("content") != null){
 				long id = Long.parseLong(request.getParameter("id"));
 				User receiver = UserDAO.getUserID(id);
@@ -96,6 +99,7 @@ public class MessageController {
 	public String readmessage(HttpSession session, HttpServletRequest req) {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			long id = Long.parseLong(req.getParameter("id"));
 			long notification = (req.getParameter("notifID") != null ? Long.parseLong(req.getParameter("notifID")) : 0);
 			Message message = MessageDAO.readMessage(id, notification);

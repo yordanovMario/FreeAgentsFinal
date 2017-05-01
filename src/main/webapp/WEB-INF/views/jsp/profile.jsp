@@ -12,7 +12,7 @@
 				<p><a href="jobsIwork">Jobs I'm working</a></p>
  			</div>				
 			<div id="signup" class="profile-options">
-				<img src="image/${user.id}" onerror="this.src='image/0'" style="width:250px;height:200px;">
+				<img src="image/${user.id}" onerror="this.src='image/0'" style="width:260px;height:230px;">
 				<form method="POST" enctype="multipart/form-data" action="uploadpic">
 					<p>Choose a picture</p>
 					<input type="file" id="file" name="failche" accept="image/*" required="required">
