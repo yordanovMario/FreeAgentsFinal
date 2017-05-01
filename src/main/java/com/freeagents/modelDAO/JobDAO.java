@@ -222,7 +222,6 @@ public class JobDAO {
 			UserDAO.getUserID(userId).removeNotification(notificationId);
 		}
 	}
-	//TODO:
 	
 	public synchronized void finishJob(long jobID) throws SQLException{
 		String query1 = "UPDATE jobs SET status = 5 WHERE job_id = ?";
