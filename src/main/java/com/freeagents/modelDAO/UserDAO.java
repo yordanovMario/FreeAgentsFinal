@@ -167,13 +167,13 @@ public class UserDAO {
 		return false;
 	}
 	
-	public synchronized boolean checkEmail(String email) {
+	public synchronized User checkEmail(String email) {
 		for(User u : usersID.values()){
 			if(u.getEmail().equals(email)){
-				return true;
+				return u;
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	public static synchronized User getProfile(long id){
@@ -238,6 +238,15 @@ public class UserDAO {
 	
 	public static ArrayList<Notification> getNotifications(User user){
 		return usersID.get(user.getId()).getNotifications();
+	}
+
+	public void setPassword(String pw_hash, User u) throws SQLException {
+		usersID.get(u.getId()).setPassword(pw_hash);
+		String query = "UPDATE users SET password=? WHERE user_id=?;";
+		PreparedStatement st = DBManager.getInstance().getConnection().prepareStatement(query);
+		st.setString(1, pw_hash);
+		st.setLong(2, u.getId());
+		st.execute();
 	}
 }
 

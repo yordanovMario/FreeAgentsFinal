@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -283,12 +284,23 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/forgotpassword",method = RequestMethod.POST)
-	public String forgotPassword(HttpServletRequest request, HttpServletResponse response ) {
+	public String forgotPassword(HttpServletRequest request) {
+		HttpSession session = request.getSession();
 		String email = request.getParameter("email");
-		if(UserDAO.getInstance().checkEmail(email)){
+		User u = UserDAO.getInstance().checkEmail(email);
+		if(u != null){
 			String password = User.generateNewPass();
 			//TODO: update password code
-			new com.freeagents.util.MailSender(email, "Password Reset", "Your new password is " + password +" .");
+			String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
+			try {
+				UserDAO.getInstance().setPassword(pw_hash, u);
+				new com.freeagents.util.MailSender(email, "Password Reset", "Your new password is " + password +" .");
+				session.setAttribute("notification", "Check your email. We have sent you new password.");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+				session.setAttribute("notification", "Check your email. We have sent you new password.");
+			}
 			return "login";
 		}
 		else{

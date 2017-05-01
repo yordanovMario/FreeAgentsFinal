@@ -14,7 +14,8 @@
 			<p>Portfolio</p>
 		</div>
 		<div class="description">
-			<p>PISANKA<c:out value="${country}"/></p>
+			<c:if test="${country == null}"><p>Bulgaria Blvd.</p></c:if>
+			<c:if test="${country != null}"><p>${country}"</p></c:if>
 			<p>${userprofile.jobTitle}</p>
 			<p>${userprofile.phone}</p>
 			<p>${userprofile.perHourRate}</p>
@@ -25,11 +26,46 @@
 	<c:if test="${userprofile.id != sessionScope.user.id}">
 	<form method="GET" action="sendmessage" class="view-send-message">
 		<input type="hidden" value="${userprofile.id}" name="id">
-		<input type="submit" id="post-job-btn" value="Send Message" />
+		<input type="submit" id="post-job-btn" value="Send Message" class="view-message-button"/>
 	</form>
-	<form method="GET" action="sendfeedback class="view-send-feedback"">
-		<input type="hidden" value="${userprofile.id}" name="id">
-		<input type="submit" id="post-job-btn" value="Send Feedback" />
-	</form>
+	
+	<div id="post-job">
+			<!-- <h2 id="search-offers">My Feedbacks</h2> -->
+			<div class="post-job search-job my-feedbacks">
+				<c:if test="${not empty feedbacks}">
+					<table class="table-messages">
+						  <tr>
+						    <th>Sender name</th>
+						    <th>Rating</th>
+						    <th>Content</th>  
+						    <th>Date & Time</th>
+						  </tr>
+						<c:forEach var="feedback" items="${feedbacks}">
+						<c:if test="${feedback.isRead() eq true}">
+							<tr style="background-color: #ECE7E7;">
+							<td>${feedback.sender.firstName} ${feedback.sender.lastName}</td>
+							<td>${feedback.rating}</td>
+							<td>${feedback.content}</td>
+							<td>${feedback.date}</td>
+							</tr>
+						</c:if>
+						<c:if test="${feedback.isRead() eq false}">	
+							<tr style="background-color: #D9CFD0;">
+							<td>${feedback.sender.firstName} ${feedback.sender.lastName}</td>
+							<td>${feedback.rating}</td>
+							<td>${feedback.content}</td>
+							<td>${feedback.date}</td>
+							</tr>
+						</c:if>
+						</c:forEach>
+					</table>
+				</c:if>
+				<c:if test="${empty feedbacks}">
+					<h2>You don't have any feedbacks yet!</h2>
+				</c:if>
+				</div>
+			<div class="post-job-account">
+			</div>
+		</div>
 	</c:if>
 <jsp:include page="footer.jsp" />

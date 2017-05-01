@@ -230,11 +230,11 @@ h1 {
 }
 
 .view-profile {
-	margin: 5% 0 0 33%;
+	margin: 5% 0 0 20%;
 }
 
 .view-profile .username {
-	font-size: 18px;
+	font-size: 22px;
     font-weight: 600;
     margin: 2% 2%;
 }
@@ -263,4 +263,21 @@ h1 {
 .view-profile .headline p {
 	font-size: 18px;
     font-weight: 600;
-} 
+}
+
+.view-send-message {
+	margin-top: 21%;
+    margin-left: 20%;
+}
+
+.view-message-button {
+	cursor: pointer;
+    width: 160px;
+    background-color: #FFA500;
+	padding: 10px;
+	color: #fff;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #3e4651;
+	margin-left: 5px;
+}
