@@ -115,6 +115,15 @@ public class UserController {
 			long id = Long.parseLong(request.getParameter("id"));
 			User userprofile = UserDAO.getProfile(id);
 			ArrayList<Feedback> feedbacks = FeedbackDAO.getReceived(id);
+			double rating = 0;
+			if(feedbacks != null){
+				double sum = 0;
+				for(Feedback f : feedbacks){
+					sum += f.getRating();
+				}
+				rating = sum/feedbacks.size();
+				request.setAttribute("rating", rating);
+			}
 			request.setAttribute("userprofile", userprofile);
 			String country = UserDAO.getCountry(userprofile.getCountry());
 			request.setAttribute("country", country);
@@ -290,11 +299,12 @@ public class UserController {
 		User u = UserDAO.getInstance().checkEmail(email);
 		if(u != null){
 			String password = User.generateNewPass();
+			System.out.println(password);
 			//TODO: update password code
 			String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
 			try {
 				UserDAO.getInstance().setPassword(pw_hash, u);
-				new com.freeagents.util.MailSender(email, "Password Reset", "Your new password is " + password +" .");
+				new com.freeagents.util.MailSender(email, "Password Reset", "Your new password is " + password + " .");
 				session.setAttribute("notification", "Check your email. We have sent you new password.");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

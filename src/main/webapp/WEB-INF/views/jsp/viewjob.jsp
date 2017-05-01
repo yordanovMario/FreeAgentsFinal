@@ -10,31 +10,24 @@
 			<h2 id="search-offers">Viewing job ${job.title}</h2>
 			<div class="post-job search-job">
 				<div class="search-results">
-					<div class="result-budjet">
-						<p>Budget</p>
-						<p>${job.budget}</p>
-					</div>
-					<div class="result-description">
-						<p>Description</p>
-						<p>${job.description}</p>
+					<div class="result-title">
+						<p>Title</p>
+						<p>${job.title}</p>
 					</div>
 					<div class="result-description">
 						<p>Category</p>
 						<p>${categories.get(job.category)}</p>
 					</div>
-					<div class="result-description">
-						<p>Required Experience</p>
-						<c:if test="${job.requiredExp == 1}">
-						<p>Beginner</p>
-						</c:if>
-						<c:if test="${job.requiredExp == 2}">
-						<p>Intermediate</p>
-						</c:if>
-						<c:if test="${job.requiredExp == 3}">
-						<p>Expert</p>
-						</c:if>
-					</div>
 					<div class="result-title">
+						<p>Description</p>
+						<p>${job.description}</p>
+					</div>
+					
+					<div class="result-description">
+						<p>Status</p>
+						<p>${statuses.get(job.status)}</p>
+					</div>
+					<div class="result-description">
 						<p>Date posted</p>
 						<p>${job.date}</p>
 					</div>
@@ -48,17 +41,22 @@
 						<p>There are no offers yet for this job</p>
 					</c:if>
 					<c:if test="${job.status eq 3}">
-						<div class="result-description">
-							<p>Offer accepted from</p>
-							<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
-							<a href="sendmessage?id=${job.worker.id}">Contact</a>
-							<form method="POST" action="finishjob">
-								<input type="hidden" value="${job.id}"name="id">
-								<input type="submit" id="post-job-btn" value="Finish Job" />
-							</form>
-						</div>
+					<div class="result-description">
+						<p>Offer accepted from</p>
+						<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
+						<a href="sendmessage?id=${job.worker.id}">Contact</a>
+					</div>
 					</c:if>
-
+					<c:if test="${job.status eq 5}">
+						<p>Job done from</p>
+						<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
+						<a href="sendmessage?id=${job.worker.id}">Contact</a>
+						<form method="GET" action="sendfeedback">
+							<input type="hidden" value="${job.worker.id}"name="id">
+							<input type="submit" id="post-job-btn" value="Leave feedback" />
+						</form>
+					</c:if>
+				</div>
 				</div>
 			<div class="post-job-account">
 			</div>

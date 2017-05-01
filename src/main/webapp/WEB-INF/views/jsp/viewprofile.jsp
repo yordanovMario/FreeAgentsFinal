@@ -12,15 +12,18 @@
 			<p>Per hour rate ($)</p>
 			<p>About me</p>
 			<p>Portfolio</p>
+			<p>Rating</p>
 		</div>
 		<div class="description">
-			<c:if test="${country == null}"><p>Bulgaria Blvd.</p></c:if>
+			<c:if test="${country == null}"><p>N/A</p></c:if>
 			<c:if test="${country != null}"><p>${country}"</p></c:if>
 			<p>${userprofile.jobTitle}</p>
 			<p>${userprofile.phone}</p>
 			<p>${userprofile.perHourRate}</p>
 			<p>${userprofile.aboutMe}</p>
 			<p>${userprofile.portfolio}</p>
+			<c:if test="${rating == null}"><p>No feedbacks yet</p></c:if>
+			<c:if test="${rating != null}"><p>${rating}/5</p></c:if>
 		</div>
 	</div>
 	<c:if test="${userprofile.id != sessionScope.user.id}">
@@ -61,7 +64,7 @@
 					</table>
 				</c:if>
 				<c:if test="${empty feedbacks}">
-					<h2>You don't have any feedbacks yet!</h2>
+					<h2>The user have no feedbacks yet!</h2>
 				</c:if>
 				</div>
 			<div class="post-job-account">

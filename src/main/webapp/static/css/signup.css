@@ -282,6 +282,16 @@ and (min-width: 1224px) {
 		font-size: 30px;
 	}
 	
+	.profile-user {
+		margin-left: 280px;
+		margin-top: 50px;
+	}
+	
+	#signup.profile-options {
+		margin-top: 50px;
+		margin-left: 21%;
+	}
+	
 	.tips,
 	.tips div	{
 		margin: 5% 0;

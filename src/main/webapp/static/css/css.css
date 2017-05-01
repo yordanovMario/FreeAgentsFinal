@@ -269,6 +269,15 @@ h1 {
 	margin-top: 21%;
     margin-left: 20%;
 }
+#signup #file {
+	background: transparent;
+    border: none;
+    box-shadow: none;
+    margin: 10px 0 0 -10px;
+    color: black;
+    width: 100px;
+	display: inline;
+}
 
 .view-message-button {
 	cursor: pointer;

@@ -24,25 +24,6 @@
 								<p>Date posted</p>
 								<p>${job.date}</p>
 							</div>
-							<c:if test="${job.status eq 2}">
-								<form method="GET" action="viewoffers">
-									<input type="hidden" value="${job.id}"name="id">
-									<input type="submit" id="post-job-btn" value="View offers" />
-								</form>
-							</c:if>
-							<c:if test="${job.status eq 1}">
-								<p>There are no offers yet for this job</p>
-							</c:if>
-							<c:if test="${job.status eq 3}">
-							<div class="result-description">
-								<p>Offer accepted from</p>
-								<a href="viewprofile?id=${job.worker.id}">${job.worker.firstName} ${job.worker.lastName}</a>
-								<a href="sendmessage?id=${job.worker.id}">Contact</a>
-							</div>
-							</c:if>
-							<c:if test="${job.status eq 5}">
-								
-							</c:if>
 							<form method="GET" action="viewjob">
 									<input type="hidden" value="${job.id}"name="id">
 									<input type="submit" id="post-job-btn" value="View Job Details" />

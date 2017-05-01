@@ -1,11 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="header.jsp" />
 		<section>
-		<div class="main-description">
 		<div class="main-header">
-		<p>${user.getFirstName()}&nbsp${user.getLastName()}</p>
+		<p class="profile-user">${user.getFirstName()}&nbsp${user.getLastName()}</p>
 		</div>
-		<div class="tips">
 		<div>
 			<div class="flowe-footer-menu profile">
 				<p><a href="mymessages">My Messages</a></p>
@@ -14,7 +12,7 @@
 				<p><a href="jobsIwork">Jobs I'm working</a></p>
  			</div>				
 			<div id="signup" class="profile-options">
-				<img src="image/${user.id}" onerror="this.src='image/0'" style="width:170px;height:170px;">
+				<img src="image/${user.id}" onerror="this.src='image/0'" style="width:250px;height:200px;">
 				<form method="POST" enctype="multipart/form-data" action="uploadpic">
 					<p>Choose a picture</p>
 					<input type="file" id="file" name="failche" accept="image/*" required="required">
@@ -47,7 +45,6 @@
 				</form>
 			</div>
 			</div>
-			</div>
-		</div>
+		
 		</section>
 <jsp:include page="footer.jsp" />

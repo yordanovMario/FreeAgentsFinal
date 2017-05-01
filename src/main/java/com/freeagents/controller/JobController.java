@@ -199,8 +199,7 @@ public class JobController {
 			request.setAttribute("job", JobDAO.getJob(id));
 			request.setAttribute("statuses", JobDAO.getStatuses());
 			request.setAttribute("user", u);
-			HashMap<Integer, String> categories = UserDAO.getCategories();
-			request.setAttribute("categories", categories);
+			request.setAttribute("categories", UserDAO.getCategories());
 			return "viewjob";
 		}
 		else{
