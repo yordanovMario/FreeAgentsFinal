@@ -29,13 +29,9 @@ public class FeedbackController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
-			long id = Long.parseLong(req.getParameter("id"));
-			long jobid = Long.parseLong(req.getParameter("jobid"));
-			boolean whoIsSending = Boolean.getBoolean(req.getParameter("who"));
-			req.setAttribute("id", id);
-			req.setAttribute("jobid", jobid);
-			req.setAttribute("who", whoIsSending);
-			req.setAttribute("receiver", UserDAO.getUserID(id));
+			req.setAttribute("id", req.getParameter("id"));
+			req.setAttribute("jobid", req.getParameter("jobid"));
+			req.setAttribute("who", req.getParameter("who"));
 			return "sendfeedback";
 		}
 		else{
@@ -56,7 +52,7 @@ public class FeedbackController {
 				session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 				long id = Long.parseLong(req.getParameter("id"));
 				long jobid = Long.parseLong(req.getParameter("jobid"));
-				boolean whoIsSending = Boolean.getBoolean(req.getParameter("who"));
+				//boolean whoIsSending = Boolean.getBoolean(req.getParameter("who"));
 				User receiver = UserDAO.getUserID(id);
 				User sender = (User) session.getAttribute("user");
 				if(sender == null || receiver == null || content.isEmpty() || rating < 1 || rating >5){
@@ -67,7 +63,7 @@ public class FeedbackController {
 					try {
 						FeedbackDAO.getInstance();
 						FeedbackDAO.sendFeedback(feedback);
-						JobDAO.leavefeedback(jobid, whoIsSending);
+						JobDAO.leavefeedback(jobid, Integer.parseInt(req.getParameter("who")));
 						session.setAttribute("notification", "Feedback successfully sent!");
 					} catch (SQLException e) {
 						session.setAttribute("notification", "Feedback was not sent. Please try again");
@@ -81,7 +77,7 @@ public class FeedbackController {
 					req.setAttribute("rating", rating);
 					req.setAttribute("id", req.getParameter("id"));
 					req.setAttribute("jobid", jobid);
-					req.setAttribute("who", whoIsSending);
+					req.setAttribute("who", req.getParameter("who"));
 					return "sendfeedback";
 				}
 			}

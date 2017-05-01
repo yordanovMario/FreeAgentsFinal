@@ -280,6 +280,11 @@ h1 {
 	margin-top: 18%;
     margin-left: 20%;
 }
+
+.view-jobs-message {
+	margin-left: 20%;
+}
+
 #signup #file {
 	background: transparent;
     border: none;
@@ -291,6 +296,18 @@ h1 {
 }
 
 .view-message-button {
+	cursor: pointer;
+    width: 160px;
+    background-color: #FFA500;
+	padding: 10px;
+	color: #fff;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #3e4651;
+	margin-left: 5px;
+}
+
+.view-jobs-button {
 	cursor: pointer;
     width: 160px;
     background-color: #FFA500;

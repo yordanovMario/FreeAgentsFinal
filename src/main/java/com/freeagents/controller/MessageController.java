@@ -89,13 +89,28 @@ public class MessageController {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String date = request.getParameter("date");
-		
+		int type = Integer.parseInt(request.getParameter("type"));
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			if(request.getParameter("title") != null && request.getParameter("content") != null){
-				long id = Long.parseLong(request.getParameter("id"));
-				User receiver = UserDAO.getUserID(id);
+				User receiver;
+				if(type == 1){
+					long id = Long.parseLong(request.getParameter("id"));
+					receiver = UserDAO.getUserID(id);
+				}
+				else{
+					receiver = UserDAO.getUser(request.getParameter("username"));
+					if(receiver == null){
+						session.setAttribute("notification", "No such user in our site.");
+						request.setAttribute("username", request.getParameter("username"));
+						request.setAttribute("content", content);
+						request.setAttribute("title", title);
+						request.setAttribute("type", 3);
+						request.setAttribute("id", request.getParameter("id"));
+						return "sendmessage";
+					}
+				}
 				User sender = (User) session.getAttribute("user");
 				if(sender == null || receiver == null || title.isEmpty() || content.isEmpty()){
 					valid = false;
@@ -112,7 +127,7 @@ public class MessageController {
 					request.setAttribute("content", content);
 					request.setAttribute("title", title);
 					request.setAttribute("id", request.getParameter("id"));
-					return "sendfeedback";
+					return "sendmessage";
 				}
 			}
 			else{
@@ -124,8 +139,8 @@ public class MessageController {
 		else{
 			return "login";
 		}
-		
 	}
+
 	@RequestMapping(value="/readmessage", method=RequestMethod.GET)
 	public String readmessage(HttpSession session, HttpServletRequest req) {
 		if (session.getAttribute("user") != null) {

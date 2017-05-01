@@ -7,6 +7,7 @@
 		</div>
 		<div class="headline">
 			<p>Username</p>
+			<p>Level</p>
 			<p>Location</p>
 			<p>Job title</p>
 			<p>Phone number</p>
@@ -17,17 +18,17 @@
 		</div>
 		<div class="description">
 			<p>${userprofile.username}</p>
-			<c:if test="${country == null}"><p>N/A</p></c:if>
+			<p>${level}</p>
+			<c:if test="${country == null || userprofile.jobTitle == ''}"><p>N/A</p></c:if>
 			<c:if test="${country != null}"><p>${country}</p></c:if>
-			<c:if test="${userprofile.jobTitle == null}"><p>N/A</p></c:if>
+			<c:if test="${userprofile.jobTitle == null || userprofile.jobTitle == ''}"><p>N/A</p></c:if>
 			<c:if test="${userprofile.jobTitle != null}"><p>${userprofile.jobTitle}</p></c:if>
-			<c:if test="${userprofile.phone == null}"><p>N/A</p></c:if>
+			<c:if test="${userprofile.phone == null || userprofile.phone == ''}"><p>N/A</p></c:if>
 			<c:if test="${userprofile.phone != null}"><p>${userprofile.phone}</p></c:if>
-			<c:if test="${userprofile.perHourRate == null}"><p>N/A</p></c:if>
-			<c:if test="${userprofile.perHourRate != null}"><p>${userprofile.perHourRate}</p></c:if>
-			<c:if test="${userprofile.aboutMe == null}"><p>N/A</p></c:if>
+			<p>${userprofile.perHourRate}</p>
+			<c:if test="${userprofile.aboutMe == null || userprofile.aboutMe == ''}"><p>N/A</p></c:if>
 			<c:if test="${userprofile.aboutMe != null}"><p>${userprofile.aboutMe}</p></c:if>
-			<c:if test="${userprofile.portfolio == null}"><p>N/A</p></c:if>
+			<c:if test="${userprofile.portfolio == null || userprofile.portfolio == ''}"><p>N/A</p></c:if>
 			<c:if test="${userprofile.portfolio != null}"><p>${userprofile.portfolio}</p></c:if>
 			<c:if test="${rating == null}"><p>No feedbacks yet</p></c:if>
 			<c:if test="${rating != null}"><p>${rating}/5</p></c:if>
@@ -38,9 +39,9 @@
 		<input type="hidden" value="${userprofile.id}" name="id">
 		<input type="submit" id="post-job-btn" value="Send Message" class="view-message-button"/>
 	</form>
-	<form method="GET" action="viewjobsfromuser" class="view-send-message">
+	<form method="GET" action="viewjobsfromuser" class="view-jobs-message">
 		<input type="hidden" value="${userprofile.id}" name="id">
-		<input type="submit" id="post-job-btn" value="All jobs from this user" class="view-message-button"/>
+		<input type="submit" id="post-job-btn" value="All jobs from user" class="view-message-button"/>
 	</form>
 	</c:if>
 	<h2 class="view-profile-feedbacks">Feedbacks</h2>

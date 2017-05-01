@@ -7,13 +7,12 @@
 				<p><a href="jobsIwork">Jobs I'm working</a></p>
 		</div>
 		<div class="flowe-footer-menu profile">
-			<p><a href="mymessages" style="color: #FFA500; font-weight: 600;">Inbox</a></p>
+			<p><a href="mymessages">Inbox</a></p>
 			<p><a href="sentmessages">Sent</a></p>
 			<p><a href="sendmessage">New message</a></p>
 			<p><a href="#">&nbsp;</a></p>
 		</div>
 		<div id="post-job">
-			<h2 id="search-offers">Reading message from ${message.sender.firstName}</h2>
 			<div class="post-job search-job">
 						<div class="search-results">
 							<div class="result-title">

@@ -67,8 +67,13 @@
 							<form method="GET" action="sendfeedback">
 								<input type="hidden" value="${job.worker.id}" name="id">
 								<input type="hidden" value="${job.id}" name="jobid">
-								<input type="hidden" value="true" name="who">
+								<input type="hidden" value="1" name="who">
 								<input type="submit" id="post-job-btn" value="Leave feedback" />
+							</form>
+							<form method="GET" action="opendispute">
+								<input type="hidden" value="${job.id}" name="jobid">
+								<input type="hidden" value="1" name="who">
+								<input type="submit" id="post-job-btn" value="Open dispute" />
 							</form>
 						</div>
 						</c:if>

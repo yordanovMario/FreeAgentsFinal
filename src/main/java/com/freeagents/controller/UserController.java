@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -39,8 +40,8 @@ public class UserController {
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(HttpServletRequest request, HttpSession session){
+		session.removeAttribute("notification");
 		if(session.getAttribute("user") != null){
-			request.removeAttribute("notification");
 			User user = (User) session.getAttribute("user");
 			request.setAttribute("user", user);
 		}
@@ -67,6 +68,7 @@ public class UserController {
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login1(HttpSession session, HttpServletRequest request) {
 		if (session.getAttribute("user") != null) {
+			request.removeAttribute("notification");
 			session.setAttribute("notification", "You are already logged in.");
 			return "index";
 		}
@@ -95,6 +97,7 @@ public class UserController {
 //			}
 			
 			session.setAttribute("user", u);
+			req.removeAttribute("notification");
 			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			System.out.println(req.getParameter("url"));
 			if(req.getParameter("url") != null){
@@ -124,12 +127,12 @@ public class UserController {
 					sum += f.getRating();
 				}
 				rating = sum/feedbacks.size();
-				request.setAttribute("rating", rating);
+				request.setAttribute("rating", new DecimalFormat("#.#").format(rating));
 			}
 			request.setAttribute("userprofile", userprofile);
-			String country = UserDAO.getCountry(userprofile.getCountry());
-			request.setAttribute("country", country);
+			request.setAttribute("country", UserDAO.getCountry(userprofile.getCountry()));
 			request.setAttribute("feedbacks", feedbacks);
+			request.setAttribute("level", UserDAO.getLevel(userprofile.getLevel()));
 			return "viewprofile";
 		}
 		else{
@@ -171,6 +174,7 @@ public class UserController {
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();  
+		request.removeAttribute("notification");
 		session.invalidate();
 		response.setHeader("Pragma", "No-cache");
 		response.setDateHeader("Expires", 0);

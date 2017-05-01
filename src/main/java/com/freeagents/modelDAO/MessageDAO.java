@@ -138,6 +138,9 @@ public class MessageDAO {
 			if(notificationID != 0){
 				removeNotification(notificationID, message.getReceiver().getId());
 			}
+			else{
+				removeNotification(messageID, message.getReceiver().getId());
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

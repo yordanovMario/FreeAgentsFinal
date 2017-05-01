@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp" />
 		<div id="post-job">
-			<h2 id="search-offers">Search offers</h2>
+			<h2 id="search-offers">Search jobs</h2>
 			<div class="post-job search-job">
 				<form method="GET" action="browsejobs">
 					<select name="category" class="categories">

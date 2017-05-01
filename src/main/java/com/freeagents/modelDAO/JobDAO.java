@@ -232,8 +232,8 @@ public class JobDAO {
 		st1.execute();
 	}
 
-	public static void leavefeedback(long jobID, boolean whoIsSending) throws SQLException {
-		if(whoIsSending == true){
+	public static void leavefeedback(long jobID, int whoIsSending) throws SQLException {
+		if(whoIsSending == 1){
 			String query = "UPDATE jobs SET fb_from_employer = 1 WHERE job_id = ?";
 			Connection con = DBManager.getInstance().getConnection();
 			PreparedStatement st = con.prepareStatement(query);

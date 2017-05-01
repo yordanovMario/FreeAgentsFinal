@@ -19,6 +19,7 @@
 				<form method="POST" action="sendmessage">
 					<input type="text" id="job-title" name="title" required="required" placeholder="Enter title here..." value="${title}"/>
 					<textarea rows="4" cols="50" name="content" required="required" placeholder="Enter content here..."></textarea>
+					<input type="hidden" value="1" name="type">
 					<input type="hidden" value="${id}" name="id">
 					<input type="submit" id="post-job-btn" value="Send Message" />
 				</form>
@@ -31,6 +32,7 @@
 					<input type="text" id="job-title" name="username" required="required" placeholder="Receiver's username..."/>
 					<input type="text" id="job-title" name="title" required="required" placeholder="Enter title here..."/>
 					<textarea rows="4" cols="50" name="content" required="required" placeholder="Enter content here..."></textarea>
+					<input type="hidden" value="2" name="type">
 					<input type="hidden" value="${id}" name="id">
 					<input type="submit" id="post-job-btn" value="Send Message" />
 				</form>

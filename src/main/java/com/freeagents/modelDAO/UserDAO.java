@@ -260,5 +260,18 @@ public class UserDAO {
 		st.setLong(2, u.getId());
 		st.execute();
 	}
+
+	public static User getUser(String username) {
+		for(User u : usersID.values()){
+			if(u.getUsername().equals(username)){
+				return u;
+			}
+		}
+		return null;
+	}
+
+	public static String getLevel(int level) {
+		return levels.get(level);
+	}
 }
 
