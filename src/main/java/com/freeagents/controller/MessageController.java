@@ -60,9 +60,22 @@ public class MessageController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
-			long id = Long.parseLong(req.getParameter("id"));
-			req.setAttribute("id", id);
-			req.setAttribute("receiver", UserDAO.getUserID(id));
+			if(req.getParameter("id") != null){
+				if(req.getParameter("title") != null){
+					req.setAttribute("title", req.getParameter("title"));
+					req.setAttribute("type", 1);
+				}
+				else{
+					
+				}
+				long id = Long.parseLong(req.getParameter("id"));
+				req.setAttribute("id", id);
+				req.setAttribute("receiver", UserDAO.getUserID(id));
+				req.setAttribute("type", 2);
+			}
+			else{
+				req.setAttribute("type", 3);
+			}
 			return "sendmessage";
 		}
 		else{

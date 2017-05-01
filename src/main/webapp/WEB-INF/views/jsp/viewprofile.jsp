@@ -6,6 +6,7 @@
 			<p><img src="image/${userprofile.id}" onerror="this.src='image/0'" width="170" height="170"></p>
 		</div>
 		<div class="headline">
+			<p>Username</p>
 			<p>Location</p>
 			<p>Job title</p>
 			<p>Phone number</p>
@@ -15,6 +16,7 @@
 			<p>Rating</p>
 		</div>
 		<div class="description">
+			<p>${userprofile.username}</p>
 			<c:if test="${country == null}"><p>N/A</p></c:if>
 			<c:if test="${country != null}"><p>${country}</p></c:if>
 			<c:if test="${userprofile.jobTitle == null}"><p>N/A</p></c:if>

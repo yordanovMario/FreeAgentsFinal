@@ -8,8 +8,8 @@
  			</div>
  			<div class="flowe-footer-menu profile">
 				<p><a href="mymessages">Inbox</a></p>
-				<p><a href="sentmessages">Sent</a></p>
-				<p><a href="#">&nbsp;</a></p>
+				<p><a href="sentmessages" style="color: #FFA500; font-weight: 600;">Sent</a></p>
+				<p><a href="sendmessage">New message</a></p>
 				<p><a href="#">&nbsp;</a></p>
  			</div>			
 		<div id="post-job">
@@ -23,7 +23,7 @@
 						    <th>Date & Time</th>
 						  </tr>
 						<c:forEach var="message" items="${messages}">
-							<tr style="background-color: #ECE7E7;">
+							<tr style="background-color: #ECE7E7; cursor: pointer;" onclick="document.location = 'readmessage?id=${message.id}';">
 								<td>${message.receiver.firstName}&nbsp${message.receiver.lastName}</td>
 								<td>${message.title}</td>
 								<td>${message.date}</td>

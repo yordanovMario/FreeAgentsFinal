@@ -1,11 +1,17 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp" />
 		<div class="flowe-footer-menu profile">
-			<p><a href="mymessages">My Messages</a></p>
-			<p><a href="myjobs">My Jobs</a></p>
-			<p><a href="myfeedbacks?id=${user.id}">My Feedbacks</a></p>
-			<p><a href="jobsIwork">Jobs I'm working</a></p>
-		</div>	
+				<p><a href="mymessages" style="color: #FFA500; font-weight: 600;">My Messages</a></p>
+				<p><a href="myjobs">My Jobs</a></p>
+				<p><a href="myfeedbacks">My Feedbacks</a></p>
+				<p><a href="jobsIwork">Jobs I'm working</a></p>
+		</div>
+		<div class="flowe-footer-menu profile">
+			<p><a href="mymessages" style="color: #FFA500; font-weight: 600;">Inbox</a></p>
+			<p><a href="sentmessages">Sent</a></p>
+			<p><a href="sendmessage">New message</a></p>
+			<p><a href="#">&nbsp;</a></p>
+		</div>
 		<div id="post-job">
 			<h2 id="search-offers">Reading message from ${message.sender.firstName}</h2>
 			<div class="post-job search-job">
@@ -22,6 +28,14 @@
 								<p>Date sent</p>
 								<p>${message.date}</p>
 							</div>
+							<c:if test="${message.sender.id != sessionScope.user.id}">
+								<form method="GET" action="sendmessage" class="view-send-message">
+									<input type="hidden" value="${message.sender.id}" name="id">
+									<input type="hidden" value="Re: ${message.title}" name="title">
+									<input type="hidden" value="1" name="type">
+									<input type="submit" id="post-job-btn" value="Reply" class="view-message-button"/>
+								</form>
+							</c:if>
 						</div>
 				</div>
 			<div class="post-job-account">
