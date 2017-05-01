@@ -204,3 +204,63 @@ h1 {
 	text-decoration: none;
 	color: #3e4651;
 }
+
+.contact-us h3 {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 16px;
+}
+
+.contact-call {
+	text-align:left;
+	float:left;
+	display: inline;
+}
+
+.contact-find {
+	text-align:center;
+	float:center;
+	display: inline;
+	float: left;
+}
+
+.contact-email {
+	text-align:right;
+	display: inline;
+	float: left;
+}
+
+.view-profile {
+	margin: 5% 0 0 33%;
+}
+
+.view-profile .username {
+	font-size: 18px;
+    font-weight: 600;
+    margin: 2% 2%;
+}
+
+.view-profile .description p {
+	font-size: 18px;
+}
+
+.view-profile .image {
+	display: inline-block;
+	float: left;
+}
+
+.view-profile .description {
+	display: inline;
+	float: left;
+	margin: 5% 5% 0 2%;
+}
+
+.view-profile .headline {
+	display: inline-block;
+	float: left;
+	margin: 5% 5% 0 2%;
+}
+
+.view-profile .headline p {
+	font-size: 18px;
+    font-weight: 600;
+} 

@@ -350,4 +350,9 @@ and (min-width: 1224px) {
 	.flowe-footer-menu p >a {
 		text-decoration: none;
 	}
+	
+	.flowe-footer-menu p > a:hover {
+		color: #FFA500;
+	}
+	
 }

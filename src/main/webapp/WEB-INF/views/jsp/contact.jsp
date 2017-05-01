@@ -9,12 +9,13 @@
     </style>
   </head>
   <body>
-	<h3 style="text-align:left;float:left;">Call us on</h3> 
-	<h3 style="text-align:center;float:center;">Come find us at</h3>
-	<h3 style="text-align:right;float:right;">Email us at</h3>  
+  	<div class="contact-us">
+  		<h3 class="contact-call">Call us on: +359 876 10 10 22 </h3> 
+		<h3 class="contact-find">Come find us at: Bulgaria Blvd. Infinity Tower 14 floor</h3>
+		<h3 class="contact-email">Email us at: contact@freeagents.com</h3>  
 	<hr style="clear:both;"/>
-	
-    <div id="map"></div>
+  	</div>
+    <div id="map" style="margin: 0 auto;"></div>
     <script>
       function initMap() {
         var address = {lat: 42.664308, lng: 23.287974};
