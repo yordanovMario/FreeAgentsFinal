@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Notification;
@@ -133,7 +134,7 @@ public class UserDAO {
 		return null;
 	}
 	
-	private String md5(String pass){
+	public String md5(String pass){
 		try{
 			MessageDigest messageDigest;
 			messageDigest = MessageDigest.getInstance("MD5");
