@@ -276,5 +276,26 @@ public class UserController {
 			return "login";
 		}
 	}
+	
+	@RequestMapping(value="/forgotpassword", method=RequestMethod.GET)
+	public String forgotPass() {
+		return "forgotpassword";
+	}
+	
+	@RequestMapping(value="/forgotpassword",method = RequestMethod.POST)
+	public String forgotPassword(HttpServletRequest request, HttpServletResponse response ) {
+		String email = request.getParameter("email");
+		if(UserDAO.getInstance().checkEmail(email)){
+			String password = User.generateNewPass();
+			//TODO: update password code
+			new com.freeagents.util.MailSender(email, "Password Reset", "Your new password is " + password +" .");
+			return "login";
+		}
+		else{
+			return "index";
+		}
+	}
+	
+	//TODO: Change password
 
 }

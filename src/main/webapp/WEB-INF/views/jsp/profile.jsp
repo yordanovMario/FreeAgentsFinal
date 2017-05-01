@@ -38,7 +38,7 @@
 				<label for="phone">Phone number</label>
 				<input type="text" id="phone" name="phone" value="${user.phone}"/><br>
 				<label for="per-hour-rate">Per hour rate ($)</label>
-				<input type="number" id="per-hour-rate" name="perhourrate" value="${user.perHourRate}"/>
+				<input type="number" id="per-hour-rate" name="perhourrate" value="${user.perHourRate}" min="1" max="10000"/>
 				<label for="aboutme">About me</label>
 				<textarea rows="4" cols="50" id="aboutme" name="aboutme">${user.aboutMe}</textarea>
 				<label for="portfolio">Portfolio</label>

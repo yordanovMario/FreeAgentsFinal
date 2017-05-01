@@ -85,7 +85,7 @@
 						<p><a href="viewprofile?id=${job.employer.id}">${job.employer.firstName} ${job.employer.lastName}</a></p>
 					</div>
 					<div class="result-budjet">
-						<p>Budjet</p>
+						<p>Budget</p>
 						<p>${job.budget}</p>
 					</div>
 					<!-- <div class="result-description">
@@ -114,9 +114,9 @@
 						<p>${job.date}</p>
 					</div>
 					<c:if test="${job.employer.id != sessionScope.user.id}">
-					<form method="GET" action="postoffer">
+					<form method="GET" action="viewjobfrombrowsejobs">
 						<input type="hidden" value="${job.id}"name="id">
-						<input type="submit" id="post-job-btn" value="View Details" />
+						<input type="submit" id="post-job-btn" value="View Job Details" />
 					</form>
 					</c:if>
 				</div>

@@ -2,6 +2,7 @@ package com.freeagents.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -199,10 +200,10 @@ public class User {
 	}
 
 	public void setPerHourRate(int perHourRate) {
-			if(perHourRate < 10000 && perHourRate > 0){
+			if(perHourRate <= 10000 && perHourRate > 0){
 				this.perHourRate = perHourRate;
 			}
-			if(perHourRate < 0){
+			if(perHourRate <= 0){
 				this.perHourRate = 0;
 			}
 			if(perHourRate > 10000){
@@ -262,5 +263,25 @@ public class User {
 				}
 			}
 		}
-	}	
+	}
+	
+	public static String generateNewPass() {
+		int digit1 = new Random().nextInt(10)+48;
+		int upperCase = new Random().nextInt(26)+65;
+		int lowerCase = new Random().nextInt(26)+97;
+		int digit2 = new Random().nextInt(10)+48;
+		int lowerCase2 = new Random().nextInt(26)+97;
+		int upperCase2 = new Random().nextInt(26)+65;
+		StringBuilder sb = new StringBuilder();
+		sb.append((char)digit1);
+		sb.append((char)digit2);
+		sb.append((char)upperCase);
+		sb.append((char)upperCase2);
+		sb.append((char)lowerCase);
+		sb.append((char)lowerCase2);
+		String newPass = sb.toString();
+		return newPass;
+	}
+	
 }
+
