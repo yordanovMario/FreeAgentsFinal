@@ -43,7 +43,7 @@
 								<c:if test="${job.fbFromWorker eq false}">
 									<p>You have not left feedback for the job</p>
 									<form method="GET" action="sendfeedback">
-										<input type="hidden" value="${job.worker.id}" name="id">
+										<input type="hidden" value="${job.employer.id}" name="id">
 										<input type="hidden" value="${job.id}" name="jobid">
 										<input type="hidden" value="false" name="who">
 										<input type="submit" id="post-job-btn" value="Leave feedback" />

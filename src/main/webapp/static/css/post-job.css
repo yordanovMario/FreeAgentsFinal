@@ -6,20 +6,34 @@ h1 {
 #post-job h2{
 	color: #3e4651;
 	font-size: 35px;
-	margin-left: 33%;
+	margin: 2% 0 2% 33%;
+}
+
+#post-job .no-feedbacks{
+	margin: 2% 0 2% 23%;
 }
 
 #post-job #search-offers  {
-	margin-left: 23%;
+	margin: 2% 0 2% 33%;
 }
 
 .post-job {
 	margin-left: 33%;
 }
 
-.search-job {
+.view-job, 
+.view-offers {
+	margin-left: 0%;
+}
+
+.view-from {
+	margin-left: 0;
+}
+
+/*.search-job {
 	margin-left: 23%;
 }
+*/
 
 .no-jobs {
 	margin-left: 40%;
@@ -81,7 +95,7 @@ h1 {
 	width: 500px;
 	padding: 10px;
 	font-size: 16px;
-	color: #3e4651;
+	color: #fff;
 	font-family: 'Montserrat', sans-serif;
 	background: rgba(0,0,0,0.3);
 	outline: none;
@@ -105,7 +119,7 @@ h1 {
 .categories {
 	/*text-align-last:center;*/
 	display: block;
-	width: 500px;
+	width: 525px;
 	padding: 10px;
 	font-size: 16px;
 	color: #3e4651;
@@ -159,7 +173,7 @@ h1 {
     text-align: center;
     vertical-align: middle;
     line-height: 20px;
-    margin: 2% 17%;
+    margin: 2% 13%;
 	cursor: pointer;
 }
 

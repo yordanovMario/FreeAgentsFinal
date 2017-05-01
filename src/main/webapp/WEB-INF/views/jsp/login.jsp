@@ -1,7 +1,7 @@
 <jsp:include page="header.jsp" />
 <div id="login">
 			<h2>Log In</h2>
-				<form method="POST" action="login">
+				<form method="POST" action="login" class="login-form">
 					<input type="text" name="username" placeholder="Username" required="required"/>
 					<input type="password" name="password" placeholder="Password" required="required"/>
 					<c:if test="${not empty sessionScope.notifsignup}">

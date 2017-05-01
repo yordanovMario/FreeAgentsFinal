@@ -258,6 +258,7 @@ public class UserController {
 		long id = user.getId();
 		java.io.File fileOnDisk = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
 		Files.copy(multiPartFile.getInputStream(), fileOnDisk.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		
 		return "profile";
 	}
 	
@@ -341,7 +342,7 @@ public class UserController {
 			boolean passMatch = newPass.equals(confPass);
 			
 			if(!passMatch){
-				session.setAttribute("notifchangepass", "Passwords don't match! Please try again.");
+				session.setAttribute("notification", "Passwords don't match! Please try again.");
 				return "changepassword";
 			}
 			else{
@@ -355,12 +356,12 @@ public class UserController {
 					}
 				}
 				else{
-					session.setAttribute("notifchangepass", "Old password wrong! Please try again.");
+					session.setAttribute("notification", "Old password wrong! Please try again.");
 					return "changepassword";
 				}
 			}
 			
-			session.setAttribute("notifchangepass", "Password successfuly changed!");
+			session.setAttribute("notification", "Password successfuly changed!");
 			return "profile";
 		}
 		return "login";

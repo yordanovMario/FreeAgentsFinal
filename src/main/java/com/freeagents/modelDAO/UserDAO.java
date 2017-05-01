@@ -125,7 +125,18 @@ public class UserDAO {
 		for(User u : usersID.values()){
 			if(u.getUsername().equals(username)){
 				String result = md5(password);
-				if(u.getPassword().equals(result) || BCrypt.checkpw(password, u.getPassword())){
+				if(!u.getPassword().equals(result)){
+					try{
+						if(BCrypt.checkpw(password, u.getPassword())){
+							System.out.println("Pass and username match with DB. User " + username + " logged in.");
+							return u;
+						}
+					}
+					catch(IllegalArgumentException e){
+						System.out.println("Invalid salt version for user " + u.getUsername());
+					}
+				}
+				else{
 					System.out.println("Pass and username match with DB. User " + username + " logged in.");
 					return u;
 				}

@@ -16,6 +16,7 @@ h1 {
 
 #login div {
 	font-size: 19px;
+	margin-left: 10%;
 }
 
 #login div  > a {
@@ -30,8 +31,14 @@ h1 {
 #login h2 {
 	color: #3e4651;
 	font-size: 35px;
-	margin-bottom: 5px;
+	margin-bottom: 2%;
+	margin-left: 10%;
 }
+
+.login-form{
+	margin-left: 10%;
+}
+
 #login input {
 	display: block;
 	width: 300px;
@@ -149,7 +156,7 @@ h1 {
 	/* border: 1px solid #3e4651; */
 	/* border-radius: 30px; */
 	width: 700px;
-    margin-left: 23%;
+    margin-left: 33%;
 	margin-top: 50px;
 	-webkit-box-shadow: 0px 2px 30px 5px rgba(112,112,112,1);
 	-moz-box-shadow: 0px 2px 30px 5px rgba(112,112,112,1);
@@ -186,7 +193,7 @@ h1 {
 }
 
 #post-job .search-job #post-job-btn {
-	margin: 2% 25%;
+	margin: 2%  0 0 19%;
 }
 
 .message-menu {
@@ -238,7 +245,7 @@ h1 {
 }
 
 .view-profile .username {
-	font-size: 22px;
+	font-size: 20px;
     font-weight: 600;
     margin: 2% 2%;
 }
@@ -255,13 +262,13 @@ h1 {
 .view-profile .description {
 	display: inline;
 	float: left;
-	margin: 5% 5% 0 2%;
+	margin: 3% 5% 0 2%;
 }
 
 .view-profile .headline {
 	display: inline-block;
 	float: left;
-	margin: 5% 5% 0 2%;
+	margin: 3% 5% 0 2%;
 }
 
 .view-profile .headline p {
@@ -270,7 +277,7 @@ h1 {
 }
 
 .view-send-message {
-	margin-top: 21%;
+	margin-top: 18%;
     margin-left: 20%;
 }
 #signup #file {
@@ -346,4 +353,19 @@ h1 {
 .notif-element a:hover {
 	border-bottom: 1px solid #3e4651;
     color: #FFA500;
+}
+
+.view-profile-feedbacks{
+	margin: 2% 20%;
+	font-size: 28px;
+	font-weight: 600;
+	
+}
+
+.change-password{
+	margin-left:9%;
+}
+
+.notif-message{
+	font-size: 24px;
 }

@@ -49,6 +49,9 @@
 						</div>
 					<!-- <p>${notification}</p> -->
 					</c:if>
+					<c:if test="${sessionScope['notification'] != null}">
+					<p class="notif-message">${sessionScope['notification']}</p>
+					</c:if>
 				</div>
 			</div>
 		</div>

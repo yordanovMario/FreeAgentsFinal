@@ -41,6 +41,7 @@
 	<form method="GET" action="sendmessage" class="view-send-message">
 	</form>
 	</c:if>
+	<h2 class="view-profile-feedbacks">Feedbacks</h2>
 	<div id="post-job">
 			<!-- <h2 id="search-offers">My Feedbacks</h2> -->
 			<div class="post-job search-job my-feedbacks">
@@ -65,7 +66,7 @@
 					</table>
 				</c:if>
 				<c:if test="${empty feedbacks}">
-					<h2>The user have no feedbacks yet!</h2>
+					<h2 class="no-feedbacks">The user has no feedbacks yet!</h2>
 				</c:if>
 				</div>
 			<div class="post-job-account">

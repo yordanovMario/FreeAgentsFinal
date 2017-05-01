@@ -1,18 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="header.jsp" />
 		<section>
-		<div class="main-header">
-		<p class="profile-user">${user.getFirstName()}&nbsp${user.getLastName()}</p>
-		</div>
 		<div>
 			<div class="flowe-footer-menu profile">
 				<p><a href="mymessages">My Messages</a></p>
 				<p><a href="myjobs">My Jobs</a></p>
 				<p><a href="myfeedbacks?id=${user.id}">My Feedbacks</a></p>
 				<p><a href="jobsIwork">Jobs I'm working</a></p>
- 			</div>				
+ 			</div>
+			<div class="main-header">
+				<p class="profile-user">${user.getFirstName()}&nbsp${user.getLastName()}</p>
+			</div>				
 			<div id="signup" class="profile-options">
-				<img src="image/${user.id}" onerror="this.src='image/0'" style="width:260px;height:230px;">
+				<img src="image/${user.id}" onerror="this.src='image/0'" style="width:260px;height:260px;">
 				<form method="POST" enctype="multipart/form-data" action="uploadpic">
 					<p>Choose a picture</p>
 					<input type="file" id="file" name="failche" accept="image/*" required="required">
@@ -41,7 +41,10 @@
 				<textarea rows="4" cols="50" id="aboutme" name="aboutme">${user.aboutMe}</textarea>
 				<label for="portfolio">Portfolio</label>
 				<textarea rows="4" cols="50" id="portfolio" name="portfolio">${user.portfolio}</textarea>
-				<input style="width: 200px; margin: 5px 75px;" type="submit" id="post-job-btn" value="Edit my data" />
+				<input style="width: 200px; margin: 5px 75px;" type="submit" id="post-job-btn" value="Save changes" />
+				</form>
+				<form method="GET" action="changepassword">
+					<input style="width: 160px; margin: 5px 95px; padding: 8px; background-color: #4ECBEE;" type="submit" id="post-job-btn" value="Change Password" />
 				</form>
 			</div>
 			</div>

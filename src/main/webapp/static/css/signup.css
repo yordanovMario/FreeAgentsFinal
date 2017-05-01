@@ -283,13 +283,13 @@ and (min-width: 1224px) {
 	}
 	
 	.profile-user {
-		margin-left: 280px;
+		margin-left: 42%;
 		margin-top: 50px;
 	}
 	
 	#signup.profile-options {
 		margin-top: 50px;
-		margin-left: 21%;
+		margin-left: 42%;
 	}
 	
 	.tips,

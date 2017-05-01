@@ -7,7 +7,7 @@
 					<input type="text" name="title" placeholder="Title" required="required"/>
 					<!--<input type="textarea" name="description" placeholder="Description" required="required"/> -->
 					<textarea rows="4" cols="50" name="description" placeholder="Enter description here..."></textarea>
-					<input type="number" name="budget" placeholder="Budget (US $)" required="required"/>
+					<input type="number" name="budget" placeholder="Budget (US $)" required="required" min="1" max="1000000"/>
 					<select name="expire" class="categories">
 						<option value="">Validity of the ad</option>
 						<option value="1">7 days</option>

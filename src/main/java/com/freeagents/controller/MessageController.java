@@ -37,6 +37,24 @@ public class MessageController {
 		
 	}
 	
+	@RequestMapping(value="/sentmessages",method = RequestMethod.GET)
+	public String sent(Model model, HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
+			User u = (User) session.getAttribute("user");
+			MessageDAO.getInstance();
+			ArrayList<Message> received = MessageDAO.getSent(u.getId());
+			request.setAttribute("user", u);
+			request.setAttribute("messages", received);
+			return "sentmessages";
+		}
+		else{
+			return "login";
+		}
+		
+	}
+	
 	@RequestMapping(value="/sendmessage", method=RequestMethod.GET)
 	public String sendmessage(HttpSession session, HttpServletRequest req) {
 		if (session.getAttribute("user") != null) {

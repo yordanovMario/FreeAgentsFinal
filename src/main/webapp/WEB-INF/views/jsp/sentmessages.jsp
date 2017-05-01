@@ -18,30 +18,21 @@
 				<c:if test="${not empty messages}">
 					<table class="table-messages">
 						  <tr>
-						    <th>Sender name</th>
+						    <th>Receiver name</th>
 						    <th>Title</th> 
 						    <th>Date & Time</th>
 						  </tr>
 						<c:forEach var="message" items="${messages}">
-						<c:if test="${message.isRead() eq true}">
 							<tr style="background-color: #ECE7E7;">
-							<td>${message.sender.firstName}&nbsp${message.sender.lastName}</td>
-							<td>${message.title}</td>
-							<td>${message.date}</td>
+								<td>${message.receiver.firstName}&nbsp${message.receiver.lastName}</td>
+								<td>${message.title}</td>
+								<td>${message.date}</td>
 							</tr>
-						</c:if>
-						<c:if test="${message.isRead() eq false}">
-						<tr style="background-color: #D9CFD0;">
-							<td>${message.sender.firstName}&nbsp${message.sender.lastName}</td>
-							<td>${message.title}</td>
-							<td>${message.date}</td>
-							</tr>
-						</c:if>		
 						</c:forEach>
 					</table>
 				</c:if>
 				<c:if test="${empty messages}">
-					<h2>Your Inbox is empty!</h2>
+					<h2>You haven't sent any messages!</h2>
 				</c:if>
 				</div>
 			<div class="post-job-account">

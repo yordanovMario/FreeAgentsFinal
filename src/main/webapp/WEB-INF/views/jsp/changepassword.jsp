@@ -1,7 +1,7 @@
 <jsp:include page="header.jsp" />
 	<div id="login">
 		<h2>Change Password</h2>
-		<form method="POST" action="changepassword">
+		<form method="POST" action="changepassword" class="change-password">
 			<input type="password" name="oldpassword" placeholder="Old Password" required="required"/>
 			<input type="password" name="newpassword" placeholder="New Password" required="required"/>
 			<input type="password" name="confnewpassword" placeholder="Confirm New Password" required="required"/>

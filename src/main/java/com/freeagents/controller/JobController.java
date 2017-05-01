@@ -89,19 +89,19 @@ public class JobController {
 				Job job = new Job(user, title, desc, Integer.parseInt(budget), Integer.parseInt(category), Integer.parseInt(reqExp), isSponsored, Integer.parseInt(expire), null);
 				try {
 					JobDAO.getInstance().postJob(job);
-					req.setAttribute("notification", "Your job was posted successfully.");
+					session.setAttribute("notification", "Your job was posted successfully.");
 				} catch (SQLException e) {
 					System.out.println("Job posting error - " + e.getMessage());
 					HashMap<Integer, String> categories = UserDAO.getCategories();
 					req.setAttribute("categories", categories);
-					req.setAttribute("notification", "There was an error with your job. Please try again.");
+					session.setAttribute("notification", "There was an error with your job. Please try again.");
 					page = "postjob";
 				}
 			}
 			else{
 				HashMap<Integer, String> categories = UserDAO.getCategories();
 				req.setAttribute("categories", categories);
-				req.setAttribute("notification", "One ore more fields were empty. Please try again.");
+				session.setAttribute("notification", "One ore more fields were empty. Please try again.");
 				page = "postjob";
 			}
 		}

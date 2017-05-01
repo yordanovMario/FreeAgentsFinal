@@ -8,7 +8,7 @@
 		</div>	
 		<div id="post-job">
 			<h2 id="search-offers">Viewing job ${job.title}</h2>
-			<div class="post-job search-job">
+			<div class="post-job search-job view-job">
 				<div class="search-results">
 					<div class="result-title">
 						<p>Title</p>
