@@ -36,9 +36,9 @@
 		<input type="hidden" value="${userprofile.id}" name="id">
 		<input type="submit" id="post-job-btn" value="Send Message" class="view-message-button"/>
 	</form>
-	</c:if>
-	<c:if test="${userprofile.id == sessionScope.user.id}">
-	<form method="GET" action="sendmessage" class="view-send-message">
+	<form method="GET" action="viewjobsfromuser" class="view-send-message">
+		<input type="hidden" value="${userprofile.id}" name="id">
+		<input type="submit" id="post-job-btn" value="All jobs from this user" class="view-message-button"/>
 	</form>
 	</c:if>
 	<h2 class="view-profile-feedbacks">Feedbacks</h2>

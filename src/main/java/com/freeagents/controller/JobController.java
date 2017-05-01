@@ -264,4 +264,26 @@ public class JobController {
 		}
 	}
 	
+	@RequestMapping(value="/viewjobsfromuser",method = RequestMethod.GET)
+	public String viewJobsFromUser(HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("user") != null) {
+			session.removeAttribute("notification");
+			User u = (User) session.getAttribute("user");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
+			long id = Long.parseLong(request.getParameter("id"));
+			ArrayList<Job> jobsFromUser = new ArrayList<Job>(); 
+			jobsFromUser = JobDAO.getInstance().getMyJobs(id);
+			if(jobsFromUser != null){
+				request.setAttribute("user", u);
+				request.setAttribute("jobsuser", jobsFromUser);
+				request.setAttribute("statuses", JobDAO.getStatuses());
+			}
+			return "viewjobsfromuser";
+		}
+		else{
+			return "login";
+		}
+	
+	}
+	
 }
