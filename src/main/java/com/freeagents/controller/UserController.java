@@ -302,16 +302,14 @@ public class UserController {
 		if(u != null){
 			String password = User.generateNewPass();
 			System.out.println(password);
-			//TODO: update password code
 			String pw_hash = BCrypt.hashpw(password, BCrypt.gensalt());
 			try {
 				UserDAO.getInstance().setPassword(pw_hash, u);
 				new com.freeagents.util.MailSender(email, "Password Reset", "Your new password is " + password + " .");
-				session.setAttribute("notification", "Check your email. We have sent you new password.");
+				session.setAttribute("notification", "Check your email. We have sent you your new password.");
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
-				session.setAttribute("notification", "Check your email. We have sent you new password.");
+				session.setAttribute("notification", "An error occurred. Please try again.");
 			}
 			return "login";
 		}
@@ -322,5 +320,52 @@ public class UserController {
 	}
 	
 	//TODO: Change password
+	@RequestMapping(value="/changepassword", method=RequestMethod.GET)
+	public String changePass() {
+		return "changepassword";
+	}
+	
+	@RequestMapping(value="/changepassword",method = RequestMethod.POST)
+	public String changePass(HttpServletRequest req, HttpSession session, HttpServletResponse response) {
+		if(session.getAttribute("user") != null){
+			User u = (User) session.getAttribute("user");
+			String oldPass = req.getParameter("oldpassword");
+			String newPass = req.getParameter("newpassword");
+			String confPass = req.getParameter("confnewpassword");
+			String md5pass = UserDAO.getInstance().md5(oldPass);
+			boolean oldPassMatchmd5 = u.getPassword().equals(md5pass);
+			boolean oldPassMatchBcrypt = true;
+			if(!oldPassMatchmd5){
+				oldPassMatchBcrypt = BCrypt.checkpw(oldPass, u.getPassword());
+			}
+			boolean passMatch = newPass.equals(confPass);
+			
+			if(!passMatch){
+				session.setAttribute("notifchangepass", "Passwords don't match! Please try again.");
+				return "changepassword";
+			}
+			else{
+				if(oldPassMatchmd5 || oldPassMatchBcrypt){
+					String pw_hash = BCrypt.hashpw(newPass, BCrypt.gensalt());
+					try {
+						UserDAO.getInstance().setPassword(pw_hash, u);
+					} catch (SQLException e) {
+						e.printStackTrace();
+						session.setAttribute("notification", "An error occurred. Please try again.");
+					}
+				}
+				else{
+					session.setAttribute("notifchangepass", "Old password wrong! Please try again.");
+					return "changepassword";
+				}
+			}
+			
+			session.setAttribute("notifchangepass", "Password successfuly changed!");
+			return "profile";
+		}
+		return "login";
+	}
 
+	
+	
 }
