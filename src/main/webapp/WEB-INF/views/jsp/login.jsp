@@ -2,8 +2,8 @@
 <div id="login">
 			<h2>Log In</h2>
 				<form method="POST" action="login" class="login-form">
-					<input type="text" name="username" placeholder="Username" required="required"/>
-					<input type="password" name="password" placeholder="Password" required="required"/>
+					<input type="text" name="username" placeholder="Username" required="required" maxlength="20"/>
+					<input type="password" name="password" placeholder="Password" required="required" maxlength="20"/>
 					<c:if test="${not empty sessionScope.notifsignup}">
 						<p class="error">${sessionScope.notifsignup}</p>
 					</c:if>

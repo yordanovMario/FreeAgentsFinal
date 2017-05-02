@@ -12,7 +12,7 @@
 						<option value="4">4</option>
 						<option value="5">5</option>
 					</select>
-					<textarea rows="4" cols="50" name="content" required="required" placeholder="Enter your comment here..."></textarea>
+					<textarea rows="4" cols="50" maxlength="80" name="content" required="required" placeholder="Enter your comment here... (max 80 symbols)"></textarea>
 					<input type="hidden" value="${id}" name="id">
 					<input type="hidden" value="${jobid}" name="jobid">
 					<input type="hidden" value="${who}" name="who">

@@ -3,12 +3,12 @@
 		<div id="signup">
 			<h2>Sign Up</h2>
 			<form method="POST" action="signup">
-			<input type="text" name="fname" placeholder="First Name" />
-			<input type="text" name="lname" placeholder="Last Name" />
-			<input type="text" name="email" placeholder="Email" required="required"/>
-			<input type="text" name="username" placeholder="Username" required="required"/>
-			<input type="password" name="password" placeholder="Password" required="required"/>
-			<input type="password" name="password2" placeholder="Confirm password" required="required"/>
+			<input type="text" name="fname" placeholder="First Name" maxlength="30" />
+			<input type="text" name="lname" placeholder="Last Name" maxlength="30" />
+			<input type="text" name="email" placeholder="Email" required="required" maxlength="80" />
+			<input type="text" name="username" placeholder="Username" required="required" maxlength="20" />
+			<input type="password" name="password" placeholder="Password" required="required" maxlength="20" />
+			<input type="password" name="password2" placeholder="Confirm password" required="required" maxlength="20" />
 			<c:if test="${not empty sessionScope.notifsignup}">
 			<p class="error">${sessionScope.notifsignup}</p>
 			</c:if>

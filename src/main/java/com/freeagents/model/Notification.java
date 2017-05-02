@@ -29,7 +29,7 @@ public class Notification implements Comparable<Notification>{
 			break;
 		case 3:
 			this.title = "The employer of the job " + text + " has accepted your offer.";
-			this.link = "viewjob?id=" + objectID;
+			this.link = "jobsIwork?id=" + objectID;
 			break;
 		case 4:
 			this.title = "You have new offer for your job from " + text;

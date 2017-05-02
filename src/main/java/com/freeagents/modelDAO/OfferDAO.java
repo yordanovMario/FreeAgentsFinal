@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.freeagents.model.DBManager;
-import com.freeagents.model.Message;
 import com.freeagents.model.Notification;
 import com.freeagents.model.Offer;
 import com.mysql.jdbc.Connection;
@@ -95,7 +94,7 @@ public class OfferDAO {
 		UserDAO.getUserID(userId).removeNotification(objectId, -2);
 	}
 	
-	public ArrayList<Offer> getJobOffers(long id){
+	public synchronized ArrayList<Offer> getJobOffers(long id){
 		removeNotification(id, JobDAO.getJob(id).getEmployer().getId());
 		String query;
 		java.sql.PreparedStatement st;

@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
@@ -224,9 +223,10 @@ public class UserController {
 				third = false;
 				return "signup";
 			}
+			User u;
 			if(valid && second && third){
 				try {
-					User u = new User(user, pass, email, fname, lname);
+					u = new User(user, pass, email, fname, lname);
 					System.out.println(u);
 					UserDAO.getInstance().registerUser(u);
 				} catch (SQLException e) {
@@ -235,20 +235,22 @@ public class UserController {
 					return "signup";
 				}
 				//Email sending code:
-				try{
-					new com.freeagents.util.MailSender(email, "Welcome to FreeAgents!", 
-							"Hi, " + fname + "!" + System.lineSeparator() + System.lineSeparator() +
-							"Welcome to FreeAgents! Thanks so much for joining us." + System.lineSeparator() +
-							System.lineSeparator() +
-							"You are now part of our community of curated freelance talent " + System.lineSeparator() +
-							"available to work for you remotely at the click of a button." + System.lineSeparator() + 
-							"Have any questions? Just shoot us an email! We’re always here to help." + System.lineSeparator() + 
-							System.lineSeparator() +
-							"Cheerfully yours," + System.lineSeparator() +
-							"The Freeagents Team"
-							);
-				} catch(NoClassDefFoundError e){
-					System.out.println("ERROR in mailsending for registration in UserController");
+				if(u.getEmail() != null){
+					try{
+						new com.freeagents.util.MailSender(u.getEmail(), "Welcome to FreeAgents!", 
+								"Hi, " + u.getFirstName() + "!" + System.lineSeparator() + System.lineSeparator() +
+								"Welcome to FreeAgents! Thanks so much for joining us." + System.lineSeparator() +
+								System.lineSeparator() +
+								"You are now part of our community of curated freelance talent " + System.lineSeparator() +
+								"available to work for you remotely at the click of a button." + System.lineSeparator() + 
+								"Have any questions? Just shoot us an email! We’re always here to help." + System.lineSeparator() + 
+								System.lineSeparator() +
+								"Cheerfully yours," + System.lineSeparator() +
+								"The Freeagents Team"
+								);
+					} catch(NoClassDefFoundError e){
+						System.out.println("ERROR in mailsending for registration in UserController");
+					}
 				}
 			}
 			session.setAttribute("notifsignup", "Registration successfull. Please log in to continue:");

@@ -4,9 +4,9 @@
 			<h2>Send offer</h2>
 			<div class="post-job">
 				<form method="POST" action="postoffer">
-					<textarea rows="4" cols="50" name="content" placeholder="Enter content here..." required="required"></textarea>
+					<textarea rows="4" cols="50" name="content" placeholder="Enter content here..." required="required" maxlength="500" ></textarea>
 					<input type="hidden" value="${id}" name="id">
-					<input type="number" name="price" placeholder="Price" required="required" min="1" max="10000"/>
+					<input type="number" name="price" placeholder="Price" required="required" min="1" max="1000000"/>
 					<input type="submit" id="post-job-btn" value="Send Offer" />
 				</form>
 			</div>

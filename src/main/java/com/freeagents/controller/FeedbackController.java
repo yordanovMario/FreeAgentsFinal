@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.freeagents.model.Feedback;
-import com.freeagents.model.Message;
-import com.freeagents.model.Notification;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.FeedbackDAO;
 import com.freeagents.modelDAO.JobDAO;
-import com.freeagents.modelDAO.MessageDAO;
 import com.freeagents.modelDAO.UserDAO;
 
 @Controller
@@ -50,7 +47,7 @@ public class FeedbackController {
 			if(req.getParameter("content") != null && req.getParameter("rating") != null){
 				session.removeAttribute("notification");
 				session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
-				long id = Long.parseLong(req.getParameter("id"));
+				long id = (req.getParameter("id") != null ? Long.parseLong(req.getParameter("id")) : 0);
 				long jobid = Long.parseLong(req.getParameter("jobid"));
 				//boolean whoIsSending = Boolean.getBoolean(req.getParameter("who"));
 				User receiver = UserDAO.getUserID(id);

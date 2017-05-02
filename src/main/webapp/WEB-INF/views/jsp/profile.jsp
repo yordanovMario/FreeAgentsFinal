@@ -32,15 +32,15 @@
 					</c:forEach>
 				</select>
 				<label for="job-title">Job title</label>
-				<input type="text" id="job-title" name="jobtitle" value="${user.jobTitle}"/><br>
+				<input type="text" id="job-title" name="jobtitle" value="${user.jobTitle}" maxlength="35" /><br>
 				<label for="phone">Phone number</label>
-				<input type="text" id="phone" name="phone" value="${user.phone}"/><br>
+				<input type="text" id="phone" name="phone" value="${user.phone}" maxlength="20"/><br>
 				<label for="per-hour-rate">Per hour rate ($)</label>
 				<input type="number" id="per-hour-rate" name="perhourrate" value="${user.perHourRate}" min="1" max="10000"/>
 				<label for="aboutme">About me</label>
-				<textarea rows="4" cols="50" id="aboutme" name="aboutme">${user.aboutMe}</textarea>
+				<textarea rows="4" cols="50" id="aboutme" name="aboutme" maxlength="400">${user.aboutMe}</textarea>
 				<label for="portfolio">Portfolio</label>
-				<textarea rows="4" cols="50" id="portfolio" name="portfolio">${user.portfolio}</textarea>
+				<textarea rows="4" cols="50" id="portfolio" name="portfolio" maxlength="400">${user.portfolio}</textarea>
 				<input style="width: 200px; margin: 5px 75px;" type="submit" id="post-job-btn" value="Save changes" />
 				</form>
 				<form method="GET" action="changepassword">

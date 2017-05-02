@@ -111,11 +111,11 @@ public class MessageDAO {
 		UserDAO.getUserID(userId).removeNotification(notificationId);
 	}
 	
-	public static synchronized ArrayList<Message> getReceived(long id){
+	public static ArrayList<Message> getReceived(long id){
 		return receivedUser.get(id);
 	}
 	
-	public static synchronized ArrayList<Message> getSent(long id){
+	public static ArrayList<Message> getSent(long id){
 		return sentUser.get(id);
 	}
 	

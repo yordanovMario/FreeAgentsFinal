@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Notification;
@@ -162,8 +161,14 @@ public class UserDAO {
 	}
 		
 	public static synchronized User getUserID(long id){
-		User user = usersID.get(id);
-		return user;
+		if(usersID.containsKey(id)){
+			User user = usersID.get(id);
+			return user;
+		}
+		else{
+			return null;
+		}
+		
 	}
 	
 	public HashMap<Long, User> getAllUsers(){		

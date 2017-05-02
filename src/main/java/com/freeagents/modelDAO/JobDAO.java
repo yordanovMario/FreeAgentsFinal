@@ -11,7 +11,6 @@ import java.util.TreeSet;
 
 import com.freeagents.model.DBManager;
 import com.freeagents.model.Job;
-import com.freeagents.model.Message;
 import com.freeagents.model.Notification;
 import com.freeagents.model.Offer;
 import com.freeagents.model.User;
@@ -151,9 +150,11 @@ public class JobDAO {
 		return jobsUser.get(id);
 	}
 	
-	public ArrayList<Job> getJobsIWork(long id, long notificationId){
+	public ArrayList<Job> getJobsIWork(long id, long objectID){
 		ArrayList<Job> working = new ArrayList<Job>();
-		removeNotification(notificationId, id);
+		if(objectID != 0){
+			removeNotification(id, objectID);
+		}
 		for(Job j : jobs.values()){
 			if(j.getWorker() != null){
 				if(j.getWorker().getId() == id){
@@ -217,9 +218,9 @@ public class JobDAO {
 		offer.getSenderUser().addNotification(new Notification(getJob(offer.getJob()).getTitle(), 3, getJob(offer.getJob()).getId()));
 	}
 	
-	private static void removeNotification(long notificationId, long userId){
-		if(notificationId != 0){
-			UserDAO.getUserID(userId).removeNotification(notificationId);
+	private static void removeNotification(long userId, long objectID){
+		if(objectID != 0){
+			UserDAO.getUserID(userId).removeNotification(objectID, -1);
 		}
 	}
 	
@@ -232,7 +233,7 @@ public class JobDAO {
 		st1.execute();
 	}
 
-	public static void leavefeedback(long jobID, int whoIsSending) throws SQLException {
+	public synchronized static void leavefeedback(long jobID, int whoIsSending) throws SQLException {
 		if(whoIsSending == 1){
 			String query = "UPDATE jobs SET fb_from_employer = 1 WHERE job_id = ?";
 			Connection con = DBManager.getInstance().getConnection();

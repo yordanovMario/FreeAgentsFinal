@@ -4,9 +4,9 @@
 			<h2>Post Job</h2>
 			<div class="post-job">
 				<form method="POST" action="postjob">
-					<input type="text" name="title" placeholder="Title" required="required"/>
+					<input type="text" name="title" placeholder="Title" required="required" maxlength="50"/>
 					<!--<input type="textarea" name="description" placeholder="Description" required="required"/> -->
-					<textarea rows="4" cols="50" name="description" placeholder="Enter description here..."></textarea>
+					<textarea rows="4" cols="50" name="description" placeholder="Enter description here..." maxlength="800" ></textarea>
 					<input type="number" name="budget" placeholder="Budget (US $)" required="required" min="1" max="1000000"/>
 					<select name="expire" class="categories">
 						<option value="">Validity of the ad</option>

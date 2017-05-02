@@ -115,7 +115,7 @@ public class JobController {
 		int category;
 		int experience;
 		if(request.getParameter("sort") == null || request.getParameter("sort") == ""){
-			sorter=2;
+			sorter=1;
 		}
 		else{
 			sorter = Integer.parseInt(request.getParameter("sort"));
@@ -177,15 +177,15 @@ public class JobController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
-			long id;
+			long objectID;
 			if(request.getParameter("id") != null){
-				id = Long.parseLong(request.getParameter("id"));
+				objectID = Long.parseLong(request.getParameter("id"));
 			}
 			else{
-				id = 0;
+				objectID = 0;
 			}
 			User u = (User) session.getAttribute("user");
-			request.setAttribute("jobsIwork", JobDAO.getInstance().getJobsIWork(u.getId(), id));
+			request.setAttribute("jobsIwork", JobDAO.getInstance().getJobsIWork(u.getId(), objectID));
 			request.setAttribute("statuses", JobDAO.getStatuses());
 			request.setAttribute("user", u);
 			return "jobsIwork";

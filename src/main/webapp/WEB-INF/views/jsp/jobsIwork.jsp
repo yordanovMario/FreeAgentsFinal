@@ -48,11 +48,6 @@
 										<input type="hidden" value="2" name="who">
 										<input type="submit" id="post-job-btn" value="Leave feedback" />
 									</form>
-									<form method="GET" action="opendispute">
-										<input type="hidden" value="${job.id}" name="jobid">
-										<input type="hidden" value="2" name="who">
-										<input type="submit" id="post-job-btn" value="Open dispute" />
-									</form>
 								</c:if>
 								<c:if test="${job.fbFromWorker eq true}">
 									<p>You have left feedback for the job</p>

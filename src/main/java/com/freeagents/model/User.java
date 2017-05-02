@@ -1,9 +1,7 @@
 package com.freeagents.model;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class User {
@@ -30,9 +28,7 @@ public class User {
 	private int perHourRate;
 	private int country;
 	private String portfolio;
-	private File avatar;
-	private ArrayList<String> skills;
-	private double rating;
+//	private ArrayList<String> skills;
 	private ConcurrentSkipListMap<Long, Notification> notifications = new ConcurrentSkipListMap<Long, Notification>();
 
 	public User(String username, String password, String email, String firstName, String lastName) {
@@ -135,10 +131,6 @@ public class User {
 		return portfolio;
 	}
 
-	public File getAvatar() {
-		return avatar;
-	}
-
 	public void setLevel(int level) {
 		this.level = level;
 	}
@@ -172,7 +164,7 @@ public class User {
 	}
 	public void setJobTitle(String jobTitle) {
 		if(jobTitle != null){
-			if(jobTitle.length() < 35){
+			if(jobTitle.length() <= 35){
 				this.jobTitle = jobTitle;
 			}
 			else{
@@ -237,16 +229,6 @@ public class User {
 		}
 	}
 
-	public void setAvatar(File avatar) {
-		if(avatar != null){
-			this.avatar = avatar;
-		}
-	}
-
-	public void setSkills(ArrayList<String> skills) {
-		this.skills = skills;
-	}
-
 	public long getId() {
 		return id;
 	}
@@ -262,10 +244,18 @@ public class User {
 	}	
 	
 	public void removeNotification(long objectID, int type){
+		if(type == -1){
+			for(Notification n : notifications.values()){
+				if(n.getType() == 3){
+					notifications.remove(n.getId());
+				}
+			}
+		}
 		if(type == -2){
 			for(Notification n : notifications.values()){
 				if(n.getObjectID() == objectID){
 					notifications.remove(n.getId());
+					break;
 				}
 			}
 		}

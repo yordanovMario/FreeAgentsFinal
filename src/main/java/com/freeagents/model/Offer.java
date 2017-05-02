@@ -39,14 +39,14 @@ public class Offer {
 	}
 	
 	private void setPrice(int price) {
-		if(price > 0 && price < 10000){
+		if(price > 0 && price < 1000000){
 			this.price = price;
 		}
 		else if(price <= 0){
 			this.price = 0;
 		}
 		else{
-			price = 10000;
+			price = 1000000;
 		}
 	}
 
@@ -87,7 +87,7 @@ public class Offer {
 	
 	public void setContent(String content) {
 		if(content!=null && !content.isEmpty()){
-			if(content.length() < 500){
+			if(content.length() <= 500){
 				this.content = content;
 			}
 			else{

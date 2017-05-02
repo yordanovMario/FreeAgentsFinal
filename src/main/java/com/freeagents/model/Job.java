@@ -114,18 +114,18 @@ public class Job {
 
 	public void setTitle(String title) {
 		if(title != null && !title.isEmpty()){
-			if(title.length() < 99){
+			if(title.length() <= 100){
 				this.title = title;
 			}
 			else{
-				this.title = title.substring(0, 98);
+				this.title = title.substring(0, 99);
 			}
 		}
 	}
 
 	public void setDescription(String description) {
 		if(description != null && !description.isEmpty()){
-			if(description.length() < 800){
+			if(description.length() <= 800){
 				this.description = description;
 			}
 			else{

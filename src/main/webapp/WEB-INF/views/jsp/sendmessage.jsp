@@ -17,8 +17,8 @@
 			<h2>Send Message to ${receiver.firstName}</h2>
 			<div class="post-job">
 				<form method="POST" action="sendmessage">
-					<input type="text" id="job-title" name="title" required="required" placeholder="Enter title here..." value="${title}"/>
-					<textarea rows="4" cols="50" name="content" required="required" placeholder="Enter content here..."></textarea>
+					<input type="text" id="job-title" name="title" required="required" placeholder="Enter title here..." value="${title}" maxlength="45" />
+					<textarea rows="4" cols="50" name="content" required="required" placeholder="Enter content here..." maxlength="999" ></textarea>
 					<input type="hidden" value="1" name="type">
 					<input type="hidden" value="${id}" name="id">
 					<input type="submit" id="post-job-btn" value="Send Message" />

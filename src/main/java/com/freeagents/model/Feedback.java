@@ -68,11 +68,6 @@ public class Feedback {
 		}
 	}
 
-	private void setRead(boolean isRead) {
-		this.isRead = isRead;
-	}
-
-	
 	public String getContent() {
 		return content;
 	}

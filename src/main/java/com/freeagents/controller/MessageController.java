@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.freeagents.model.Message;
-import com.freeagents.model.Notification;
 import com.freeagents.model.User;
 import com.freeagents.modelDAO.MessageDAO;
 import com.freeagents.modelDAO.UserDAO;
