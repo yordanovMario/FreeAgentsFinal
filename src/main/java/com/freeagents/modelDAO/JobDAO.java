@@ -244,8 +244,5 @@ public class JobDAO {
 			st.execute();
 			jobs.get(jobID).setFbFromWorker(true);
 		}
-		
 	}
-	
-
 }

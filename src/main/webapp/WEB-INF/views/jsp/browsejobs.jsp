@@ -26,11 +26,11 @@
 					  </c:if>
 					  
 					  <c:if test="${experience == 2}">
-					  <option value="2" selected="selected">Intermediate</option>
+					  <option value="2" selected="selected">Advanced</option>
 					  </c:if>
 					  
 					  <c:if test="${experience != 2}">
-					  <option value="2">Intermediate</option>
+					  <option value="2">Advanced</option>
 					  </c:if>
 					  
 					  <c:if test="${experience == 3}">
@@ -99,7 +99,7 @@
 						<p>Beginner</p>
 						</c:if>
 						<c:if test="${job.requiredExp == 2}">
-						<p>Intermediate</p>
+						<p>Advanced</p>
 						</c:if>
 						<c:if test="${job.requiredExp == 3}">
 						<p>Expert</p>
