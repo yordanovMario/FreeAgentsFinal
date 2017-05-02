@@ -262,13 +262,13 @@ h1 {
 .view-profile .description {
 	display: inline;
 	float: left;
-	margin: 3% 5% 0 2%;
+	margin: 2% 5% 0 -2%;
 }
 
 .view-profile .headline {
 	display: inline-block;
 	float: left;
-	margin: 3% 5% 0 2%;
+	margin: 2% 5% 0 2%;
 }
 
 .view-profile .headline p {
@@ -305,6 +305,7 @@ h1 {
 	border-radius: 5px;
 	border: 1px solid #3e4651;
 	margin-left: 5px;
+	margin-top: 15px;
 }
 
 .view-jobs-button {
@@ -376,6 +377,7 @@ h1 {
 	margin: 2% 20%;
 	font-size: 28px;
 	font-weight: 600;
+	display: inline-block;
 	
 }
 
@@ -384,5 +386,20 @@ h1 {
 }
 
 .notif-message{
-	font-size: 24px;
+	font-size: 20px;
+    margin-left: -140px;
+    font-weight: 600;
+}
+
+.read-message {
+	margin-left: 0;
+}
+
+.sub-menu {
+	margin-left: -370px;
+	margin-top: 30px;
+}
+
+.sub-menu p {
+	margin-left: -60px;
 }

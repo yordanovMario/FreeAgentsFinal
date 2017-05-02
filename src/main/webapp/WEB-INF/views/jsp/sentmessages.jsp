@@ -6,11 +6,10 @@
 				<p><a href="myfeedbacks">My Feedbacks</a></p>
 				<p><a href="jobsIwork">Jobs I'm working</a></p>
  			</div>
- 			<div class="flowe-footer-menu profile">
+ 			<div class="flowe-footer-menu profile sub-menu">
 				<p><a href="mymessages">Inbox</a></p>
 				<p><a href="sentmessages" style="color: #FFA500; font-weight: 600;">Sent</a></p>
 				<p><a href="sendmessage">New message</a></p>
-				<p><a href="#">&nbsp;</a></p>
  			</div>			
 		<div id="post-job">
 			<!-- <h2 id="search-offers">My Messages</h2> -->

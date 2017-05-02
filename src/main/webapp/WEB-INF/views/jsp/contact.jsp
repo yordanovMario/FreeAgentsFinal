@@ -8,8 +8,8 @@
        }
     </style>
   </head>
-  <body>
-  	<div class="contact-us">
+  <body background="../FreeAgentsFinal/img/back.jpg">
+  	<div class="contact-us" style="text-align: center;">
   		<h3 class="contact-call">Call us on: +359 876 10 10 22 </h3> 
 		<h3 class="contact-find">Come find us at: Bulgaria Blvd. Infinity Tower 14 floor</h3>
 		<h3 class="contact-email">Email us at: contact@freeagents.com</h3>  
