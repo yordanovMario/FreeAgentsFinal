@@ -42,6 +42,7 @@ public class UserController {
 		session.removeAttribute("notification");
 		if(session.getAttribute("user") != null){
 			User user = (User) session.getAttribute("user");
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			request.setAttribute("user", user);
 		}
 		return "index";
@@ -53,11 +54,10 @@ public class UserController {
 			session.removeAttribute("notification");
 			User user = (User)session.getAttribute("user");
 			User userprofile = UserDAO.getProfile(user.getId());
-			HashMap<Integer, String> levels = UserDAO.getLevels();
-			HashMap<Integer, String> countries = UserDAO.getCountries();
 			request.setAttribute("user", userprofile);
-			request.setAttribute("countries", countries);
-			request.setAttribute("levels", levels);
+			request.setAttribute("countries", UserDAO.getCountries());
+			request.setAttribute("levels", UserDAO.getLevels());
+			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			session.setAttribute("user", user);
 			return "profile";
 		}
@@ -67,7 +67,7 @@ public class UserController {
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login1(HttpSession session, HttpServletRequest request) {
 		if (session.getAttribute("user") != null) {
-			request.removeAttribute("notification");
+			session.removeAttribute("notification");
 			session.setAttribute("notification", "You are already logged in.");
 			return "index";
 		}
@@ -96,7 +96,7 @@ public class UserController {
 //			}
 			
 			session.setAttribute("user", u);
-			req.removeAttribute("notification");
+			session.removeAttribute("notification");
 			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
 			System.out.println(req.getParameter("url"));
 			if(req.getParameter("url") != null){
@@ -173,7 +173,7 @@ public class UserController {
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();  
-		request.removeAttribute("notification");
+		session.removeAttribute("notification");
 		session.invalidate();
 		response.setHeader("Pragma", "No-cache");
 		response.setDateHeader("Expires", 0);
@@ -259,12 +259,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/uploadpic",method = RequestMethod.POST)
-	public String uploadPicture(@RequestParam("failche") MultipartFile multiPartFile, Model model, HttpSession session) throws IOException {
+	public String uploadPicture(@RequestParam("failche") MultipartFile multiPartFile, HttpSession session, HttpServletRequest request) throws IOException {
 		User user = (User) session.getAttribute("user");
 		long id = user.getId();
 		java.io.File fileOnDisk = new java.io.File(FILE_LOCATION + "/" + id + ".jpg");
 		Files.copy(multiPartFile.getInputStream(), fileOnDisk.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		
+		request.setAttribute("countries", UserDAO.getCountries());
 		return "profile";
 	}
 	

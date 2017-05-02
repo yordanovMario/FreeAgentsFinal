@@ -55,13 +55,10 @@ public class JobDAO {
 						(res.getString("accepted_offer_id") != null ? res.getLong("accepted_offer_id") : 0), res.getInt("fb_from_employer"), res.getInt("fb_from_worker"));
 				long userID = user.getId();
 				jobs.put(job.getId(), job);
-				if(jobsUser.containsKey(userID)){
-					jobsUser.get(userID).add(job);
-				}
-				else{
+				if(!jobsUser.containsKey(userID)){
 					jobsUser.put(userID, new ArrayList<Job>());
-					jobsUser.get(userID).add(job);
 				}
+				jobsUser.get(userID).add(0, job);
 			}
 			System.out.println("Job cache reloaded successfully");
 		}
@@ -97,13 +94,10 @@ public class JobDAO {
 		long employerID = job.getEmployer().getId();
 		job.setId(id);
 		jobs.put(job.getId(), job);
-		if(jobsUser.containsKey(employerID)){
-			jobsUser.get(employerID).add(job);
-		}
-		else{
+		if(!jobsUser.containsKey(employerID)){
 			jobsUser.put(employerID, new ArrayList<Job>());
-			jobsUser.get(employerID).add(job);
 		}
+		jobsUser.get(employerID).add(0, job);
 	}
 	
 	public TreeSet<Job> getAllJobs(Comparator<Job> comp, int category, int experience){
@@ -159,7 +153,7 @@ public class JobDAO {
 			if(j.getWorker() != null){
 				if(j.getWorker().getId() == id){
 					System.out.println(j);
-					working.add(j);
+					working.add(0, j);
 				}
 			}
 		}

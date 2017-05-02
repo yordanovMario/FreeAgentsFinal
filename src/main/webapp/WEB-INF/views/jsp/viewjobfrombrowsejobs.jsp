@@ -28,7 +28,7 @@
 						<p>Beginner</p>
 						</c:if>
 						<c:if test="${job.requiredExp == 2}">
-						<p>Intermediate</p>
+						<p>Advanced</p>
 						</c:if>
 						<c:if test="${job.requiredExp == 3}">
 						<p>Expert</p>
