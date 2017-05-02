@@ -9,22 +9,21 @@
 		<div id="post-job">
 			<h2 id="search-offers">Reading feedback from ${feedback.sender.firstName}</h2>
 			<div class="post-job search-job reed-feedback">
-						<div class="search-results">
-							
-							<div class="result-budjet">
-								<p>Content</p>
-								<p>${feedback.content}</p>
-							</div>
-							<div class="result-description">
-								<p>Date sent</p>
-								<p>${feedback.date}</p>
-							</div>
-							<div class="result-description">
-								<p>Rating</p>
-								<p>${feedback.rating}</p>
-							</div>
-						</div>
+				<div class="search-results">
+					<div class="result-budjet">
+						<p>Content</p>
+						<p>${feedback.content}</p>
+					</div>
+					<div class="result-description">
+						<p>Date sent</p>
+						<p>${feedback.date}</p>
+					</div>
+					<div class="result-description">
+						<p>Rating</p>
+						<p>${feedback.rating}</p>
+					</div>
 				</div>
+			</div>
 			<div class="post-job-account">
 			</div>
 		</div>

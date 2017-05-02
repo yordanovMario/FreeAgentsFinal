@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="header.jsp" />
 		<div id="post-job">
-			<h2>Leave Feedback for ${receiver.firstName}</h2>
+			<h2>Leave Feedback for ${fname}</h2>
 			<div class="post-job">
 				<form method="POST" action="sendfeedback">
 					<select name="rating" class="categories" required="required">

@@ -26,6 +26,8 @@ public class FeedbackController {
 		if (session.getAttribute("user") != null) {
 			session.removeAttribute("notification");
 			session.setAttribute("notifications", UserDAO.getNotifications((User) session.getAttribute("user")));
+			String fname = UserDAO.getUserID(Long.parseLong(req.getParameter("id"))).getFirstName();
+			req.setAttribute("fname", fname);
 			req.setAttribute("id", req.getParameter("id"));
 			req.setAttribute("jobid", req.getParameter("jobid"));
 			req.setAttribute("who", req.getParameter("who"));
