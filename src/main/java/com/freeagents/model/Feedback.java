@@ -23,12 +23,8 @@ public class Feedback {
 	}
 	
 	public Feedback(long id, String content, User sender, User receiver, String date, int rating, int isRead) {
+		this(sender, receiver, content, rating, date);
 		this.id = id;
-		this.content = content;
-		this.sender = sender;
-		this.receiver = receiver;
-		this.date = date;
-		this.rating = rating;
 		this.isRead = (isRead == 0 ? false : true);
 	}
 

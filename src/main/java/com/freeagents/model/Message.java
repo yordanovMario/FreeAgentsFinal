@@ -24,10 +24,6 @@ public class Message{
 		this.isRead = false;
 	}
 	
-	public boolean isRead() {
-		return isRead;
-	}
-
 	public Message(long id, long sender, long receiver, String content, String title, String date, int isRead) {
 		this.id = id;
 		this.content = content;
@@ -36,6 +32,10 @@ public class Message{
 		setReceiver(receiver);
 		this.date = date;
 		this.isRead = (isRead == 0 ? false : true);
+	}
+
+	public boolean isRead() {
+		return isRead;
 	}
 
 	private void setTitle(String title) {

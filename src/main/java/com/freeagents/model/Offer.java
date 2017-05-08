@@ -51,7 +51,7 @@ public class Offer {
 	}
 
 	public void setDate(String date) {
-		if(date == "newDate"){
+		if(date.equals("newDate")){
 			LocalDateTime dateTime = LocalDateTime.now();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 			this.date = dateTime.format(formatter);

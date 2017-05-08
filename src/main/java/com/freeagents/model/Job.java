@@ -48,15 +48,8 @@ public class Job {
 	
 	public Job(long id, User employer, User worker, String title, String description, int budget, int category, int requiredExp, boolean sponsored, int expire, 
 			String date, int status, int visibility, long acceptedOffer, int fbFromEmployer, int fbFromWorker){
+		this(employer, title, description, budget, category, requiredExp, sponsored, expire, date);
 		this.id = id;
-		this.employer = employer;
-		this.title = title;
-		this.description = description;
-		this.budget = budget;
-		this.category = category;
-		this.requiredExp = requiredExp;
-		this.sponsored = sponsored;
-		this.expire = expire;
 		this.date = date;
 		this.status = status;
 		this.visible = (visibility == 0 ? false : true);

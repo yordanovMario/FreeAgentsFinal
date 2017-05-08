@@ -41,12 +41,8 @@ public class User {
 	}
 	
 	public User(long id, String username, String password, String email, String firstName, String lastName, int level){
+		this(username, password, email, firstName, lastName);
 		setId(id);
-		setUsername(username);
-		setPassword(password);
-		setEmail(email);
-		setFirstName(firstName);
-		setLastName(lastName);
 		setLevel(level);
 	}
 	
